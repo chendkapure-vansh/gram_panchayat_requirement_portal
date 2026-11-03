@@ -48,18 +48,3 @@ export function setStorageItem<T>(key: string, value: T): boolean {
   }
 }
 
-/**
- * Safely remove an item from localStorage.
- */
-export function removeStorageItem(key: string): void {
-  if (typeof window === 'undefined' || !window.localStorage) {
-    return;
-  }
-
-  try {
-    window.localStorage.removeItem(key);
-  } catch (error) {
-    console.warn(`[storage] Failed to remove item for key "${key}":`, error);
-  }
-}
-

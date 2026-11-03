@@ -15,7 +15,6 @@ export interface Product {
   categoryName: string;
   categoryNameEn: string;
   image: string;
-  gallery?: string[];
   shortDescription: string;
   shortDescriptionEn: string;
   description: string;

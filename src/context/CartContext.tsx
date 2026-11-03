@@ -11,7 +11,6 @@ export interface DetailedCartItem {
 interface CartContextType {
   cart: CartItem[];
   cartCount: number;
-  distinctCount: number;
   detailedItems: DetailedCartItem[];
   addToCart: (productId: string, quantity?: number) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -127,16 +126,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return cart.reduce((total, item) => total + item.quantity, 0);
   }, [cart]);
 
-  // Distinct product count
-  const distinctCount = useMemo(() => {
-    return cart.length;
-  }, [cart]);
-
   const value = useMemo(
     () => ({
       cart,
       cartCount,
-      distinctCount,
       detailedItems,
       addToCart,
       updateQuantity,
@@ -150,7 +143,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [
       cart,
       cartCount,
-      distinctCount,
       detailedItems,
       addToCart,
       updateQuantity,

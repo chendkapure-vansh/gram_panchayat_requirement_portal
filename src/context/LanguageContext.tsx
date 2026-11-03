@@ -7,8 +7,6 @@ export interface Translations {
   tagline: string;
   gemBadge: string;
   supplierTag: string;
-  helpline: string;
-  callNow: string;
   searchPlaceholder: string;
   categories: string;
   allProducts: string;
@@ -35,7 +33,6 @@ export interface Translations {
   clearFilters: string;
   noProductsFound: string;
   filterByCategory: string;
-  allCategories: string;
   proceedToEnquiry: string;
   emptyCartTitle: string;
   emptyCartMessage: string;
@@ -58,7 +55,6 @@ export interface Translations {
   whatsappQuote: string;
   copyEnquiryId: string;
   newEnquiry: string;
-  totalItems: string;
   disclaimerText: string;
 }
 
@@ -68,8 +64,6 @@ const TRANSLATIONS: Record<Language, Translations> = {
     tagline: 'ग्रामपंचायत, शाळा व संस्थात्मक खरेदी पोर्टल',
     gemBadge: 'GeM नोंदणीकृत विक्रेता',
     supplierTag: 'शासकीय व निमशासकीय संस्था पुरवठादार',
-    helpline: 'मदत व चौकशी क्रमांक',
-    callNow: 'थेट संपर्क करा',
     searchPlaceholder: 'उत्पादन किंवा साहित्याचे नाव शोधा (उदा. RO प्लांट, सोलर दिवा, डस्टबिन)...',
     categories: 'वर्गवारी',
     allProducts: 'सर्व उत्पादने',
@@ -96,7 +90,6 @@ const TRANSLATIONS: Record<Language, Translations> = {
     clearFilters: 'फिल्टर काढा',
     noProductsFound: 'या निकषानुसार कोणतेही उत्पादन आढळले नाही.',
     filterByCategory: 'वर्गवारीनुसार फिल्टर',
-    allCategories: 'सर्व वर्गवारी',
     proceedToEnquiry: 'कोटेशन / खरेदी चौकशी अर्ज भरा',
     emptyCartTitle: 'आपले चौकशी कार्ट रिकामे आहे',
     emptyCartMessage: 'कृपया कॅटलॉगमधून आवश्यक उत्पादने निवडा व कार्टमध्ये जोडा.',
@@ -119,7 +112,6 @@ const TRANSLATIONS: Record<Language, Translations> = {
     whatsappQuote: 'WhatsApp वर कोटेशन पाठवा',
     copyEnquiryId: 'नोंदणी क्रमांक कॉपी करा',
     newEnquiry: 'नवीन चौकशी सुरू करा',
-    totalItems: 'एकूण साहित्य',
     disclaimerText: 'जाणता राजा एंटरप्राइजेस ही एक GeM नोंदणीकृत स्वतंत्र व्यावसायिक संस्था आहे. हे भारत सरकारचे अधिकृत संकेतस्थळ नाही.',
   },
   en: {
@@ -127,8 +119,6 @@ const TRANSLATIONS: Record<Language, Translations> = {
     tagline: 'Gram Panchayat & Institutional Procurement Portal',
     gemBadge: 'GeM Registered Seller',
     supplierTag: 'Government & Public Institutional Supplier',
-    helpline: 'Helpline & Enquiry Numbers',
-    callNow: 'Call Direct',
     searchPlaceholder: 'Search equipment (e.g. RO Plant, Solar Light, Dustbin)...',
     categories: 'Categories',
     allProducts: 'All Products',
@@ -155,7 +145,6 @@ const TRANSLATIONS: Record<Language, Translations> = {
     clearFilters: 'Clear Filters',
     noProductsFound: 'No products match your search or filter criteria.',
     filterByCategory: 'Filter by Category',
-    allCategories: 'All Categories',
     proceedToEnquiry: 'Proceed to Quotation Form',
     emptyCartTitle: 'Your Enquiry Cart is Empty',
     emptyCartMessage: 'Browse our institutional catalog to select and enquire about products.',
@@ -178,7 +167,6 @@ const TRANSLATIONS: Record<Language, Translations> = {
     whatsappQuote: 'Send Quote via WhatsApp',
     copyEnquiryId: 'Copy Enquiry ID',
     newEnquiry: 'Start New Enquiry',
-    totalItems: 'Total Items',
     disclaimerText: 'Jaanta Raja Enterprises is an independent GeM-registered commercial supplier. This is not an official Government of India portal.',
   },
 };

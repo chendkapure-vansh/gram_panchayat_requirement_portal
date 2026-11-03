@@ -12,8 +12,6 @@ import {
   MapPin,
   Phone,
   FileText,
-  Share2,
-  Check,
 } from 'lucide-react';
 
 interface ProductDetailsModalProps {
@@ -30,7 +28,6 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   const { isMarathi, t } = useLanguage();
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
-  const [copied, setCopied] = useState(false);
 
   if (!product) return null;
 
@@ -41,20 +38,6 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
   const handleAddToCart = () => {
     addToCart(product.id, quantity);
-  };
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: title,
-        text: `${title} - जाणता राजा एंटरप्राइजेस (GeM सेलर, लोणार)`,
-        url: window.location.href,
-      }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
   };
 
   return (
@@ -71,22 +54,13 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleShare}
-              className="p-1.5 text-slate-300 hover:text-white rounded-lg hover:bg-slate-800 transition-colors tap-target flex items-center justify-center"
-              title="Share"
-            >
-              {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
-            </button>
-            <button
-              onClick={onClose}
-              className="p-1.5 text-slate-300 hover:text-white rounded-lg hover:bg-slate-800 transition-colors tap-target flex items-center justify-center"
-              aria-label="Close"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+          <button
+            onClick={onClose}
+            className="p-1.5 text-slate-300 hover:text-white rounded-lg hover:bg-slate-800 transition-colors tap-target flex items-center justify-center"
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Modal Scrollable Body */}
