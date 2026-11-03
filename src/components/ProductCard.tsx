@@ -97,23 +97,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails
           </div>
 
           {/* Action Buttons */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={handleDetails}
-              className="tap-target border border-slate-300 hover:border-slate-400 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs sm:text-sm font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors"
+              className="tap-target flex-1 border border-slate-300 hover:border-slate-400 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold rounded-lg flex items-center justify-center gap-1 transition-colors py-2.5 px-2"
+              title={t.viewDetails}
             >
-              <Eye className="w-4 h-4 text-slate-600" />
-              <span>{t.viewDetails}</span>
+              <Eye className="w-4 h-4 text-slate-600 shrink-0" />
+              <span className="truncate">{t.viewDetails}</span>
             </button>
 
             <button
               type="button"
               onClick={handleAdd}
-              className="tap-target bg-gem-navy hover:bg-gem-navyLight text-white text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center gap-1.5 transition-colors shadow-sm"
+              className="tap-target flex-[1.4] bg-gem-navy hover:bg-gem-navyLight text-white text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center gap-1.5 transition-colors shadow-sm py-2.5 px-3 min-w-0"
+              title={t.addToCart}
             >
-              <Plus className="w-4 h-4 text-amber-400" />
-              <span>{t.addToCart}</span>
+              <Plus className="w-4 h-4 text-amber-400 shrink-0" />
+              <span className="whitespace-nowrap">{t.addToCart}</span>
             </button>
           </div>
         </div>

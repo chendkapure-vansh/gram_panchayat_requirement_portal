@@ -50,24 +50,24 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
 
           <div className="flex items-center gap-3 text-xs">
             {/* Language Switcher */}
-            <div className="inline-flex items-center bg-slate-800 border border-slate-700 rounded-lg p-0.5 text-xs font-bold">
-              <Globe className="w-3.5 h-3.5 text-amber-400 mx-1.5" />
+            <div className="inline-flex items-center gap-1.5 bg-slate-800/90 border border-slate-700 rounded-lg p-1 text-xs">
+              <Globe className="w-3.5 h-3.5 text-amber-400 ml-1 mr-0.5 shrink-0" />
               <button
                 onClick={() => setLanguage('mr')}
-                className={`px-2 py-0.5 rounded transition-all tap-target ${
+                className={`px-3 py-1 rounded-md transition-all font-bold ${
                   language === 'mr'
                     ? 'bg-amber-500 text-slate-950 shadow-sm'
-                    : 'text-slate-300 hover:text-white'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
                 }`}
               >
                 मराठी
               </button>
               <button
                 onClick={() => setLanguage('en')}
-                className={`px-2 py-0.5 rounded transition-all tap-target ${
+                className={`px-3 py-1 rounded-md transition-all font-bold ${
                   language === 'en'
                     ? 'bg-amber-500 text-slate-950 shadow-sm'
-                    : 'text-slate-300 hover:text-white'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
                 }`}
               >
                 English
