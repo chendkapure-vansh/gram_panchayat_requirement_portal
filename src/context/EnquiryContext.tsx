@@ -6,7 +6,6 @@ import { STORAGE_KEYS, getStorageItem, setStorageItem } from '../utils/storage';
 interface EnquiryContextType {
   enquiries: SavedEnquiry[];
   submitEnquiry: (data: EnquiryFormData, items: DetailedCartItem[]) => SavedEnquiry;
-  getEnquiryById: (id: string) => SavedEnquiry | undefined;
   getWhatsAppEnquiryUrl: (enquiry: SavedEnquiry) => string;
 }
 
@@ -46,13 +45,6 @@ export const EnquiryProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return newRecord;
   }, []);
 
-  const getEnquiryById = useCallback(
-    (id: string): SavedEnquiry | undefined => {
-      return enquiries.find((enq) => enq.id === id);
-    },
-    [enquiries]
-  );
-
   const getWhatsAppEnquiryUrl = useCallback((enquiry: SavedEnquiry): string => {
     const phone = '917059587711';
     const lines = [
@@ -80,10 +72,9 @@ export const EnquiryProvider: React.FC<{ children: React.ReactNode }> = ({ child
     () => ({
       enquiries,
       submitEnquiry,
-      getEnquiryById,
       getWhatsAppEnquiryUrl,
     }),
-    [enquiries, submitEnquiry, getEnquiryById, getWhatsAppEnquiryUrl]
+    [enquiries, submitEnquiry, getWhatsAppEnquiryUrl]
   );
 
   return <EnquiryContext.Provider value={value}>{children}</EnquiryContext.Provider>;

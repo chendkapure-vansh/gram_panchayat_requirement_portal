@@ -14,13 +14,10 @@ export interface Translations {
   about: string;
   contact: string;
   cart: string;
-  myEnquiries: string;
   addToCart: string;
-  addedToCart: string;
   inCart: string;
   viewDetails: string;
   requestQuote: string;
-  priceOnRequest: string;
   priceNote: string;
   quantity: string;
   specifications: string;
@@ -28,7 +25,6 @@ export interface Translations {
   sellerName: string;
   sellerProprietor: string;
   sellerAddress: string;
-  makeInIndia: string;
   warranty: string;
   clearFilters: string;
   noProductsFound: string;
@@ -49,11 +45,9 @@ export interface Translations {
   district: string;
   notes: string;
   submitEnquiry: string;
-  submitting: string;
   enquirySuccessTitle: string;
   enquirySuccessSubtitle: string;
   whatsappQuote: string;
-  copyEnquiryId: string;
   newEnquiry: string;
   disclaimerText: string;
 }
@@ -71,13 +65,10 @@ const TRANSLATIONS: Record<Language, Translations> = {
     about: 'आमच्याबद्दल',
     contact: 'संपर्क',
     cart: 'चौकशी कार्ट',
-    myEnquiries: 'माझ्या चौकशी नोंदी',
     addToCart: 'कार्टमध्ये जोडा',
-    addedToCart: 'कार्टमध्ये जोडले!',
     inCart: 'कार्टमध्ये आहे',
     viewDetails: 'तपशील पहा',
     requestQuote: 'अधिकृत कोटेशन मागा',
-    priceOnRequest: 'दर चौकशीवर उपलब्ध',
     priceNote: 'शासकीय व संस्थात्मक नियमांनुसार कोटेशन दिल्यानंतर अंतिम दर निश्चित केला जाईल.',
     quantity: 'संख्या',
     specifications: 'तांत्रिक तपशील',
@@ -85,7 +76,6 @@ const TRANSLATIONS: Record<Language, Translations> = {
     sellerName: 'जाणता राजा एंटरप्राइजेस',
     sellerProprietor: 'प्रो. प्रा. सचिन गायकवाड',
     sellerAddress: 'स्टेट बँक समोर, लोणार, जि. बुलढाणा (४४३३०२)',
-    makeInIndia: 'मेक इन इंडिया उत्पादन',
     warranty: 'हमी / वॉरंटी',
     clearFilters: 'फिल्टर काढा',
     noProductsFound: 'या निकषानुसार कोणतेही उत्पादन आढळले नाही.',
@@ -106,11 +96,9 @@ const TRANSLATIONS: Record<Language, Translations> = {
     district: 'जिल्हा',
     notes: 'विशेष सूचना / आवश्यकता (पर्यायी)',
     submitEnquiry: 'चौकशी अर्ज नोंदवा',
-    submitting: 'नोंदणी होत आहे...',
     enquirySuccessTitle: 'खरेदी चौकशी यशस्वीरीत्या नोंदवली गेली!',
     enquirySuccessSubtitle: 'आपली मागणी स्थानिक पातळीवर जतन झाली असून आमचे प्रतिनिधी लवकरच संपर्क साधतील.',
     whatsappQuote: 'WhatsApp वर कोटेशन पाठवा',
-    copyEnquiryId: 'नोंदणी क्रमांक कॉपी करा',
     newEnquiry: 'नवीन चौकशी सुरू करा',
     disclaimerText: 'जाणता राजा एंटरप्राइजेस ही एक GeM नोंदणीकृत स्वतंत्र व्यावसायिक संस्था आहे. हे भारत सरकारचे अधिकृत संकेतस्थळ नाही.',
   },
@@ -126,13 +114,10 @@ const TRANSLATIONS: Record<Language, Translations> = {
     about: 'About Us',
     contact: 'Contact',
     cart: 'Enquiry Cart',
-    myEnquiries: 'My Enquiries',
     addToCart: 'Add to Enquiry',
-    addedToCart: 'Added to Cart!',
     inCart: 'In Cart',
     viewDetails: 'View Details',
     requestQuote: 'Request Official Quote',
-    priceOnRequest: 'Contact for Price',
     priceNote: 'Final institutional prices are determined upon formal quotation submission.',
     quantity: 'Quantity',
     specifications: 'Technical Specifications',
@@ -140,7 +125,6 @@ const TRANSLATIONS: Record<Language, Translations> = {
     sellerName: 'Jaanta Raja Enterprises',
     sellerProprietor: 'Prop. Prof. Sachin Gaikwad',
     sellerAddress: 'Opposite State Bank, Lonar, Dist. Buldhana (443302)',
-    makeInIndia: 'Make In India Product',
     warranty: 'Warranty & Support',
     clearFilters: 'Clear Filters',
     noProductsFound: 'No products match your search or filter criteria.',
@@ -161,11 +145,9 @@ const TRANSLATIONS: Record<Language, Translations> = {
     district: 'District',
     notes: 'Special Requirements / Notes (Optional)',
     submitEnquiry: 'Submit Purchase Enquiry',
-    submitting: 'Submitting...',
     enquirySuccessTitle: 'Purchase Enquiry Submitted Successfully!',
     enquirySuccessSubtitle: 'Your enquiry is saved locally. Our team will contact you with the official quotation.',
     whatsappQuote: 'Send Quote via WhatsApp',
-    copyEnquiryId: 'Copy Enquiry ID',
     newEnquiry: 'Start New Enquiry',
     disclaimerText: 'Jaanta Raja Enterprises is an independent GeM-registered commercial supplier. This is not an official Government of India portal.',
   },
