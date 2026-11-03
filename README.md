@@ -1,10 +1,163 @@
-# Gram Panchayat Procurement Portal (ग्रामपंचायत खरेदी व नोंदणी पोर्टल)
+# जाणता राजा एंटरप्राइजेस — ग्रामपंचायत व संस्थात्मक खरेदी पोर्टल
+### Gram Panchayat & Public Institutional Procurement Portal
 
-B2B & B2G institutional procurement and enquiry portal built for **Jaanta Raja Enterprises (जाणता राजा एंटरप्राइजेस)**, Lonar, Buldhana. Designed specifically for Gram Panchayats, Zilla Parishads, schools, and institutional buyers in Maharashtra.
+> **A B2B / B2G Institutional Product Catalogue & Enquiry Portal** built for **Jaanta Raja Enterprises (जाणता राजा एंटरप्राइजेस)**, Lonar, District Buldhana, Maharashtra.  
+> *Authorised GeM (Government e-Marketplace) Registered Seller.*
 
-## Key Features
-- **Institutional Procurement Flow**: Catalog browsing and purchase quotation requests (no direct consumer checkout or fake payment gateways).
-- **Target Audience UX**: High contrast, readable typography (16-18px), and large touch targets designed for rural administrators and local bodies.
-- **Bilingual Interface**: Seamless toggle between Marathi and English.
-- **Zero Backend Dependency**: Client-side state management using React Context and persistence via browser `localStorage`.
-- **GeM Inspired Design**: Clean, trustworthy layout aligned with Government e-Marketplace standards without claiming false government affiliation.
+---
+
+## 🏛️ १. प्रकल्पाची मूळ संकल्पना (Project Essence)
+
+हे कोणतेही सर्वसामान्य ई-कॉमर्स (Amazon / Flipkart) संकेतस्थळ नाही. ग्रामपंचायती आणि शासकीय संस्थांची खरेदी प्रक्रिया सामान्य ग्राहकांपेक्षा पूर्णपणे वेगळी असते:
+1. **थेट ऑनलाइन पेमेंट नसते:** ग्रामपंचायतींना आधी मंजुरीसाठी अधिकृत **दरपत्रक (Quotation)** लागते, त्यानंतर GeM पोर्टल किंवा शासकीय प्रक्रियेद्वारे बिलिंग होते.
+2. **सुलभ व मोठा UI (Accessible for 30–60 Age Group):** १६ ते १८px मोठा व सुवाच्य फॉन्ट, उच्च कॉन्ट्रास्ट, आणि किमान ४४–४८px चे मोठे टच टार्गेट्स, जेणेकरून सरपंच, ग्रामसेवक आणि ग्रामीण प्रशासकीय कर्मचारी मोबाईलवरही सहज वापरू शकतील.
+3. **द्विभाषिक सुविधा (Bilingual Interface):** एका क्लिकवर संपूर्ण पोर्टल **मराठी ⇋ English** मध्ये बदलण्याची सोय.
+4. **स्थानिक डेटा साठवणूक (Zero Backend / Local Persistence):** बॅकएंड किंवा डेटाबेसची गरज नसून ब्राऊझरचे `localStorage` वापरून कार्ट (`jr_cart`), सबमिट केलेले खरेदी अर्ज (`jr_enquiries`), आणि निवडलेली भाषा (`jr_language`) सुरक्षित राहते.
+5. **पारदर्शक व अधिकृत माहिती:** खोटे डिस्काउंट्स (उदा. ९३% ऑफ), बनावट रेटिंग्ज किंवा पेमेंट गेटवे नसून, **"दर चौकशीवर उपलब्ध (Contact for Price)"** असा प्रामाणिक संस्थात्मक दृष्टिकोन.
+
+---
+
+## 📦 २. कॅटलॉगमधील १० अधिकृत वर्गवारी (10 Catalogue Categories)
+
+ब्रोशरमधील पानांवर दाखवल्यानुसार सर्व उत्पादने १० प्रमाणित विभागांत विभागली आहेत:
+1. **स्वच्छता साहित्य (Cleaning & Sanitation):** SS ट्विन डस्टबिन, घंटागाडी कचरा ट्रॉली, व्हिली बिन्स, स्वच्छता किट.
+2. **LED व सोलर स्ट्रीट लाईट (Street & Outdoor Lighting):** ऑल-इन-वन सोलर पथदिवे, कमर्शियल LED स्ट्रीट लाईट्स, हाय-मास्ट टॉवर, सोलर फ्लड लाईट्स.
+3. **CCTV व सुरक्षा प्रणाली (CCTV & Security):** ८-चॅनेल HD CCTV सुरक्षा निगराणी संच, बायोमेट्रिक व फेस हजेरी मशीन, सर्च लाईट.
+4. **संगणक व आयटी उपकरणे (Computers & Office Technology):** GeM स्टँडर्ड डेस्कटॉप PC संच, ऑल-इन-वन लेझर प्रिंटर, डिजिटल UPS, फुल HD प्रोजेक्टर.
+5. **पाणीपुरवठा व RO सिस्टिम्स (Water Systems):** व्यावसायिक RO प्लांट्स (५००/१००० LPH), वॉटर सॉफ्टनर, SS वॉटर कुलर, ३-लेअर HDPE टाक्या, सबमर्सिबल पंप.
+6. **कार्यालयीन व शाळा फर्निचर (Furniture):** शासकीय CRCA स्टील कपाट, सरपंच/ग्रामसेवक रिव्हॉल्व्हिंग चेअर, शालेय ड्युअल डेस्क-बेंच, ३-सीटर वेटिंग बेंच.
+7. **खेळ व ओपन जिम साहित्य (Playground & Open Gym):** FRP घसरगुंडी, सुरक्षित मेटल झोपाळा, ओपन जिम फिटनेस उपकरणे संच, सी-सॉ.
+8. **ग्रामपंचायत व नागरी सुविधा (Village Infrastructure & Civic Products):** ग्लास लॉक सूचना फलक, रेडियम दिशादर्शक फलक, SS ३०४ रेलिंग, मॅनहोल व ड्रेनेज कव्हर्स, राष्ट्रीय ध्वजस्तंभ (Flag Pole).
+9. **पॉवर, सोलर व सुरक्षा (Power, Solar & Safety):** सायलेंट डिझेल जनरेटर, इन्व्हर्टर-बॅटरी संच, ISI प्रमाणित अग्निशामक यंत्र (ABC Fire Extinguisher), फर्स्ट एड किट.
+10. **इतर संस्थात्मक उत्पादने (Other Institutional Products):** सार्वजनिक ध्वनिक्षेपक PA ऑडिओ सिस्टिम आणि संस्थांच्या मागणीनुसार उपलब्ध साहित्य.
+
+---
+
+## 🛠️ ३. वापरलेले तंत्रज्ञान (Tech Stack)
+
+- **Frontend Core:** React 18 (Functional Components, Hooks)
+- **Language:** TypeScript (कडक टाईप-सेफ्टी, Zero `any`)
+- **Styling & Design System:** Tailwind CSS (GeM Navy `#0B2545`, Muted Saffron, Restrained Green)
+- **Icons:** Lucide React
+- **Build Tool:** Vite 6
+- **Persistence:** Browser `localStorage` (सुरक्षित try/catch सह)
+- **Typography:** Google Fonts (Inter + Noto Sans Devanagari)
+
+---
+
+## 📁 ४. फोल्डर रचना (Project Structure)
+
+```text
+Gram_panchayat/
+├── public/
+│   └── favicon.svg              # 'R' ब्रँड लोगो फेविकॉन
+├── src/
+│   ├── components/              # Reusable UI घटक
+│   │   ├── Header.tsx           # GeM बॅज, कॉल लिंक्स, भाषा स्विच व कार्ट काऊंटर
+│   │   ├── Footer.tsx           # पत्ता, फोन, कॅटेगरी लिंक्स व वैधानिक स्पष्टीकरण
+│   │   ├── Hero.tsx             # संस्थात्मक हेरो बॅनर व वैशिष्ट्ये
+│   │   ├── SearchBar.tsx        # इन्स्टंट सर्च बार
+│   │   ├── CategoryTiles.tsx    # १० कॅटेगरीजचे इंटरॅक्टिव्ह टाइल्स
+│   │   ├── ProductCard.tsx      # GeM स्टाईल प्रॉडक्ट कार्ड
+│   │   ├── ProductDetailsModal.tsx # GeM स्पेसिफिकेशन तक्ता व तपशील पॉपअप
+│   │   ├── SpecificationsTable.tsx # तांत्रिक तपशील Key-Value टेबल
+│   │   └── Toast.tsx            # कार्ट फीडबॅक मेसेज
+│   ├── context/                 # State Management
+│   │   ├── CartContext.tsx      # कार्ट ॲड, रीमूव्ह, संख्या नियंत्रण व `jr_cart` सिंक
+│   │   ├── LanguageContext.tsx  # मराठी ⇋ इंग्रजी भाषांतर व `jr_language` सिंक
+│   │   └── EnquiryContext.tsx   # कोटेशन नोंदणी, `jr_enquiries` व WhatsApp लिंक
+│   ├── data/                    # Single Source of Truth
+│   │   ├── categories.ts        # १० वर्गवारीची माहिती व आयकॉन्स
+│   │   └── products.ts          # १९ प्रमाणित उत्पादने व ब्रोशरचे तांत्रिक तपशील
+│   ├── pages/                   # मुख्य पेजेस
+│   │   ├── Home.tsx             # मुख्य पृष्ठ (Hero, Search, Categories, Featured)
+│   │   ├── Products.tsx         # सर्व उत्पादने, कॅटेगरी साइडबार व सॉर्टिंग
+│   │   ├── Cart.tsx             # निवडलेली उत्पादने व संख्या नियंत्रण
+│   │   ├── Enquiry.tsx          # ग्रामपंचायत खरेदी अर्ज व अधिकृत पावती
+│   │   ├── About.tsx            # व्यवसाय परिचय व ध्येय
+│   │   └── Contact.tsx          # संपर्क, पत्ता व थेट कॉल लिंक्स
+│   ├── types/
+│   │   └── index.ts             # TypeScript मॉडेल्स (Product, Category, Enquiry)
+│   ├── utils/
+│   │   ├── storage.ts           # सुरक्षित localStorage हेल्पर
+│   │   └── validation.ts        # १०-अंकी भारतीय मोबाईल व फॉर्म व्हॅलिडेशन
+│   ├── styles/
+│   │   └── index.css            # Tailwind बेस, मोठा फॉन्ट व 44px टार्गेट्स
+│   ├── App.tsx                  # मुख्य राऊटिंग व लेआउट
+│   └── main.tsx                 # React DOM Root
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+└── vite.config.ts
+```
+
+---
+
+## 🚀 ५. लोकल मशीनवर प्रोजेक्ट कसा चालवायचा? (Setup & Run Instructions)
+
+### १. आवश्यकता (Prerequisites)
+- [Node.js](https://nodejs.org/) (आवृत्ती 18 किंवा नवीन)
+- Git
+
+### २. क्लोन करा (Clone Repository)
+```bash
+git clone https://github.com/chendkapure-vansh/gram_panchayat_requirement_portal.git
+cd gram_panchayat_requirement_portal
+```
+
+### ३. डिपेंडन्सीज इन्स्टॉल करा (Install Dependencies)
+```bash
+npm install
+```
+
+### ४. डेव्हलपमेंट सर्व्हर सुरू करा (Start Dev Server)
+```bash
+npm run dev
+```
+टर्मिनलमध्ये दिलेल्या लिंकवर (उदा. **`http://localhost:3000`** किंवा **`http://localhost:3001`**) ब्राऊझरमध्ये उघडा.
+
+### ५. प्रॉडक्शन बिल्ड व टाईप-चेक (Production Build)
+```bash
+npm run build
+```
+*(हे कमांड `tsc -b` द्वारे कडक टाईप-चेक करते आणि `dist/` फोल्डरमध्ये ऑप्टिमाइझ्ड प्रॉडक्शन बंडल तयार करते).*
+
+### ६. प्रॉडक्शन प्रिव्ह्यू तपासा (Preview Production Build)
+```bash
+npm run preview
+```
+
+---
+
+## 📱 ६. संपूर्ण वापरकर्ता प्रवास (User Journey Walkthrough)
+
+1. **ब्राउझिंग व शोध:** वापरकर्ता होम पेज उघडतो, सर्च बारमध्ये नाव टाकतो किंवा १० पैकी एका कॅटेगरीवर क्लिक करतो.
+2. **उत्पादनाचे तपशील:** उत्पादनावरील *"तपशील पहा"* वर क्लिक केल्यावर GeM स्क्रीनशॉटप्रमाणे मोठा फोटो, विक्रेता माहिती, आणि संपूर्ण **Key-Value तांत्रिक तपशील तक्ता (Specifications Table)** दिसतो.
+3. **कार्टमध्ये जोडणे:** *"कार्टमध्ये जोडा"* वर क्लिक करून हवी तितकी संख्या (+/-) निवडतो.
+4. **खरेदी चौकशी अर्ज (Enquiry):**
+   - ग्रामपंचायतीचे नाव, संपर्क अधिकारी, पद, १०-अंकी मोबाईल नंबर, गाव, तालुका व जिल्हा टाकतो.
+   - कार्टमधील वस्तूंची यादी आपोआप अर्जाला जोडली जाते.
+5. **अधिकृत पावती व WhatsApp:**
+   - अर्ज सबमिट झाल्यावर स्क्रीनवर हिरवी **अधिकृत कोटेशन पावती (Confirmation Slip)** दिसते.
+   - नोंदणी क्रमांक (उदा. `JR-ENQ-2026-4821`) मिळतो.
+   - **"WhatsApp वर कोटेशन पाठवा"** बटणावर क्लिक करताच जाणता राजा एंटरप्राइजेसच्या अधिकृत नंबरवर (**7059587711**) संपूर्ण कोटेशनचा मेसेज आपोआप तयार होतो.
+   - सर्व डेटा ब्राऊझरच्या `localStorage` मध्ये कायम सुरक्षित राहतो.
+
+---
+
+## 🔒 ७. वैधानिक स्पष्टीकरण व मर्यादा (Compliance & Limitations)
+
+1. **सरकारी राजमुद्रा नाही:** भारत सरकारची अधिकृत राजमुद्रा (अशोकस्तंभ) किंवा अधिकृत सरकारी लोगो वापरलेला नाही. हे जाणता राजा एंटरप्राइजेसचे अधिकृत B2B कॅटलॉग आहे.
+2. **नो पेमेंट गेटवे:** ग्रामपंचायत व संस्थात्मक खरेदी नियमांनुसार थेट पेमेंट नसते; केवळ अधिकृत कोटेशन मागणी व चौकशी प्रक्रिया आहे.
+3. **Frontend Prototype:** हे पूर्णतः क्लायंट-साइड React ॲप्लिकेशन असून `localStorage` द्वारे डेटा जतन करतो.
+
+---
+
+## 📞 ८. अधिकृत व्यावसायिक संपर्क (Business Contact)
+
+* **प्रतिष्ठान:** जाणता राजा एंटरप्राइजेस (Jaanta Raja Enterprises)
+* **संचालक:** प्रो. प्रा. सचिन गायकवाड
+* **पत्ता:** स्टेट बँक समोर, लोणार, जि. बुलढाणा - ४४३३०२ (महाराष्ट्र)
+* **मोबाईल संपर्क:** 7059587711 / 9371301001
+* **GeM दर्जा:** GeM नोंदणीकृत अधिकृत विक्रेता (GeM Authorised Seller)
+* **ध्येय:** *"गुणवत्ता आमची ओळख... सेवा आमची प्रतिज्ञा... समाधान तुमचे आमचे ध्येय !"*
