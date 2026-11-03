@@ -101,7 +101,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
             className="flex items-center gap-2 text-sm font-bold text-gem-navy tap-target"
           >
             <SlidersHorizontal className="w-4 h-4 text-amber-600" />
-            <span>{t.filterByCategory} ({selectedCategory ? '१ निवडले' : 'सर्व'})</span>
+            <span>{t.filterByCategory} ({selectedCategory ? (isMarathi ? '१ निवडले' : '1 Selected') : (isMarathi ? 'सर्व' : 'All')})</span>
           </button>
           {selectedCategory && (
             <button
@@ -212,7 +212,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
           {/* Active Filter Indicators */}
           {(selectedCategory || searchQuery) && (
             <div className="flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-slate-500 font-semibold">फिल्टर:</span>
+              <span className="text-slate-500 font-semibold">{isMarathi ? 'फिल्टर:' : 'Filters:'}</span>
               {selectedCategory && (
                 <span className="inline-flex items-center gap-1 bg-gem-navy text-white px-2.5 py-1 rounded-lg font-medium">
                   {CATEGORIES.find((c) => c.slug === selectedCategory)?.[isMarathi ? 'name' : 'nameEn']}
@@ -238,9 +238,8 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
             </div>
           )}
 
-          {/* Results Count */}
           <div className="text-xs text-slate-500 font-medium">
-            एकूण {filteredProducts.length} उत्पादने उपलब्ध
+            {isMarathi ? `एकूण ${filteredProducts.length} उत्पादने उपलब्ध` : `Total ${filteredProducts.length} products available`}
           </div>
 
           {/* Products Cards */}

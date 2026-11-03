@@ -344,7 +344,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
                   maxLength={10}
                   value={formData.mobile}
                   onChange={handleInputChange}
-                  placeholder="९८XXXXXXXX / 10-digit number"
+                  placeholder={isMarathi ? '९८XXXXXXXX / १०-अंकी नंबर' : '98XXXXXXXX / 10-digit number'}
                   className={`w-full pl-10 pr-4 py-2.5 text-sm sm:text-base border rounded-xl outline-none font-mono transition-all ${
                     formErrors.mobile
                       ? 'border-red-400 bg-red-50/30'
@@ -355,7 +355,9 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               {formErrors.mobile ? (
                 <p className="text-xs text-red-600 mt-1 font-medium">{formErrors.mobile}</p>
               ) : (
-                <p className="text-[11px] text-slate-500 mt-1">कोटेशन व संपर्क करण्यासाठी अचूक १० अंकी नंबर आवश्यक आहे.</p>
+                <p className="text-[11px] text-slate-500 mt-1">
+                  {isMarathi ? 'कोटेशन व संपर्क करण्यासाठी अचूक १० अंकी नंबर आवश्यक आहे.' : 'A valid 10-digit mobile number is required for official quotation.'}
+                </p>
               )}
             </div>
 
@@ -371,7 +373,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
                     name="village"
                     value={formData.village}
                     onChange={handleInputChange}
-                    placeholder="गाव / शहर"
+                    placeholder={isMarathi ? 'गाव / शहर' : 'Village / Town'}
                     className={`w-full pl-9 pr-3 py-2 text-xs sm:text-sm border rounded-lg outline-none ${
                       formErrors.village ? 'border-red-400' : 'border-slate-300'
                     }`}
@@ -388,7 +390,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
                   name="taluka"
                   value={formData.taluka}
                   onChange={handleInputChange}
-                  placeholder="तालुका"
+                  placeholder={isMarathi ? 'तालुका' : 'Taluka'}
                   className={`w-full px-3 py-2 text-xs sm:text-sm border rounded-lg outline-none ${
                     formErrors.taluka ? 'border-red-400' : 'border-slate-300'
                   }`}
@@ -404,7 +406,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
                   name="district"
                   value={formData.district}
                   onChange={handleInputChange}
-                  placeholder="जिल्हा"
+                  placeholder={isMarathi ? 'जिल्हा' : 'District'}
                   className={`w-full px-3 py-2 text-xs sm:text-sm border rounded-lg outline-none ${
                     formErrors.district ? 'border-red-400' : 'border-slate-300'
                   }`}
@@ -445,13 +447,13 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               <span>{isMarathi ? 'निवडलेले साहित्य' : 'Selected Products'}</span>
             </h3>
             <span className="text-xs bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full">
-              {cartCount} नग
+              {cartCount} {isMarathi ? 'नग' : 'items'}
             </span>
           </div>
 
           {detailedItems.length === 0 ? (
             <div className="text-center py-8 text-slate-500 text-xs">
-              <p className="mb-3">सध्या कार्टमध्ये कोणतीही वस्तू नाही.</p>
+              <p className="mb-3">{isMarathi ? 'सध्या कार्टमध्ये कोणतीही वस्तू नाही.' : 'No items currently in enquiry cart.'}</p>
               <button
                 onClick={onNavigateProducts}
                 className="text-gem-navyLight font-bold underline tap-target"
@@ -470,21 +472,21 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
                       </span>
                       <span className="text-[11px] text-slate-500">{product.modelCode}</span>
                     </div>
-                    <span className="font-bold text-gem-navy shrink-0">{quantity} नग</span>
+                    <span className="font-bold text-gem-navy shrink-0">{quantity} {isMarathi ? 'नग' : 'units'}</span>
                   </li>
                 ))}
               </ul>
 
               <div className="pt-2 border-t text-[11px] text-slate-600 space-y-1">
-                <p>• सर्व वस्तूंचे अधिकृत शासकीय कोटेशन तयार केले जाईल.</p>
-                <p>• GeM पोर्टलद्वारे किंवा शासकीय नियमांनुसार खरेदी प्रक्रिया होईल.</p>
+                <p>{isMarathi ? '• सर्व वस्तूंचे अधिकृत शासकीय कोटेशन तयार केले जाईल.' : '• Official government quotation will be prepared.'}</p>
+                <p>{isMarathi ? '• GeM पोर्टलद्वारे किंवा शासकीय नियमांनुसार खरेदी प्रक्रिया होईल.' : '• Purchase proceeds through GeM or government guidelines.'}</p>
               </div>
 
               <button
                 onClick={onNavigateProducts}
                 className="w-full text-xs text-gem-navy font-bold hover:underline flex items-center justify-center gap-1 pt-1 tap-target"
               >
-                <span>आणखी उत्पादने निवडा</span>
+                <span>{isMarathi ? 'आणखी उत्पादने निवडा' : 'Select More Products'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -493,7 +495,9 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-1">
             <div className="font-bold text-slate-900">{t.sellerName}</div>
             <div className="text-slate-600 text-[11px]">{t.sellerAddress}</div>
-            <div className="text-emerald-700 font-bold text-[11px]">मोबाईल: 7059587711 / 9371301001</div>
+            <div className="text-emerald-700 font-bold text-[11px]">
+              {isMarathi ? 'मोबाईल:' : 'Mobile:'} 7059587711 / 9371301001
+            </div>
           </div>
         </div>
       </div>

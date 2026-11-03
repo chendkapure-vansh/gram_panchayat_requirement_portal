@@ -132,7 +132,9 @@ export const HomePage: React.FC<HomePageProps> = ({
             {isMarathi ? 'प्रत्येक शासकीय खरेदीसाठी विश्वासू नाव' : 'Trusted Institutional Supplier'}
           </h2>
           <p className="text-slate-400 text-xs sm:text-sm mt-2">
-            गुणवत्ता • विश्वास • वेळेत सेवा — जाणता राजा एंटरप्राइजेस, लोणार
+            {isMarathi
+              ? 'गुणवत्ता • विश्वास • वेळेत सेवा — जाणता राजा एंटरप्राइजेस, लोणार'
+              : 'Quality • Trust • Timely Service — Jaanta Raja Enterprises, Lonar'}
           </p>
         </div>
 
@@ -141,9 +143,13 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto sm:mx-0 mb-3">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-base text-white mb-1">GeM पोर्टलद्वारे सुलभ खरेदी</h3>
+            <h3 className="font-bold text-base text-white mb-1">
+              {isMarathi ? 'GeM पोर्टलद्वारे सुलभ खरेदी' : 'Easy Procurement via GeM'}
+            </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              शासकीय नियमांनुसार पारदर्शक दर, अधिकृत बिलिंग आणि विनात्रास खरेदी प्रक्रिया.
+              {isMarathi
+                ? 'शासकीय नियमांनुसार पारदर्शक दर, अधिकृत बिलिंग आणि विनात्रास खरेदी प्रक्रिया.'
+                : 'Transparent pricing, official billing, and seamless purchase workflow under government norms.'}
             </p>
           </div>
 
@@ -151,9 +157,13 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto sm:mx-0 mb-3">
               <CheckCircle2 className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-base text-white mb-1">दर्जेदार व प्रमाणित उत्पादने</h3>
+            <h3 className="font-bold text-base text-white mb-1">
+              {isMarathi ? 'दर्जेदार व प्रमाणित उत्पादने' : 'Certified Quality Products'}
+            </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              प्रत्येक उत्पादनाची चाचणी व हमी. निकृष्ट किंवा अनधिकृत साहित्य पुरवले जात नाही.
+              {isMarathi
+                ? 'प्रत्येक उत्पादनाची चाचणी व हमी. निकृष्ट किंवा अनधिकृत साहित्य पुरवले जात नाही.'
+                : 'Pre-tested institutional grade equipment meeting ISI, ISO, and public procurement standards.'}
             </p>
           </div>
 
@@ -161,9 +171,13 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center mx-auto sm:mx-0 mb-3">
               <Clock className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-base text-white mb-1">वेळेत पोहोच व थेट मार्गदर्शन</h3>
+            <h3 className="font-bold text-base text-white mb-1">
+              {isMarathi ? 'वेळेत पोहोच व थेट मार्गदर्शन' : 'Timely Village Delivery & Guidance'}
+            </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              गावपातळीवर थेट वाहतूक पुरवठा आणि आवश्यकतेनुसार तांत्रिक मार्गदर्शन व मदत.
+              {isMarathi
+                ? 'गावपातळीवर थेट वाहतूक पुरवठा आणि आवश्यकतेनुसार तांत्रिक मार्गदर्शन व मदत.'
+                : 'Direct transport logistics to village offices and dedicated post-sale technical support.'}
             </p>
           </div>
         </div>
@@ -175,7 +189,9 @@ export const HomePage: React.FC<HomePageProps> = ({
             {isMarathi ? 'थेट कोटेशन किंवा चौकशीसाठी आजच संपर्क साधा' : 'Need an Official Quotation Today?'}
           </h3>
           <p className="text-xs sm:text-sm text-slate-600 mt-1">
-            प्रो. प्रा. सचिन गायकवाड (लोणार, जि. बुलढाणा) — मोबाईल: 7059587711 / 9371301001
+            {isMarathi
+              ? 'प्रो. प्रा. सचिन गायकवाड (लोणार, जि. बुलढाणा) — मोबाईल: 7059587711 / 9371301001'
+              : 'Prop. Prof. Sachin Gaikwad (Lonar, Dist. Buldhana) — Mobile: 7059587711 / 9371301001'}
           </p>
         </div>
 
@@ -185,7 +201,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             className="tap-target flex-1 md:flex-none bg-gem-navy hover:bg-gem-navyLight text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow"
           >
             <Phone className="w-4 h-4 text-emerald-400" />
-            <span>कॉल करा</span>
+            <span>{isMarathi ? 'कॉल करा' : 'Call Now'}</span>
           </a>
 
           <a

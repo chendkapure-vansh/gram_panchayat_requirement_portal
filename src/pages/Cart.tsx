@@ -100,7 +100,7 @@ export const CartPage: React.FC<CartPageProps> = ({
                   </h3>
                   <div className="text-xs text-slate-500 mt-0.5">
                     <span>{isMarathi ? product.categoryName : product.categoryNameEn}</span>
-                    {product.modelCode && <span> • कोड: {product.modelCode}</span>}
+                    {product.modelCode && <span> • {isMarathi ? 'कोड:' : 'Code:'} {product.modelCode}</span>}
                   </div>
                   <span className="inline-block mt-1 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 rounded">
                     {isMarathi ? product.priceLabel : product.priceLabelEn}
@@ -152,7 +152,7 @@ export const CartPage: React.FC<CartPageProps> = ({
               {isMarathi ? 'शासकीय खरेदी दर व कोटेशन पद्धत:' : 'Institutional Pricing Note:'}
             </p>
             <p className="text-amber-900 leading-relaxed">
-              {t.priceNote} अंतिम दर मागणी संख्या, वाहतूक अंतर आणि शासकीय निकषांनुसार निश्चित करून अधिकृत कोटेशन दिले जाते.
+              {t.priceNote} {isMarathi ? 'अंतिम दर मागणी संख्या, वाहतूक अंतर आणि शासकीय निकषांनुसार निश्चित करून अधिकृत कोटेशन दिले जाते.' : 'Final rates are determined based on quantities, logistics, and institutional criteria upon formal quotation.'}
             </p>
           </div>
         </div>
@@ -180,7 +180,7 @@ export const CartPage: React.FC<CartPageProps> = ({
       {/* Trust Reminder */}
       <div className="mt-6 text-center text-xs text-slate-500 flex items-center justify-center gap-1.5">
         <ShieldCheck className="w-4 h-4 text-emerald-600" />
-        <span>जाणता राजा एंटरप्राइजेस • GeM अधिकृत विक्रेता • लोणार (बुलढाणा)</span>
+        <span>{isMarathi ? 'जाणता राजा एंटरप्राइजेस • GeM अधिकृत विक्रेता • लोणार (बुलढाणा)' : 'Jaanta Raja Enterprises • GeM Authorised Seller • Lonar (Buldhana)'}</span>
       </div>
     </div>
   );

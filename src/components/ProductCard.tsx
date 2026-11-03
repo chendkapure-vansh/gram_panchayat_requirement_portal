@@ -88,7 +88,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails
         <div>
           {/* Institutional Price Status Tag */}
           <div className="mb-3.5 pt-2 border-t border-slate-100 flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">शासकीय खरेदी दर:</span>
+            <span className="text-xs text-slate-500 font-medium">
+              {isMarathi ? 'शासकीय खरेदी दर:' : 'Procurement Rate:'}
+            </span>
             <span className="text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-md">
               {priceLabel}
             </span>

@@ -110,19 +110,19 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-700">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>ग्रामपंचायती (सरपंच, ग्रामसेवक व सदस्य)</span>
+            <span>{isMarathi ? 'ग्रामपंचायती (सरपंच, ग्रामसेवक व सदस्य)' : 'Gram Panchayats (Sarpanch, Gramsevak & Members)'}</span>
           </div>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>पंचायत समिती व जिल्हा परिषद कार्यालये</span>
+            <span>{isMarathi ? 'पंचायत समिती व जिल्हा परिषद कार्यालये' : 'Panchayat Samiti & Zilla Parishad Offices'}</span>
           </div>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>शाळा, आश्रमशाळा व महाविद्यालये</span>
+            <span>{isMarathi ? 'शाळा, आश्रमशाळा व महाविद्यालये' : 'Schools, Hostels & Colleges'}</span>
           </div>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>प्राथमिक आरोग्य केंद्र व ग्रामीण रुग्णालये</span>
+            <span>{isMarathi ? 'प्राथमिक आरोग्य केंद्र व ग्रामीण रुग्णालये' : 'Primary Health Centers & Public Hospitals'}</span>
           </div>
         </div>
       </div>
@@ -130,10 +130,14 @@ export const AboutPage: React.FC<AboutPageProps> = ({
       {/* Office & CTA Card */}
       <div className="bg-slate-100 rounded-2xl p-6 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h3 className="font-bold text-slate-900 text-base">प्रो. प्रा. सचिन गायकवाड (संचालक)</h3>
+          <h3 className="font-bold text-slate-900 text-base">
+            {isMarathi ? 'प्रो. प्रा. सचिन गायकवाड (संचालक)' : 'Prof. Sachin Gaikwad (Proprietor)'}
+          </h3>
           <div className="flex items-center gap-1.5 text-xs text-slate-600 mt-1">
             <MapPin className="w-3.5 h-3.5 text-slate-400" />
-            <span>स्टेट बँक समोर, लोणार, जि. बुलढाणा - ४४३३०२</span>
+            <span>
+              {isMarathi ? 'स्टेट बँक समोर, लोणार, जि. बुलढाणा - ४४३३०२' : 'Opposite State Bank, Lonar, Dist. Buldhana - 443302'}
+            </span>
           </div>
           <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-bold mt-1 font-mono">
             <Phone className="w-3.5 h-3.5" />
@@ -146,13 +150,13 @@ export const AboutPage: React.FC<AboutPageProps> = ({
             onClick={onExploreProducts}
             className="tap-target flex-1 sm:flex-none bg-gem-navy hover:bg-gem-navyLight text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow"
           >
-            उत्पादने पहा
+            {isMarathi ? 'उत्पादने पहा' : 'Explore Products'}
           </button>
           <button
             onClick={onContactClick}
             className="tap-target flex-1 sm:flex-none bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold"
           >
-            संपर्क करा
+            {isMarathi ? 'संपर्क करा' : 'Contact Us'}
           </button>
         </div>
       </div>

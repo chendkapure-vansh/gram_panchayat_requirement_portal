@@ -138,7 +138,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectCategory }) 
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <span>
-                  <strong>पत्ता:</strong> स्टेट बँक समोर, लोणार, जि. बुलढाणा - ४४३३०२
+                  <strong>{isMarathi ? 'पत्ता:' : 'Address:'}</strong> {isMarathi ? 'स्टेट बँक समोर, लोणार, जि. बुलढाणा - ४४३३०२' : 'Opposite State Bank, Lonar, Dist. Buldhana - 443302'}
                 </span>
               </div>
 
@@ -154,7 +154,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectCategory }) 
               </div>
 
               <p className="text-[11px] text-slate-400 pt-1">
-                <strong>संचालक:</strong> प्रो. प्रा. सचिन गायकवाड
+                <strong>{isMarathi ? 'संचालक:' : 'Proprietor:'}</strong> {isMarathi ? 'प्रो. प्रा. सचिन गायकवाड' : 'Prof. Sachin Gaikwad'}
               </p>
             </div>
 
@@ -166,7 +166,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectCategory }) 
               className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-lg text-xs font-bold transition-colors shadow-sm tap-target w-full justify-center"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp वर थेट संपर्क करा</span>
+              <span>{isMarathi ? 'WhatsApp वर थेट संपर्क करा' : 'Contact Direct on WhatsApp'}</span>
             </a>
           </div>
         </div>
@@ -175,15 +175,17 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onSelectCategory }) 
         <div className="mt-8 p-3.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px] text-slate-400 flex items-start gap-2.5">
           <ShieldAlert className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
           <div>
-            <span className="font-bold text-slate-300">वैधानिक सूचना (Statutory Disclaimer): </span>
-            {t.disclaimerText} हे पोर्टल शासकीय व संस्थात्मक खरेदी सुलभतेसाठीचे खाजगी कॅटलॉग व कोटेशन नोंदणी साधन आहे.
+            <span className="font-bold text-slate-300">
+              {isMarathi ? 'वैधानिक सूचना (Statutory Disclaimer): ' : 'Statutory Disclaimer: '}
+            </span>
+            {t.disclaimerText} {isMarathi ? 'हे पोर्टल शासकीय व संस्थात्मक खरेदी सुलभतेसाठीचे खाजगी कॅटलॉग व कोटेशन नोंदणी साधन आहे.' : 'This portal is a private procurement catalogue and quotation utility.'}
           </div>
         </div>
 
         {/* Bottom Copyright */}
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
-          <p>© {new Date().getFullYear()} जाणता राजा एंटरप्राइजेस (Jaanta Raja Enterprises). सर्व हक्क सुरक्षित.</p>
-          <p>गुणवत्ता • विश्वास • वेळेत सेवा</p>
+          <p>© {new Date().getFullYear()} {isMarathi ? 'जाणता राजा एंटरप्राइजेस (Jaanta Raja Enterprises). सर्व हक्क सुरक्षित.' : 'Jaanta Raja Enterprises. All rights reserved.'}</p>
+          <p>{isMarathi ? 'गुणवत्ता • विश्वास • वेळेत सेवा' : 'Quality • Trust • Timely Service'}</p>
         </div>
       </div>
     </footer>

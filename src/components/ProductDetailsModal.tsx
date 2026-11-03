@@ -200,10 +200,10 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
               <div>
-                <strong>विक्रेता:</strong> {t.sellerName}
+                <strong>{isMarathi ? 'विक्रेता:' : 'Seller:'}</strong> {t.sellerName}
               </div>
               <div>
-                <strong>संचालक:</strong> {t.sellerProprietor}
+                <strong>{isMarathi ? 'संचालक:' : 'Proprietor:'}</strong> {t.sellerProprietor}
               </div>
               <div className="flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
@@ -220,7 +220,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             <div className="pt-2 border-t border-slate-200">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-bold text-sm sm:text-base text-slate-900">
-                  {isMarathi ? 'संबंधित उत्पादने (Related Products)' : 'Related Products'}
+                  {isMarathi ? 'संबंधित उत्पादने' : 'Related Products'}
                 </h4>
                 <span className="text-xs text-slate-500">
                   {categoryName}

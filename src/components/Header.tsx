@@ -19,7 +19,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
-  const { t, language, toggleLanguage } = useLanguage();
+  const { t, language, toggleLanguage, isMarathi } = useLanguage();
   const { cartCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 {t.siteTitle}
               </div>
               <div className="text-[11px] sm:text-xs text-amber-300/90 font-medium">
-                {t.tagline} • लोणार (बुलढाणा)
+                {t.tagline} • {isMarathi ? 'लोणार (बुलढाणा)' : 'Lonar (Buldhana)'}
               </div>
             </div>
           </button>
@@ -180,7 +180,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           </button>
 
           <div className="pt-3 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
-            <span>फोन: 7059587711 / 9371301001</span>
+            <span>{isMarathi ? 'फोन:' : 'Phone:'} 7059587711 / 9371301001</span>
             <button
               onClick={toggleLanguage}
               className="text-amber-300 font-bold underline"
