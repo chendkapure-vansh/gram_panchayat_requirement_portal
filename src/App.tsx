@@ -19,10 +19,17 @@ const PortalApp: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState<ActivePage>('home');
   const [selectedCategorySlug, setSelectedCategorySlug] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedProductForModal, setSelectedProductForModal] = useState<Product | null>(null);
 
   const handleSelectCategoryFromHome = (slug: string) => {
     setSelectedCategorySlug(slug);
+    setCurrentPage('products');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSearchFromHome = (query: string) => {
+    setSearchQuery(query);
     setCurrentPage('products');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -40,13 +47,10 @@ const PortalApp: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans antialiased selection:bg-amber-200 selection:text-slate-950">
-      {/* Toast Feedback */}
       <Toast message={feedbackMessage} onClose={clearFeedback} />
 
-      {/* Main Responsive Header */}
       <Header currentPage={currentPage} onNavigate={navigateTo} />
 
-      {/* Main Page Routing Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-4 sm:py-6">
         {currentPage === 'home' && (
           <HomePage
@@ -54,6 +58,7 @@ const PortalApp: React.FC = () => {
             onExploreAll={() => navigateTo('products')}
             onSelectCategory={handleSelectCategoryFromHome}
             onRequestQuote={() => navigateTo('cart')}
+            onSearch={handleSearchFromHome}
           />
         )}
 
@@ -61,6 +66,7 @@ const PortalApp: React.FC = () => {
           <ProductsPage
             onSelectProduct={setSelectedProductForModal}
             initialCategorySlug={selectedCategorySlug}
+            initialSearchQuery={searchQuery}
           />
         )}
 
@@ -92,11 +98,11 @@ const PortalApp: React.FC = () => {
         )}
       </main>
 
-      {/* Product Details Modal with GeM Specs Table */}
       <ProductDetailsModal
         product={selectedProductForModal}
         onClose={() => setSelectedProductForModal(null)}
         onRequestQuoteNow={handleQuickQuote}
+        onSelectProduct={setSelectedProductForModal}
       />
 
       {/* Institutional Footer */}

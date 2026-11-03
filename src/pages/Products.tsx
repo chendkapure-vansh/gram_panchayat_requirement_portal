@@ -16,15 +16,17 @@ import {
 interface ProductsPageProps {
   onSelectProduct: (product: Product) => void;
   initialCategorySlug?: string | null;
+  initialSearchQuery?: string;
 }
 
 export const ProductsPage: React.FC<ProductsPageProps> = ({
   onSelectProduct,
   initialCategorySlug,
+  initialSearchQuery = '',
 }) => {
   const { t, isMarathi } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategorySlug || null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [sortBy, setSortBy] = useState<'featured' | 'name-asc' | 'name-desc'>('featured');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
@@ -194,7 +196,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
               </label>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => setSortBy(e.target.value as 'featured' | 'name-asc' | 'name-desc')}
                 className="w-full px-3 py-2 text-xs sm:text-sm border border-slate-300 rounded-lg outline-none bg-white font-medium"
               >
                 <option value="featured">{isMarathi ? 'महत्त्वाची उत्पादने (Featured)' : 'Featured Items'}</option>
@@ -272,3 +274,4 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
     </div>
   );
 };
+

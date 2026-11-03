@@ -13,9 +13,6 @@ export interface FormValidationResult {
   errors: Record<string, string>;
 }
 
-/**
- * Validates the Gram Panchayat purchase enquiry form fields.
- */
 export function validateEnquiryForm(data: {
   institutionName: string;
   contactPerson: string;
@@ -29,21 +26,18 @@ export function validateEnquiryForm(data: {
   const errors: Record<string, string> = {};
   const isMr = data.isMarathi ?? true;
 
-  // Institution Name
   if (!data.institutionName.trim()) {
     errors.institutionName = isMr
       ? 'कृपया ग्रामपंचायत / संस्थेचे नाव प्रविष्ट करा'
       : 'Please enter institution / Gram Panchayat name';
   }
 
-  // Contact Person
   if (!data.contactPerson.trim()) {
     errors.contactPerson = isMr
       ? 'कृपया संपर्क व्यक्तीचे नाव प्रविष्ट करा'
       : 'Please enter contact person name';
   }
 
-  // Mobile Validation
   if (!data.mobile.trim()) {
     errors.mobile = isMr
       ? 'कृपया १०-अंकी मोबाईल नंबर प्रविष्ट करा'
@@ -54,22 +48,18 @@ export function validateEnquiryForm(data: {
       : 'Please enter a valid 10-digit mobile number (starts with 6-9)';
   }
 
-  // Village / City
   if (!data.village.trim()) {
     errors.village = isMr ? 'कृपया गावाचे नाव प्रविष्ट करा' : 'Please enter village name';
   }
 
-  // Taluka
   if (!data.taluka.trim()) {
     errors.taluka = isMr ? 'कृपया तालुका प्रविष्ट करा' : 'Please enter taluka';
   }
 
-  // District
   if (!data.district.trim()) {
     errors.district = isMr ? 'कृपया जिल्हा प्रविष्ट करा' : 'Please enter district';
   }
 
-  // Cart Items check
   if (!data.hasItems) {
     errors.items = isMr
       ? 'कोटेशन चौकशीसाठी कार्टमध्ये किमान १ वस्तू असणे आवश्यक आहे'
@@ -81,4 +71,3 @@ export function validateEnquiryForm(data: {
     errors,
   };
 }
-

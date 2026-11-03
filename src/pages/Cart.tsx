@@ -185,3 +185,4 @@ export const CartPage: React.FC<CartPageProps> = ({
     </div>
   );
 };
+

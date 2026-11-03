@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Product } from '../types';
+import { PRODUCTS } from '../data/products';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
 import { SpecificationsTable } from './SpecificationsTable';
@@ -12,22 +13,35 @@ import {
   MapPin,
   Phone,
   FileText,
+  ArrowRight,
 } from 'lucide-react';
 
 interface ProductDetailsModalProps {
   product: Product | null;
   onClose: () => void;
   onRequestQuoteNow: (product: Product, quantity: number) => void;
+  onSelectProduct?: (product: Product) => void;
 }
 
 export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   product,
   onClose,
   onRequestQuoteNow,
+  onSelectProduct,
 }) => {
   const { isMarathi, t } = useLanguage();
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   if (!product) return null;
 
@@ -36,14 +50,24 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   const description = isMarathi ? product.description : product.descriptionEn;
   const priceLabel = isMarathi ? product.priceLabel : product.priceLabelEn;
 
+  const relatedProducts = PRODUCTS.filter(
+    (p) => p.category === product.category && p.id !== product.id
+  ).slice(0, 3);
+
   const handleAddToCart = () => {
     addToCart(product.id, quantity);
+  };
+
+  const handleSelectRelated = (item: Product) => {
+    setQuantity(1);
+    if (onSelectProduct) {
+      onSelectProduct(item);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
       <div className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden border border-slate-200 animate-scale-up my-6 max-h-[90vh] flex flex-col">
-        {/* Modal Top Bar */}
         <div className="bg-gem-navy text-white px-5 py-3.5 flex items-center justify-between border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-2">
             <span className="bg-amber-500 text-slate-950 text-xs font-bold px-2 py-0.5 rounded">
@@ -63,11 +87,8 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           </button>
         </div>
 
-        {/* Modal Scrollable Body */}
         <div className="overflow-y-auto p-5 sm:p-7 space-y-6 flex-1">
-          {/* Main 2-Column Product Info Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-start">
-            {/* Left: Image Container */}
             <div className="space-y-3">
               <div className="aspect-[4/3] rounded-xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner">
                 <img
@@ -77,7 +98,6 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 />
               </div>
 
-              {/* GeM Compliance & Make in India Badges */}
               <div className="flex items-center justify-between gap-2 p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs">
                 <span className="inline-flex items-center gap-1 font-semibold text-slate-700">
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
@@ -91,7 +111,6 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               </div>
             </div>
 
-            {/* Right: Title, Description, Quantity & Actions */}
             <div className="flex flex-col justify-between h-full space-y-4">
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-900 leading-snug mb-2">
@@ -102,7 +121,6 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                   {description}
                 </p>
 
-                {/* Price / Quote Status */}
                 <div className="p-3.5 bg-emerald-50/70 border border-emerald-200 rounded-xl mb-4">
                   <div className="text-xs text-emerald-800 font-semibold mb-0.5">
                     {isMarathi ? 'शासकीय खरेदी दर स्थिति:' : 'Procurement Pricing Status:'}
@@ -116,7 +134,6 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 </div>
               </div>
 
-              {/* Quantity Selector & Action Buttons */}
               <div className="space-y-3 pt-3 border-t border-slate-200">
                 <div className="flex items-center justify-between">
                   <span className="text-xs sm:text-sm font-bold text-slate-700">
@@ -163,7 +180,6 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             </div>
           </div>
 
-          {/* Technical Specifications Section (GeM Style Table) */}
           <div className="pt-2">
             <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
               <span>{t.specifications}</span>
@@ -177,7 +193,6 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             />
           </div>
 
-          {/* Verified Seller Details Box */}
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-5">
             <h4 className="font-bold text-sm text-slate-900 mb-2 flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-amber-600" />
@@ -200,6 +215,43 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               </div>
             </div>
           </div>
+
+          {relatedProducts.length > 0 && (
+            <div className="pt-2 border-t border-slate-200">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-bold text-sm sm:text-base text-slate-900">
+                  {isMarathi ? 'संबंधित उत्पादने (Related Products)' : 'Related Products'}
+                </h4>
+                <span className="text-xs text-slate-500">
+                  {categoryName}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {relatedProducts.map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => handleSelectRelated(item)}
+                    className="p-2.5 rounded-xl border border-slate-200 bg-white hover:border-amber-400 hover:shadow-sm cursor-pointer transition-all flex items-center gap-3 group"
+                  >
+                    <img
+                      src={item.image}
+                      alt={isMarathi ? item.title : item.titleEn}
+                      className="w-14 h-14 object-cover rounded-lg border border-slate-200 shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold text-slate-900 line-clamp-2 group-hover:text-gem-navyLight">
+                        {isMarathi ? item.title : item.titleEn}
+                      </p>
+                      <div className="flex items-center justify-between text-[11px] text-emerald-700 font-semibold mt-1">
+                        <span>{item.modelCode}</span>
+                        <ArrowRight className="w-3 h-3 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

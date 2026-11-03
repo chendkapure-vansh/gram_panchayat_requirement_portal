@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Hero } from '../components/Hero';
 import { SearchBar } from '../components/SearchBar';
 import { CategoryTiles } from '../components/CategoryTiles';
@@ -22,6 +22,7 @@ interface HomePageProps {
   onExploreAll: () => void;
   onSelectCategory: (slug: string) => void;
   onRequestQuote: () => void;
+  onSearch: (query: string) => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
@@ -29,34 +30,41 @@ export const HomePage: React.FC<HomePageProps> = ({
   onExploreAll,
   onSelectCategory,
   onRequestQuote,
+  onSearch,
 }) => {
   const { isMarathi } = useLanguage();
+  const [homeSearchTerm, setHomeSearchTerm] = useState('');
   const featuredProducts = PRODUCTS.filter((p) => p.featured).slice(0, 8);
+
+  const handleSearchSubmit = (term: string) => {
+    setHomeSearchTerm(term);
+    if (term.trim()) {
+      onSearch(term);
+    }
+  };
 
   return (
     <div className="space-y-10 sm:space-y-12 py-2">
-      {/* 1. Hero Section */}
       <Hero
         onExplore={onExploreAll}
         onRequestQuote={onRequestQuote}
       />
 
-      {/* 2. Prominent Quick Search */}
       <div className="max-w-3xl mx-auto -mt-6 sm:-mt-8 relative z-20">
         <div className="bg-white p-2 rounded-2xl shadow-md border border-slate-200">
           <SearchBar
-            value=""
-            onChange={(q) => {
-              if (q.trim()) {
-                onExploreAll();
-              }
-            }}
-            placeholder={isMarathi ? 'येथे साहित्याचे नाव शोधा (उदा. RO प्लांट, पथदिवा, डस्टबिन)...' : 'Search equipment (e.g. RO Plant, Street Light, Dustbin)...'}
+            value={homeSearchTerm}
+            onChange={handleSearchSubmit}
+            onClear={() => setHomeSearchTerm('')}
+            placeholder={
+              isMarathi
+                ? 'येथे साहित्याचे नाव शोधा (उदा. RO प्लांट, पथदिवा, डस्टबिन)...'
+                : 'Search equipment (e.g. RO Plant, Street Light, Dustbin)...'
+            }
           />
         </div>
       </div>
 
-      {/* 3. Shop by Gram Panchayat Need (Category Tiles) */}
       <div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
           <div>
@@ -83,7 +91,6 @@ export const HomePage: React.FC<HomePageProps> = ({
         />
       </div>
 
-      {/* 4. Featured Institutional Products */}
       <div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
           <div>
@@ -116,7 +123,6 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </div>
 
-      {/* 5. Why Choose Us / Trust Points Section */}
       <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-10 border border-slate-800 shadow-md">
         <div className="text-center max-w-2xl mx-auto mb-8">
           <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">
@@ -163,7 +169,6 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </div>
 
-      {/* 6. Contact Strip */}
       <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
         <div>
           <h3 className="text-lg sm:text-xl font-bold text-slate-900 leading-snug">

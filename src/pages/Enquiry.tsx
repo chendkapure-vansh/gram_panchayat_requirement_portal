@@ -61,7 +61,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error for this field as user types
     if (formErrors[name]) {
       setFormErrors((prev) => {
         const next = { ...prev };
@@ -92,7 +91,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
 
     const savedRecord = submitEnquiry(formData, detailedItems);
     setSubmittedEnquiry(savedRecord);
-    clearCart(); // Clear active cart on successful submission
+    clearCart();
   };
 
   const handleReset = () => {
@@ -111,14 +110,12 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
     setFormErrors({});
   };
 
-  // If successfully submitted, display the official Confirmation Slip
   if (submittedEnquiry) {
     const whatsappUrl = getWhatsAppEnquiryUrl(submittedEnquiry);
 
     return (
       <div className="max-w-3xl mx-auto py-4 sm:py-8">
         <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-          {/* Slip Header */}
           <div className="bg-emerald-700 text-white p-6 sm:p-8 text-center relative">
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
               <CheckCircle2 className="w-10 h-10 text-emerald-600" />
@@ -134,9 +131,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
             </div>
           </div>
 
-          {/* Slip Content */}
           <div className="p-6 sm:p-8 space-y-6">
-            {/* Institution & Contact Details Card */}
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
               <h3 className="font-bold text-slate-900 text-sm sm:text-base border-b border-slate-200 pb-2 flex items-center gap-2">
                 <Building2 className="w-4 h-4 text-gem-navy" />
@@ -163,7 +158,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               </div>
             </div>
 
-            {/* Requested Items Table */}
             <div>
               <h3 className="font-bold text-slate-900 text-sm sm:text-base mb-3 flex items-center gap-2">
                 <ShoppingBag className="w-4 h-4 text-gem-navy" />
@@ -196,7 +190,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               </div>
             </div>
 
-            {/* WhatsApp Direct Action Button */}
             <div className="pt-2 flex flex-col sm:flex-row gap-3">
               <a
                 href={whatsappUrl}
@@ -224,7 +217,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               </button>
             </div>
 
-            {/* Local Storage Notice */}
             <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 flex items-start gap-2">
               <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
               <span>
@@ -237,10 +229,8 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
     );
   }
 
-  // Active Enquiry Form View
   return (
     <div className="max-w-4xl mx-auto py-4">
-      {/* Page Heading */}
       <div className="mb-6">
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
           {t.enquiryFormTitle}
@@ -251,9 +241,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {/* Form Container (2 Columns) */}
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
-          {/* General Form-level error if cart is empty */}
           {formErrors.items && (
             <div className="mb-6 p-3.5 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs sm:text-sm flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
@@ -262,7 +250,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Institution Name */}
             <div>
               <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
                 {t.institutionName} <span className="text-red-500">*</span>
@@ -287,7 +274,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               )}
             </div>
 
-            {/* Institution Type Dropdown */}
             <div>
               <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
                 {t.institutionType}
@@ -306,7 +292,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               </select>
             </div>
 
-            {/* Contact Person & Designation */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
@@ -347,7 +332,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               </div>
             </div>
 
-            {/* 10-Digit Mobile Number */}
             <div>
               <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
                 {t.mobileNumber} <span className="text-red-500">*</span>
@@ -375,7 +359,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               )}
             </div>
 
-            {/* Address: Village, Taluka, District */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="block text-xs font-bold text-slate-800 mb-1">
@@ -429,7 +412,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               </div>
             </div>
 
-            {/* Special Notes / Instructions */}
             <div>
               <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
                 {t.notes}
@@ -444,7 +426,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               />
             </div>
 
-            {/* Submit Button */}
             <div className="pt-2">
               <button
                 type="submit"
@@ -457,7 +438,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
           </form>
         </div>
 
-        {/* Right Side Cart Summary Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-4">
           <div className="flex items-center justify-between border-b pb-3">
             <h3 className="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
@@ -510,7 +490,6 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
             </div>
           )}
 
-          {/* Supplier Trust Badge */}
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-1">
             <div className="font-bold text-slate-900">{t.sellerName}</div>
             <div className="text-slate-600 text-[11px]">{t.sellerAddress}</div>

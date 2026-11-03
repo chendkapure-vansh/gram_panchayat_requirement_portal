@@ -31,12 +31,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
 
-  // Sync cart changes with localStorage
   useEffect(() => {
     setStorageItem(STORAGE_KEYS.CART, cart);
   }, [cart]);
 
-  // Clear feedback timer
   useEffect(() => {
     if (!feedbackMessage) return;
     const timer = window.setTimeout(() => {
@@ -121,7 +119,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       .filter((item): item is DetailedCartItem => item !== null);
   }, [cart]);
 
-  // Total quantity count across all items
   const cartCount = useMemo(() => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   }, [cart]);
