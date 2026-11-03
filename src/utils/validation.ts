@@ -1,0 +1,83 @@
+/**
+ * Validate standard 10-digit Indian mobile number.
+ * Must be 10 digits and start with 6, 7, 8, or 9.
+ */
+export function isValidIndianMobile(mobile: string): boolean {
+  if (!mobile) return false;
+  const cleaned = mobile.trim().replace(/[\s-]/g, '');
+  return /^[6-9]\d{9}$/.test(cleaned);
+}
+
+export interface FormValidationResult {
+  isValid: boolean;
+  errors: Record<string, string>;
+}
+
+/**
+ * Validates the Gram Panchayat purchase enquiry form fields.
+ */
+export function validateEnquiryForm(data: {
+  institutionName: string;
+  contactPerson: string;
+  mobile: string;
+  village: string;
+  taluka: string;
+  district: string;
+  hasItems: boolean;
+  isMarathi?: boolean;
+}): FormValidationResult {
+  const errors: Record<string, string> = {};
+  const isMr = data.isMarathi ?? true;
+
+  // Institution Name
+  if (!data.institutionName.trim()) {
+    errors.institutionName = isMr
+      ? 'कृपया ग्रामपंचायत / संस्थेचे नाव प्रविष्ट करा'
+      : 'Please enter institution / Gram Panchayat name';
+  }
+
+  // Contact Person
+  if (!data.contactPerson.trim()) {
+    errors.contactPerson = isMr
+      ? 'कृपया संपर्क व्यक्तीचे नाव प्रविष्ट करा'
+      : 'Please enter contact person name';
+  }
+
+  // Mobile Validation
+  if (!data.mobile.trim()) {
+    errors.mobile = isMr
+      ? 'कृपया १०-अंकी मोबाईल नंबर प्रविष्ट करा'
+      : 'Please enter 10-digit mobile number';
+  } else if (!isValidIndianMobile(data.mobile)) {
+    errors.mobile = isMr
+      ? 'कृपया वैध १०-अंकी भारतीय मोबाईल नंबर प्रविष्ट करा'
+      : 'Please enter a valid 10-digit mobile number (starts with 6-9)';
+  }
+
+  // Village / City
+  if (!data.village.trim()) {
+    errors.village = isMr ? 'कृपया गावाचे नाव प्रविष्ट करा' : 'Please enter village name';
+  }
+
+  // Taluka
+  if (!data.taluka.trim()) {
+    errors.taluka = isMr ? 'कृपया तालुका प्रविष्ट करा' : 'Please enter taluka';
+  }
+
+  // District
+  if (!data.district.trim()) {
+    errors.district = isMr ? 'कृपया जिल्हा प्रविष्ट करा' : 'Please enter district';
+  }
+
+  // Cart Items check
+  if (!data.hasItems) {
+    errors.items = isMr
+      ? 'कोटेशन चौकशीसाठी कार्टमध्ये किमान १ वस्तू असणे आवश्यक आहे'
+      : 'At least 1 product must be added to enquiry cart';
+  }
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  };
+}

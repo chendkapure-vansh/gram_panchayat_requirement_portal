@@ -102,3 +102,4 @@ export const CATEGORIES: Category[] = [
     itemCount: 2,
   },
 ];
+

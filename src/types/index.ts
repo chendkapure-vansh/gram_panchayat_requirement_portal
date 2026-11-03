@@ -73,3 +73,4 @@ export interface SavedEnquiry extends EnquiryFormData {
   items: EnquiryItem[];
   status: 'SUBMITTED' | 'ACKNOWLEDGED';
 }
+
