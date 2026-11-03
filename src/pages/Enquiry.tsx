@@ -40,7 +40,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
     mobile: '',
     village: '',
     taluka: '',
-    district: 'बुलढाणा',
+    district: isMarathi ? 'बुलढाणा' : 'Buldhana',
     notes: '',
   });
 
@@ -104,7 +104,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
       mobile: '',
       village: '',
       taluka: '',
-      district: 'बुलढाणा',
+      district: isMarathi ? 'बुलढाणा' : 'Buldhana',
       notes: '',
     });
     setFormErrors({});
@@ -127,7 +127,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               {t.enquirySuccessSubtitle}
             </p>
             <div className="mt-3 inline-block bg-emerald-800/80 px-3 py-1 rounded text-xs text-emerald-200 font-mono">
-              नोंदणी क्र: <strong>{submittedEnquiry.id}</strong> • {new Date(submittedEnquiry.createdAt).toLocaleDateString('mr-IN')}
+              {isMarathi ? 'नोंदणी क्र:' : 'Ref ID:'} <strong>{submittedEnquiry.id}</strong> • {new Date(submittedEnquiry.createdAt).toLocaleDateString(isMarathi ? 'mr-IN' : 'en-IN')}
             </div>
           </div>
 
@@ -139,21 +139,23 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-700">
                 <div>
-                  <span className="text-slate-500 block">संस्था / ग्रामपंचायत:</span>
+                  <span className="text-slate-500 block">{isMarathi ? 'संस्था / ग्रामपंचायत:' : 'Institution / Gram Panchayat:'}</span>
                   <strong className="text-slate-900">{submittedEnquiry.institutionName}</strong> ({submittedEnquiry.institutionType})
                 </div>
                 <div>
-                  <span className="text-slate-500 block">संपर्क व्यक्ती:</span>
+                  <span className="text-slate-500 block">{isMarathi ? 'संपर्क व्यक्ती:' : 'Contact Person:'}</span>
                   <strong className="text-slate-900">{submittedEnquiry.contactPerson}</strong>
                   {submittedEnquiry.designation && ` (${submittedEnquiry.designation})`}
                 </div>
                 <div>
-                  <span className="text-slate-500 block">मोबाईल क्रमांक:</span>
+                  <span className="text-slate-500 block">{isMarathi ? 'मोबाईल क्रमांक:' : 'Mobile Number:'}</span>
                   <strong className="text-slate-900">{submittedEnquiry.mobile}</strong>
                 </div>
                 <div>
-                  <span className="text-slate-500 block">पत्ता:</span>
-                  <strong className="text-slate-900">{submittedEnquiry.village}, ता. {submittedEnquiry.taluka}, जि. {submittedEnquiry.district}</strong>
+                  <span className="text-slate-500 block">{isMarathi ? 'पत्ता:' : 'Address:'}</span>
+                  <strong className="text-slate-900">
+                    {submittedEnquiry.village}, {isMarathi ? `ता. ${submittedEnquiry.taluka}, जि. ${submittedEnquiry.district}` : `Tal. ${submittedEnquiry.taluka}, Dist. ${submittedEnquiry.district}`}
+                  </strong>
                 </div>
               </div>
             </div>
@@ -161,15 +163,15 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
             <div>
               <h3 className="font-bold text-slate-900 text-sm sm:text-base mb-3 flex items-center gap-2">
                 <ShoppingBag className="w-4 h-4 text-gem-navy" />
-                <span>{isMarathi ? 'मागणी केलेली उत्पादने (Quotation Items)' : 'Requested Products'}</span>
+                <span>{isMarathi ? 'मागणी केलेली उत्पादने' : 'Requested Quotation Items'}</span>
               </h3>
               <div className="border border-slate-200 rounded-xl overflow-hidden">
                 <table className="w-full text-left text-xs sm:text-sm border-collapse">
                   <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
                     <tr>
-                      <th className="py-2.5 px-4">अ.क्र.</th>
-                      <th className="py-2.5 px-4">उत्पादनाचे नाव</th>
-                      <th className="py-2.5 px-4 text-right">मागणी संख्या</th>
+                      <th className="py-2.5 px-4">{isMarathi ? 'अ.क्र.' : 'Sr.'}</th>
+                      <th className="py-2.5 px-4">{isMarathi ? 'उत्पादनाचे नाव' : 'Product Name'}</th>
+                      <th className="py-2.5 px-4 text-right">{isMarathi ? 'मागणी संख्या' : 'Quantity'}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -181,7 +183,7 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
                           <span className="text-xs text-slate-500 block font-normal">{item.categoryName}</span>
                         </td>
                         <td className="py-2.5 px-4 text-right font-bold text-gem-navy">
-                          {item.quantity} नग
+                          {item.quantity} {isMarathi ? 'नग' : 'units'}
                         </td>
                       </tr>
                     ))}
@@ -220,7 +222,10 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
             <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 flex items-start gap-2">
               <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
               <span>
-                <strong>स्थानिक जतन नोंद (Local Demo Confirmation):</strong> ही खरेदी मागणी आपल्या ब्राऊझरमध्ये स्थानिक पातळीवर सुरक्षित जतन केली आहे. अधिकृत कोटेशन लवकरच पुरवले जाईल.
+                <strong>{isMarathi ? 'स्थानिक जतन नोंद (Demo):' : 'Local Demo Confirmation:'}</strong>{' '}
+                {isMarathi
+                  ? 'ही खरेदी मागणी आपल्या ब्राऊझरमध्ये स्थानिक पातळीवर सुरक्षित जतन केली आहे. अधिकृत कोटेशन लवकरच पुरवले जाईल.'
+                  : 'This purchase enquiry is saved locally in your browser storage. An official quotation will be generated.'}
               </span>
             </div>
           </div>

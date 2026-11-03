@@ -19,7 +19,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
-  const { t, language, toggleLanguage, isMarathi } = useLanguage();
+  const { t, language, setLanguage, toggleLanguage, isMarathi } = useLanguage();
   const { cartCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -50,14 +50,29 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
 
           <div className="flex items-center gap-3 text-xs">
             {/* Language Switcher */}
-            <button
-              onClick={toggleLanguage}
-              className="inline-flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 hover:text-white px-2.5 py-1 rounded transition-colors border border-slate-700 tap-target text-xs font-bold"
-              title="Change Language / भाषा बदला"
-            >
-              <Globe className="w-3.5 h-3.5 text-amber-400" />
-              <span>{language === 'mr' ? 'English' : 'मराठी'}</span>
-            </button>
+            <div className="inline-flex items-center bg-slate-800 border border-slate-700 rounded-lg p-0.5 text-xs font-bold">
+              <Globe className="w-3.5 h-3.5 text-amber-400 mx-1.5" />
+              <button
+                onClick={() => setLanguage('mr')}
+                className={`px-2 py-0.5 rounded transition-all tap-target ${
+                  language === 'mr'
+                    ? 'bg-amber-500 text-slate-950 shadow-sm'
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                मराठी
+              </button>
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-2 py-0.5 rounded transition-all tap-target ${
+                  language === 'en'
+                    ? 'bg-amber-500 text-slate-950 shadow-sm'
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                English
+              </button>
+            </div>
 
             {/* Click to Call Links */}
             <div className="hidden sm:flex items-center gap-2 font-mono">

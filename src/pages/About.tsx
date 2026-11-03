@@ -45,10 +45,10 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           <span>GeM Authorised Seller</span>
         </div>
         <h1 className="text-2xl sm:text-4xl font-extrabold leading-tight mb-3">
-          जाणता राजा एंटरप्राइजेस
+          {isMarathi ? 'जाणता राजा एंटरप्राइजेस' : 'Jaanta Raja Enterprises'}
         </h1>
         <p className="text-amber-300/90 text-sm sm:text-base font-medium">
-          Jaanta Raja Enterprises • लोणार, जि. बुलढाणा
+          {isMarathi ? 'Jaanta Raja Enterprises • लोणार, जि. बुलढाणा' : 'Jaanta Raja Enterprises • Lonar, Dist. Buldhana'}
         </p>
         <p className="text-slate-300 text-sm sm:text-base leading-relaxed mt-4 max-w-2xl">
           {isMarathi
@@ -63,7 +63,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           {isMarathi ? 'आमचे ध्येय व ब्रीदवाक्य' : 'Our Mission & Motto'}
         </h2>
         <blockquote className="text-base sm:text-lg font-bold text-gem-navy italic border-l-4 border-amber-500 pl-4 py-1 my-3">
-          "गुणवत्ता आमची ओळख... सेवा आमची प्रतिज्ञा... समाधान तुमचे आमचे ध्येय !"
+          {isMarathi
+            ? '"गुणवत्ता आमची ओळख... सेवा आमची प्रतिज्ञा... समाधान तुमचे आमचे ध्येय !"'
+            : '"Quality is our identity... Service is our commitment... Your satisfaction is our mission!"'}
         </blockquote>
         <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
           {isMarathi

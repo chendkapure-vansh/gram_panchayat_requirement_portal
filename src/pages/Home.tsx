@@ -69,7 +69,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
           <div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
-              {isMarathi ? 'ग्रामपंचायत गरजेनुसार साहित्य वर्गवारी' : 'Shop by Institutional Requirement'}
+              {isMarathi ? 'ग्रामपंचायत गरजेनुसार साहित्य वर्गवारी' : 'Shop by Gram Panchayat Need'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
               {isMarathi ? '१० अधिकृत शासकीय कॅटलॉग विभाग' : '10 Official Catalogue Categories'}

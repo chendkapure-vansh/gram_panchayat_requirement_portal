@@ -157,7 +157,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
                     : 'text-slate-700 hover:bg-slate-100'
                 }`}
               >
-                <span>{isMarathi ? 'सर्व वर्गवारी (All Categories)' : 'All Categories'}</span>
+                <span>{isMarathi ? 'सर्व वर्गवारी' : 'All Categories'}</span>
                 {selectedCategory === null && <Check className="w-4 h-4 text-amber-400" />}
               </button>
 
@@ -190,20 +190,20 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
             </div>
 
             {/* Sort Options */}
-            <div className="pt-4 border-t border-slate-200">
-              <label className="block text-xs font-bold text-slate-700 mb-2">
-                {isMarathi ? 'क्रमवारी लावा (Sort by):' : 'Sort Products:'}
-              </label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as 'featured' | 'name-asc' | 'name-desc')}
-                className="w-full px-3 py-2 text-xs sm:text-sm border border-slate-300 rounded-lg outline-none bg-white font-medium"
-              >
-                <option value="featured">{isMarathi ? 'महत्त्वाची उत्पादने (Featured)' : 'Featured Items'}</option>
-                <option value="name-asc">{isMarathi ? 'नाव (अ ते ज्ञ / A to Z)' : 'Name (A to Z)'}</option>
-                <option value="name-desc">{isMarathi ? 'नाव (ज्ञ ते अ / Z to A)' : 'Name (Z to A)'}</option>
-              </select>
-            </div>
+              <div className="pt-4 border-t border-slate-200">
+                <label className="block text-xs font-bold text-slate-700 mb-2">
+                  {isMarathi ? 'क्रमवारी लावा:' : 'Sort Products:'}
+                </label>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as 'featured' | 'name-asc' | 'name-desc')}
+                  className="w-full px-3 py-2 text-xs sm:text-sm border border-slate-300 rounded-lg outline-none bg-white font-medium"
+                >
+                  <option value="featured">{isMarathi ? 'महत्त्वाची उत्पादने' : 'Featured Items'}</option>
+                  <option value="name-asc">{isMarathi ? 'नाव (अ ते ज्ञ)' : 'Name (A to Z)'}</option>
+                  <option value="name-desc">{isMarathi ? 'नाव (ज्ञ ते अ)' : 'Name (Z to A)'}</option>
+                </select>
+              </div>
           </div>
         </aside>
 
