@@ -17,19 +17,13 @@
 
 ---
 
-## 📦 २. कॅटलॉगमधील १० अधिकृत वर्गवारी (10 Catalogue Categories)
+## 📦 २. कॅटलॉगमधील अधिकृत वर्गवारी व उत्पादने (Verified Catalogue Categories)
 
-ब्रोशरमधील पानांवर दाखवल्यानुसार सर्व उत्पादने १० प्रमाणित विभागांत विभागली आहेत:
-1. **स्वच्छता साहित्य (Cleaning & Sanitation):** SS ट्विन डस्टबिन, घंटागाडी कचरा ट्रॉली, व्हिली बिन्स, स्वच्छता किट.
-2. **LED व सोलर स्ट्रीट लाईट (Street & Outdoor Lighting):** ऑल-इन-वन सोलर पथदिवे, कमर्शियल LED स्ट्रीट लाईट्स, हाय-मास्ट टॉवर, सोलर फ्लड लाईट्स.
-3. **CCTV व सुरक्षा प्रणाली (CCTV & Security):** ८-चॅनेल HD CCTV सुरक्षा निगराणी संच, बायोमेट्रिक व फेस हजेरी मशीन, सर्च लाईट.
-4. **संगणक व आयटी उपकरणे (Computers & Office Technology):** GeM स्टँडर्ड डेस्कटॉप PC संच, ऑल-इन-वन लेझर प्रिंटर, डिजिटल UPS, फुल HD प्रोजेक्टर.
-5. **पाणीपुरवठा व RO सिस्टिम्स (Water Systems):** व्यावसायिक RO प्लांट्स (५००/१००० LPH), वॉटर सॉफ्टनर, SS वॉटर कुलर, ३-लेअर HDPE टाक्या, सबमर्सिबल पंप.
-6. **कार्यालयीन व शाळा फर्निचर (Furniture):** शासकीय CRCA स्टील कपाट, सरपंच/ग्रामसेवक रिव्हॉल्व्हिंग चेअर, शालेय ड्युअल डेस्क-बेंच, ३-सीटर वेटिंग बेंच.
-7. **खेळ व ओपन जिम साहित्य (Playground & Open Gym):** FRP घसरगुंडी, सुरक्षित मेटल झोपाळा, ओपन जिम फिटनेस उपकरणे संच, सी-सॉ.
-8. **ग्रामपंचायत व नागरी सुविधा (Village Infrastructure & Civic Products):** ग्लास लॉक सूचना फलक, रेडियम दिशादर्शक फलक, SS ३०४ रेलिंग, मॅनहोल व ड्रेनेज कव्हर्स, राष्ट्रीय ध्वजस्तंभ (Flag Pole).
-9. **पॉवर, सोलर व सुरक्षा (Power, Solar & Safety):** सायलेंट डिझेल जनरेटर, इन्व्हर्टर-बॅटरी संच, ISI प्रमाणित अग्निशामक यंत्र (ABC Fire Extinguisher), फर्स्ट एड किट.
-10. **इतर संस्थात्मक उत्पादने (Other Institutional Products):** सार्वजनिक ध्वनिक्षेपक PA ऑडिओ सिस्टिम आणि संस्थांच्या मागणीनुसार उपलब्ध साहित्य.
+ब्रोशरमधील व्हिज्युअल कॅटलॉग पानांवर (PDF Pages 10–13) दाखवल्यानुसार सर्व **२३ अधिकृत उत्पादने** ४ मुख्य विभागांत अचूक विभागली आहेत:
+1. **पाणीपुरवठा साहित्य (Water Systems - ६ उत्पादने):** RO प्लांट (५००/१००० LPH), वॉटर सॉफ्टनर, वॉटर प्युरिफायर, SS वॉटर कुलर, HDPE ३-लेअर पाणी टाकी, सबमर्सिबल पंप.
+2. **खेळ व ओपन जिम साहित्य (Playground & Open Gym - ५ उत्पादने):** मुलांची घसरगुंडी (Slide), २-सीटर मेटल झोपाळा (Swing), सी-सॉ (See-Saw), मेरी गो राउंड (Merry-Go-Round), ओपन जिम फिटनेस उपकरणे.
+3. **ग्रामपंचायत नागरी सुविधा (Village Infrastructure & Civic Products - ६ उत्पादने):** ग्लास लॉक सूचना फलक, रेडियम दिशादर्शक फलक, SS ३०४ स्टील रेलिंग, हेवी ड्युटी मॅनहोल कव्हर, ड्रेनेज कव्हर, शासकीय ध्वजस्तंभ (Flag Pole).
+4. **पॉवर, सोलर व सुरक्षा (Power, Solar & Safety - ६ उत्पादने):** सायलेंट जनरेटर, होम/सोलर इन्व्हर्टर, ट्युब्युलर बॅटरी, अग्निशामक यंत्र (Fire Extinguisher), फर्स्ट एड किट, सोलर उपकरणे (Solar Panels & Street Lights).
 
 ---
 
@@ -40,7 +34,7 @@
 - **Styling & Design System:** Tailwind CSS (GeM Navy `#0B2545`, Muted Saffron, Restrained Green)
 - **Icons:** Lucide React
 - **Build Tool:** Vite 6
-- **Persistence:** Browser `localStorage` (सुरक्षित try/catch सह)
+- **Persistence:** Browser `localStorage` (सुरक्षित try/catch सह `jr_cart`, `jr_enquiries`, `jr_language`)
 - **Typography:** Google Fonts (Inter + Noto Sans Devanagari)
 
 ---
@@ -50,39 +44,48 @@
 ```text
 Gram_panchayat/
 ├── public/
-│   └── favicon.svg              # 'R' ब्रँड लोगो फेविकॉन
+│   ├── favicon.svg              # 'R' ब्रँड लोगो फेविकॉन
+│   └── images/
+│       └── products/            # २३ अस्सल ब्रोशर PNG पॅकशॉट्स + ब्रँडिंग इमेजेस
 ├── src/
 │   ├── components/              # Reusable UI घटक
 │   │   ├── Header.tsx           # GeM बॅज, कॉल लिंक्स, भाषा स्विच व कार्ट काऊंटर
 │   │   ├── Footer.tsx           # पत्ता, फोन, कॅटेगरी लिंक्स व वैधानिक स्पष्टीकरण
-│   │   ├── Hero.tsx             # संस्थात्मक हेरो बॅनर व वैशिष्ट्ये
+│   │   ├── Hero.tsx             # संस्थात्मक हेरो बॅनर, प्रो. सचिन गायकवाड ब्रँडिंग व ८-क्षेत्र ओव्हरव्ह्यू
 │   │   ├── SearchBar.tsx        # इन्स्टंट सर्च बार
-│   │   ├── CategoryTiles.tsx    # १० कॅटेगरीजचे इंटरॅक्टिव्ह टाइल्स
+│   │   ├── CategoryTiles.tsx    # कॅटेगरीजचे इंटरॅक्टिव्ह टाइल्स
 │   │   ├── ProductCard.tsx      # GeM स्टाईल प्रॉडक्ट कार्ड
-│   │   ├── ProductDetailsModal.tsx # GeM स्पेसिफिकेशन तक्ता व तपशील पॉपअप
-│   │   ├── SpecificationsTable.tsx # तांत्रिक तपशील Key-Value टेबल
+│   │   ├── ProductImage.tsx     # १:१ स्केल्ड पॅकशॉट व फॉलबॅक
 │   │   └── Toast.tsx            # कार्ट फीडबॅक मेसेज
 │   ├── context/                 # State Management
 │   │   ├── CartContext.tsx      # कार्ट ॲड, रीमूव्ह, संख्या नियंत्रण व `jr_cart` सिंक
 │   │   ├── LanguageContext.tsx  # मराठी ⇋ इंग्रजी भाषांतर व `jr_language` सिंक
 │   │   └── EnquiryContext.tsx   # कोटेशन नोंदणी, `jr_enquiries` व WhatsApp लिंक
 │   ├── data/                    # Single Source of Truth
-│   │   ├── categories.ts        # १० वर्गवारीची माहिती व आयकॉन्स
-│   │   └── products.ts          # १९ प्रमाणित उत्पादने व ब्रोशरचे तांत्रिक तपशील
-│   ├── pages/                   # मुख्य पेजेस
-│   │   ├── Home.tsx             # मुख्य पृष्ठ (Hero, Search, Categories, Featured)
+│   │   ├── categories.ts        # ४ मुख्य वर्गवारीची माहिती व आयकॉन्स
+│   │   └── products.ts          # २३ प्रमाणित ब्रोशर उत्पादने व तांत्रिक तपशील
+│   ├── pages/                   # मुख्य पेजेस (Section 4 नुसार)
+│   │   ├── Home.tsx             # मुख्य पृष्ठ (Hero, Search, Categories, Horizontal Product Rows)
 │   │   ├── Products.tsx         # सर्व उत्पादने, कॅटेगरी साइडबार व सॉर्टिंग
-│   │   ├── Cart.tsx             # निवडलेली उत्पादने व संख्या नियंत्रण
+│   │   ├── ProductDetails.tsx   # स्वतंत्र उत्पादन तपशील पेज (Image 4 लेआउट, Accordions, Related Products)
+│   │   ├── Cart.tsx             # निवडलेली उत्पादने व संख्या नियंत्रण (3-Step Indicator)
 │   │   ├── Enquiry.tsx          # ग्रामपंचायत खरेदी अर्ज व अधिकृत पावती
 │   │   ├── About.tsx            # व्यवसाय परिचय व ध्येय
 │   │   └── Contact.tsx          # संपर्क, पत्ता व थेट कॉल लिंक्स
 │   ├── types/
 │   │   └── index.ts             # TypeScript मॉडेल्स (Product, Category, Enquiry)
 │   ├── utils/
-│   │   ├── storage.ts           # सुरक्षित localStorage हेल्पर
+│   │   ├── storage.ts           # सुरक्षित localStorage हेल्पर (jr_cart, jr_enquiries, jr_language)
 │   │   └── validation.ts        # १०-अंकी भारतीय मोबाईल व फॉर्म व्हॅलिडेशन
 │   ├── styles/
 │   │   └── index.css            # Tailwind बेस, मोठा फॉन्ट व 44px टार्गेट्स
+│   ├── App.tsx                  # मुख्य राऊटिंग व लेआउट
+│   └── main.tsx                 # React DOM Root
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+└── vite.config.ts
+```
 │   ├── App.tsx                  # मुख्य राऊटिंग व लेआउट
 │   └── main.tsx                 # React DOM Root
 ├── package.json
