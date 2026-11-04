@@ -9,7 +9,6 @@ import {
   Menu,
   X,
   ShieldCheck,
-  ChevronDown,
 } from 'lucide-react';
 
 export type ActivePage = 'home' | 'products' | 'details' | 'cart' | 'enquiry' | 'about' | 'contact';
@@ -39,7 +38,6 @@ export const Header: React.FC<HeaderProps> = ({
   const { t, language, setLanguage, isMarathi } = useLanguage();
   const { cartCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [selectedCatFilter, setSelectedCatFilter] = useState<string>('all');
   const [searchInput, setSearchInput] = useState<string>('');
 
   const handleNav = (page: ActivePage) => {
@@ -50,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (onSearch) {
-      onSearch(searchInput.trim(), selectedCatFilter === 'all' ? null : selectedCatFilter);
+      onSearch(searchInput.trim(), null);
     }
   };
 
@@ -137,26 +135,13 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </button>
 
-        {/* Wide Search Bar with Category Dropdown in Middle */}
+        {/* Wide Search Bar in Middle */}
         <form
           onSubmit={handleSearchSubmit}
           className="hidden md:flex flex-1 max-w-2xl items-center border border-slate-300 rounded focus-within:border-[#0B2545] bg-white overflow-hidden shadow-none"
         >
-          <div className="relative shrink-0">
-            <select
-              value={selectedCatFilter}
-              onChange={(e) => setSelectedCatFilter(e.target.value)}
-              className="appearance-none bg-slate-50 text-slate-700 text-xs sm:text-sm pl-3 pr-7 py-2.5 font-medium border-r border-slate-200 outline-none cursor-pointer hover:bg-slate-100"
-              aria-label="Filter by category"
-            >
-              <option value="all">{isMarathi ? 'सर्व वर्गवारी' : 'All Categories'}</option>
-              {PRIMARY_STRIP_CATEGORIES.map((c) => (
-                <option key={c.slug} value={c.slug}>
-                  {isMarathi ? c.labelMr : c.labelEn}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <div className="pl-3.5 text-slate-400">
+            <Search className="w-4 h-4" />
           </div>
 
           <input
@@ -164,15 +149,15 @@ export const Header: React.FC<HeaderProps> = ({
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="flex-1 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none min-w-0"
+            className="flex-1 px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none min-w-0"
           />
 
           <button
             type="submit"
-            className="bg-[#0B2545] hover:bg-[#133E87] text-white px-4 py-2.5 flex items-center justify-center transition-colors"
+            className="bg-[#0B2545] hover:bg-[#133E87] text-white px-5 py-2.5 text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors shrink-0"
             aria-label="Search"
           >
-            <Search className="w-4 h-4" />
+            <span>{isMarathi ? 'शोधा' : 'Search'}</span>
           </button>
         </form>
 
