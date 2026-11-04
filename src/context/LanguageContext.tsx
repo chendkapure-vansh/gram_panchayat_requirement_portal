@@ -4,9 +4,7 @@ import { STORAGE_KEYS, getStorageItem, setStorageItem } from '../utils/storage';
 
 export interface Translations {
   siteTitle: string;
-  tagline: string;
   gemBadge: string;
-  supplierTag: string;
   searchPlaceholder: string;
   categories: string;
   allProducts: string;
@@ -25,7 +23,6 @@ export interface Translations {
   sellerName: string;
   sellerProprietor: string;
   sellerAddress: string;
-  warranty: string;
   clearFilters: string;
   noProductsFound: string;
   filterByCategory: string;
@@ -55,9 +52,7 @@ export interface Translations {
 const TRANSLATIONS: Record<Language, Translations> = {
   mr: {
     siteTitle: 'जाणता राजा एंटरप्राइजेस',
-    tagline: 'ग्रामपंचायत व संस्था खरेदी कॅटलॉग',
     gemBadge: 'GeM नोंदणीकृत विक्रेता (व्यवसाय-प्रदान माहिती)',
-    supplierTag: 'ग्रामपंचायत व संस्था खरेदी पुरवठादार',
     searchPlaceholder: 'RO प्लांट, सोलर उत्पादने, ओपन जिम, सूचना फलक, जनरेटर शोधा...',
     categories: 'वर्गवारी',
     allProducts: 'सर्व उत्पादने',
@@ -76,7 +71,6 @@ const TRANSLATIONS: Record<Language, Translations> = {
     sellerName: 'जाणता राजा एंटरप्राइजेस',
     sellerProprietor: 'प्रो. प्रा. सचिन गायकवाड',
     sellerAddress: 'स्टेट बँक समोर, लोणार, जि. बुलढाणा (४४३३०२)',
-    warranty: 'हमी / वॉरंटी',
     clearFilters: 'फिल्टर काढा',
     noProductsFound: 'या निकषानुसार कोणतेही उत्पादन आढळले नाही.',
     filterByCategory: 'वर्गवारीनुसार फिल्टर',
@@ -104,9 +98,7 @@ const TRANSLATIONS: Record<Language, Translations> = {
   },
   en: {
     siteTitle: 'Jaanta Raja Enterprises',
-    tagline: 'Gram Panchayat & Institutional Procurement Catalogue',
     gemBadge: 'GeM registered seller (business-provided information)',
-    supplierTag: 'Gram Panchayat & Institutional Supplier',
     searchPlaceholder: 'Search RO plant, solar, open gym, notice board, generator...',
     categories: 'Categories',
     allProducts: 'All Products',
@@ -125,7 +117,6 @@ const TRANSLATIONS: Record<Language, Translations> = {
     sellerName: 'Jaanta Raja Enterprises',
     sellerProprietor: 'Prop. Prof. Sachin Gaikwad',
     sellerAddress: 'Opposite State Bank, Lonar, Dist. Buldhana (443302)',
-    warranty: 'Warranty & Support',
     clearFilters: 'Clear Filters',
     noProductsFound: 'No products match your search or filter criteria.',
     filterByCategory: 'Filter by Category',

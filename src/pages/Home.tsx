@@ -13,7 +13,6 @@ interface HomePageProps {
   onExploreAll: () => void;
   onSelectCategory: (slug: string) => void;
   onRequestQuote: () => void;
-  onSearch: (query: string) => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
@@ -21,7 +20,6 @@ export const HomePage: React.FC<HomePageProps> = ({
   onExploreAll,
   onSelectCategory,
   onRequestQuote,
-  onSearch,
 }) => {
   const { isMarathi } = useLanguage();
 
@@ -35,11 +33,10 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   return (
     <div className="space-y-8 py-2">
-      {/* 1. Slim Hero with search + real photo & stats-style strip */}
+      {/* 1. Slim Hero with branding & stats strip */}
       <Hero
         onExplore={onExploreAll}
         onRequestQuote={onRequestQuote}
-        onSearch={onSearch}
       />
 
       {/* 2. Image-based category tiles */}

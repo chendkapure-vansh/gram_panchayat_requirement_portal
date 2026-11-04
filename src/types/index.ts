@@ -24,8 +24,6 @@ export interface Product {
   priceLabelEn: string;
   specifications: ProductSpecification[];
   featured: boolean;
-  modelCode?: string;
-  makeInIndia?: boolean;
   warranty?: string;
   warrantyEn?: string;
 }

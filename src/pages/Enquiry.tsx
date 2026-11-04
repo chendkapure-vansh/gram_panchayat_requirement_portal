@@ -13,7 +13,6 @@ import {
 
 interface EnquiryPageProps {
   onNavigateHome: () => void;
-  onNavigateProducts?: () => void;
 }
 
 export const EnquiryPage: React.FC<EnquiryPageProps> = ({

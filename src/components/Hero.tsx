@@ -5,7 +5,6 @@ import { ShieldCheck, ArrowRight, FileText, Phone, Award } from 'lucide-react';
 interface HeroProps {
   onExplore: () => void;
   onRequestQuote: () => void;
-  onSearch?: (query: string) => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote }) => {

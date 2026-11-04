@@ -33,7 +33,11 @@ const PortalApp: React.FC = () => {
 
     const handlePopState = (e: PopStateEvent) => {
       if (e.state && e.state.page) {
-        setCurrentPage(e.state.page);
+        if (e.state.page === 'details' && !e.state.product) {
+          setCurrentPage('products');
+        } else {
+          setCurrentPage(e.state.page);
+        }
         if (e.state.product) setSelectedProduct(e.state.product);
         if (e.state.category !== undefined) setSelectedCategorySlug(e.state.category);
       } else {
@@ -53,7 +57,7 @@ const PortalApp: React.FC = () => {
     try {
       window.history.pushState({ page: 'products', category: slug }, '', '#products');
     } catch {
-      // fallback if restricted
+      // fallback
     }
     setCurrentPage('products');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -89,6 +93,7 @@ const PortalApp: React.FC = () => {
   const navigateTo = (page: ActivePage) => {
     if (page === 'home') {
       setHistoryStack([]);
+      setSelectedCategorySlug(null);
     } else if (page !== currentPage) {
       setHistoryStack((prev) => [...prev, currentPage]);
     }
@@ -154,11 +159,10 @@ const PortalApp: React.FC = () => {
             }}
             onSelectCategory={handleSelectCategory}
             onRequestQuote={() => navigateTo('cart')}
-            onSearch={(query) => handleSearch(query)}
           />
         )}
 
-        {currentPage === 'products' && (
+        {(currentPage === 'products' || (currentPage === 'details' && !selectedProduct)) && (
           <ProductsPage
             onSelectProduct={handleSelectProduct}
             initialCategorySlug={selectedCategorySlug}
@@ -186,7 +190,6 @@ const PortalApp: React.FC = () => {
         {currentPage === 'enquiry' && (
           <EnquiryPage
             onNavigateHome={() => navigateTo('home')}
-            onNavigateProducts={() => navigateTo('products')}
           />
         )}
 

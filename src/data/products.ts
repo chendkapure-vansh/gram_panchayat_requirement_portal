@@ -20,8 +20,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: true,
-    modelCode: 'JR-RO-1000L',
-    makeInIndia: true,
     warranty: '१ वर्ष ऑन-साइट वॉरंटी',
     warrantyEn: '1 Year On-site Warranty',
     specifications: [
@@ -48,8 +46,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-WS-500',
-    makeInIndia: true,
     warranty: '१ वर्ष वॉरंटी',
     warrantyEn: '1 Year Warranty',
     specifications: [
@@ -76,8 +72,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: true,
-    modelCode: 'JR-WP-ROUV',
-    makeInIndia: true,
     warranty: '१ वर्ष वॉरंटी',
     warrantyEn: '1 Year Comprehensive Warranty',
     specifications: [
@@ -104,8 +98,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: true,
-    modelCode: 'JR-WC-120SS',
-    makeInIndia: true,
     warranty: '१ वर्ष कंप्रेसर वॉरंटी',
     warrantyEn: '1 Year Compressor Warranty',
     specifications: [
@@ -131,8 +123,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-WT-2000',
-    makeInIndia: true,
     warranty: '५ वर्षे कंपनी गॅरंटी',
     warrantyEn: '5 Years Guarantee',
     specifications: [
@@ -159,8 +149,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-SP-V6',
-    makeInIndia: true,
     warranty: '१ वर्ष वॉरंटी',
     warrantyEn: '1 Year Warranty',
     specifications: [
@@ -191,8 +179,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: true,
-    modelCode: 'JR-PLY-SLD',
-    makeInIndia: true,
     warranty: '१ वर्ष स्ट्रक्चरल वॉरंटी',
     warrantyEn: '1 Year Structural Warranty',
     specifications: [
@@ -218,8 +204,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-PLY-SWG2',
-    makeInIndia: true,
     warranty: '१ वर्ष वॉरंटी',
     warrantyEn: '1 Year Warranty',
     specifications: [
@@ -245,8 +229,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-PLY-SAW',
-    makeInIndia: true,
     warranty: '१ वर्ष वॉरंटी',
     warrantyEn: '1 Year Warranty',
     specifications: [
@@ -272,8 +254,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: true,
-    modelCode: 'JR-PLY-MGR',
-    makeInIndia: true,
     warranty: '१ वर्ष वॉरंटी',
     warrantyEn: '1 Year Warranty',
     specifications: [
@@ -299,8 +279,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: true,
-    modelCode: 'JR-GYM-SET6',
-    makeInIndia: true,
     warranty: '२ वर्षे वॉरंटी',
     warrantyEn: '2 Years Structural Warranty',
     specifications: [
@@ -330,8 +308,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: true,
-    modelCode: 'JR-NB-6X4',
-    makeInIndia: true,
     warranty: '१ वर्ष वॉरंटी',
     warrantyEn: '1 Year Warranty',
     specifications: [
@@ -357,8 +333,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-SGN-DIR',
-    makeInIndia: true,
     warranty: '३ वर्षे रिफ्लेक्शन वॉरंटी',
     warrantyEn: '3 Years Sheeting Warranty',
     specifications: [
@@ -384,8 +358,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-RLG-SS304',
-    makeInIndia: true,
     warranty: 'गंजरोधक खात्री',
     warrantyEn: 'Rust-Proof Guarantee',
     specifications: [
@@ -411,8 +383,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-MHC-HD',
-    makeInIndia: true,
     warranty: '१ वर्ष वॉरंटी',
     warrantyEn: '1 Year Warranty',
     specifications: [
@@ -438,8 +408,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-DRN-GRT',
-    makeInIndia: true,
     warranty: '१ वर्ष वॉरंटी',
     warrantyEn: '1 Year Warranty',
     specifications: [
@@ -465,8 +433,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-FP-25SS',
-    makeInIndia: true,
     warranty: '१० वर्षे स्ट्रक्चरल गॅरंटी',
     warrantyEn: '10 Years Structural Guarantee',
     specifications: [
@@ -496,8 +462,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: true,
-    modelCode: 'JR-GEN-10KVA',
-    makeInIndia: true,
     warranty: '२ वर्षे मॅन्युफॅक्चरर वॉरंटी',
     warrantyEn: '2 Years Manufacturer Warranty',
     specifications: [
@@ -523,8 +487,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-INV-2.5KVA',
-    makeInIndia: true,
     warranty: '२ वर्षे वॉरंटी',
     warrantyEn: '2 Years Warranty',
     specifications: [
@@ -550,8 +512,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-BAT-200AH',
-    makeInIndia: true,
     warranty: '३६ महिने बॅटरी वॉरंटी',
     warrantyEn: '36 Months Warranty',
     specifications: [
@@ -577,7 +537,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: true,
-    modelCode: 'JR-FE-ABC6',
     warranty: '५ वर्षे गॅरंटी (१ वर्ष रिफिल वैधता)',
     warrantyEn: '5 Years Cylinder Warranty',
     specifications: [
@@ -603,8 +562,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: false,
-    modelCode: 'JR-FAK-PRO',
-    makeInIndia: true,
     warranty: 'स्टँडर्ड मेडिकल पॅक',
     warrantyEn: 'Standard Medical Pack',
     specifications: [
@@ -630,8 +587,6 @@ export const PRODUCTS: Product[] = [
     priceLabel: 'दर चौकशीवर उपलब्ध',
     priceLabelEn: 'Price on Request',
     featured: true,
-    modelCode: 'JR-SOLAR-COMBO',
-    makeInIndia: true,
     warranty: '५ वर्षे सोलर वॉरंटी',
     warrantyEn: '5 Years Comprehensive Solar Warranty',
     specifications: [
