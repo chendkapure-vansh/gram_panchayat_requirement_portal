@@ -70,11 +70,8 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
     setActiveAccordion(activeAccordion === section ? null : section);
   };
 
-  // Multiple view thumbnails
-  const thumbnails = [
-    product.image,
-    product.image,
-  ];
+  // Multiple view thumbnails (if multiple distinct angles exist)
+  const thumbnails = [product.image].filter(Boolean);
 
   return (
     <div className="py-2 space-y-6 pb-20 sm:pb-6">
@@ -114,25 +111,27 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
             />
           </div>
 
-          {/* Thumbnails Row */}
-          <div className="flex items-center gap-2">
-            {thumbnails.map((thumbUrl, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => setSelectedImage(thumbUrl)}
-                className={`w-16 h-16 rounded border p-1 bg-white transition-colors ${
-                  selectedImage === thumbUrl ? 'border-[#0B2545] ring-1 ring-[#0B2545]' : 'border-slate-200 hover:border-slate-300'
-                }`}
-              >
-                <img
-                  src={thumbUrl}
-                  alt={`${title} preview ${idx + 1}`}
-                  className="w-full h-full object-contain"
-                />
-              </button>
-            ))}
-          </div>
+          {/* Thumbnails Row (Rendered only when multiple distinct view angles exist) */}
+          {thumbnails.length > 1 && (
+            <div className="flex items-center gap-2">
+              {thumbnails.map((thumbUrl, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setSelectedImage(thumbUrl)}
+                  className={`w-16 h-16 rounded border p-1 bg-white transition-colors ${
+                    selectedImage === thumbUrl ? 'border-[#0B2545] ring-1 ring-[#0B2545]' : 'border-slate-200 hover:border-slate-300'
+                  }`}
+                >
+                  <img
+                    src={thumbUrl}
+                    alt={`${title} preview ${idx + 1}`}
+                    className="w-full h-full object-contain"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Right Column: Title, Category, Price, Stepper, Actions */}
