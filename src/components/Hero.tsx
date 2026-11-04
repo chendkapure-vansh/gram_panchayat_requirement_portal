@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { Search, ShieldCheck, ArrowRight, FileText, Phone, Award } from 'lucide-react';
+import { ShieldCheck, ArrowRight, FileText, Phone, Award } from 'lucide-react';
 
 interface HeroProps {
   onExplore: () => void;
@@ -8,18 +8,8 @@ interface HeroProps {
   onSearch?: (query: string) => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote, onSearch }) => {
+export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote }) => {
   const { isMarathi, t } = useLanguage();
-  const [heroSearch, setHeroSearch] = useState('');
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (onSearch && heroSearch.trim()) {
-      onSearch(heroSearch.trim());
-    } else {
-      onExplore();
-    }
-  };
 
   return (
     <div className="space-y-4">
@@ -35,7 +25,7 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote, onSearch 
       {/* 2. E-Commerce Hero Procurement Strip */}
       <div className="bg-white border border-slate-200 rounded p-5 sm:p-7">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-          {/* Left Text & Search */}
+          {/* Left Text & Actions */}
           <div className="lg:col-span-7 space-y-4">
             {/* Seller & Personal Branding Pills */}
             <div className="flex flex-wrap items-center gap-2">
@@ -63,30 +53,12 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote, onSearch 
                 : 'Commercial RO water plants, water coolers, solar equipment, open gym & playground equipment, official notice boards, manhole covers, silent generators and institutional supplies.'}
             </p>
 
-            {/* Hero Search */}
-            <form onSubmit={handleSearch} className="flex items-center border border-slate-300 rounded overflow-hidden max-w-lg focus-within:border-[#0B2545]">
-              <input
-                type="text"
-                value={heroSearch}
-                onChange={(e) => setHeroSearch(e.target.value)}
-                placeholder={t.searchPlaceholder}
-                className="flex-1 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none"
-              />
-              <button
-                type="submit"
-                className="bg-[#0B2545] hover:bg-[#133E87] text-white px-4 py-2.5 text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors"
-              >
-                <Search className="w-4 h-4" />
-                <span className="hidden sm:inline">{isMarathi ? 'शोधा' : 'Search'}</span>
-              </button>
-            </form>
-
             {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+            <div className="flex flex-wrap items-center gap-2.5 pt-2">
               <button
                 type="button"
                 onClick={onExplore}
-                className="bg-[#0B2545] hover:bg-[#133E87] text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded transition-colors flex items-center gap-1.5"
+                className="bg-[#0B2545] hover:bg-[#133E87] text-white text-xs sm:text-sm font-semibold px-5 py-3 rounded transition-colors flex items-center gap-2 shadow-sm"
               >
                 <span>{isMarathi ? 'सर्व उत्पादने पहा' : 'Browse Catalogue'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -95,7 +67,7 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote, onSearch 
               <button
                 type="button"
                 onClick={onRequestQuote}
-                className="bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold px-4 py-2.5 rounded transition-colors flex items-center gap-1.5"
+                className="bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold px-4 py-3 rounded transition-colors flex items-center gap-2"
               >
                 <FileText className="w-4 h-4 text-amber-600" />
                 <span>{isMarathi ? 'कोटेशन मागणी' : 'Request Quote'}</span>
@@ -103,9 +75,9 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote, onSearch 
 
               <a
                 href="tel:7059587711"
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#0B2545] border border-slate-200 px-3 py-2.5 rounded bg-slate-50 hover:bg-slate-100 transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#0B2545] border border-slate-200 px-3.5 py-3 rounded bg-slate-50 hover:bg-slate-100 transition-colors"
               >
-                <Phone className="w-3.5 h-3.5 text-amber-600" />
+                <Phone className="w-4 h-4 text-amber-600" />
                 <span>7059587711</span>
               </a>
             </div>
