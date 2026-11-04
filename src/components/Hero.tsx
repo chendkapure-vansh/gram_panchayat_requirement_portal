@@ -104,14 +104,18 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote }) => {
       {/* 3. Verified Facts Stats Strip */}
       <div className="bg-white border border-slate-200 rounded p-4 grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 text-center">
         <div className="py-2 sm:py-0 sm:px-4">
-          <div className="text-xl sm:text-2xl font-bold text-[#0B2545]">४</div>
+          <div className="text-xl sm:text-2xl font-bold text-[#0B2545]">
+            {isMarathi ? '४' : '4'}
+          </div>
           <div className="text-xs text-slate-500 font-medium">
             {isMarathi ? 'कॅटलॉग वर्गवारी विभाग' : 'Core Product Categories'}
           </div>
         </div>
 
         <div className="py-2 sm:py-0 sm:px-4">
-          <div className="text-xl sm:text-2xl font-bold text-[#0B2545]">२३</div>
+          <div className="text-xl sm:text-2xl font-bold text-[#0B2545]">
+            {isMarathi ? '२३' : '23'}
+          </div>
           <div className="text-xs text-slate-500 font-medium">
             {isMarathi ? 'खरे ब्रोशर उत्पादने' : 'Verified Catalogue Products'}
           </div>
