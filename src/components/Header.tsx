@@ -210,44 +210,72 @@ export const Header: React.FC<HeaderProps> = ({
         </form>
       </div>
 
-      {/* 3. Category Strip Below (All Pages) */}
+      {/* 3. Category & Navigation Strip Below (All Pages) */}
       <nav className="bg-slate-50 border-t border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 flex items-center overflow-x-auto scrollbar-none py-2 gap-1 sm:gap-2 text-xs sm:text-sm">
-          <button
-            onClick={() => {
-              if (onSelectCategory) onSelectCategory('');
-              handleNav('products');
-            }}
-            className={`px-3 py-1 rounded text-xs font-semibold whitespace-nowrap transition-colors ${
-              currentPage === 'products' && !activeCategorySlug
-                ? 'bg-[#0B2545] text-white'
-                : 'text-slate-700 hover:text-[#0B2545] hover:bg-slate-100'
-            }`}
-          >
-            {isMarathi ? 'सर्व उत्पादने' : 'All Products'}
-          </button>
+        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between gap-4 py-2 text-xs sm:text-sm">
+          {/* Left: Categories */}
+          <div className="flex items-center overflow-x-auto scrollbar-none gap-1 sm:gap-2">
+            <button
+              onClick={() => {
+                if (onSelectCategory) onSelectCategory('');
+                handleNav('products');
+              }}
+              className={`px-3 py-1 rounded text-xs font-semibold whitespace-nowrap transition-colors ${
+                currentPage === 'products' && !activeCategorySlug
+                  ? 'bg-[#0B2545] text-white'
+                  : 'text-slate-700 hover:text-[#0B2545] hover:bg-slate-100'
+              }`}
+            >
+              {isMarathi ? 'सर्व उत्पादने' : 'All Products'}
+            </button>
 
-          <span className="text-slate-300">|</span>
+            <span className="text-slate-300">|</span>
 
-          {PRIMARY_STRIP_CATEGORIES.map((cat) => {
-            const isActive = activeCategorySlug === cat.slug;
-            return (
-              <button
-                key={cat.slug}
-                onClick={() => {
-                  handleStripCategoryClick(cat.slug);
-                  handleNav('products');
-                }}
-                className={`px-2.5 py-1 rounded text-xs font-medium whitespace-nowrap transition-colors ${
-                  isActive
-                    ? 'bg-[#0B2545] text-white font-semibold'
-                    : 'text-slate-700 hover:text-[#0B2545] hover:bg-slate-100'
-                }`}
-              >
-                {isMarathi ? cat.labelMr : cat.labelEn}
-              </button>
-            );
-          })}
+            {PRIMARY_STRIP_CATEGORIES.map((cat) => {
+              const isActive = activeCategorySlug === cat.slug;
+              return (
+                <button
+                  key={cat.slug}
+                  onClick={() => {
+                    handleStripCategoryClick(cat.slug);
+                    handleNav('products');
+                  }}
+                  className={`px-2.5 py-1 rounded text-xs font-medium whitespace-nowrap transition-colors ${
+                    isActive
+                      ? 'bg-[#0B2545] text-white font-semibold'
+                      : 'text-slate-700 hover:text-[#0B2545] hover:bg-slate-100'
+                  }`}
+                >
+                  {isMarathi ? cat.labelMr : cat.labelEn}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right: Institutional Links on Desktop */}
+          <div className="hidden lg:flex items-center gap-1.5 shrink-0 border-l border-slate-300 pl-3">
+            <button
+              onClick={() => handleNav('about')}
+              className={`px-2.5 py-1 rounded text-xs font-semibold whitespace-nowrap transition-colors ${
+                currentPage === 'about'
+                  ? 'bg-[#0B2545] text-white font-bold'
+                  : 'text-slate-600 hover:text-[#0B2545] hover:bg-slate-100'
+              }`}
+            >
+              {t.about}
+            </button>
+
+            <button
+              onClick={() => handleNav('contact')}
+              className={`px-2.5 py-1 rounded text-xs font-semibold whitespace-nowrap transition-colors ${
+                currentPage === 'contact'
+                  ? 'bg-[#0B2545] text-white font-bold'
+                  : 'text-slate-600 hover:text-[#0B2545] hover:bg-slate-100'
+              }`}
+            >
+              {t.contact}
+            </button>
+          </div>
         </div>
       </nav>
 
