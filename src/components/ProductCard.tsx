@@ -2,7 +2,8 @@ import React from 'react';
 import { Product } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
-import { Plus, Check, Eye, ShieldCheck } from 'lucide-react';
+import { Check, ShoppingBag } from 'lucide-react';
+import { ProductImage } from './ProductImage';
 
 interface ProductCardProps {
   product: Product;
@@ -10,13 +11,12 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => {
-  const { isMarathi, t } = useLanguage();
+  const { isMarathi } = useLanguage();
   const { addToCart, isInCart, getItemQuantity } = useCart();
 
   const title = isMarathi ? product.title : product.titleEn;
   const categoryName = isMarathi ? product.categoryName : product.categoryNameEn;
   const shortDesc = isMarathi ? product.shortDescription : product.shortDescriptionEn;
-  const priceLabel = isMarathi ? product.priceLabel : product.priceLabelEn;
 
   const inCart = isInCart(product.id);
   const qty = getItemQuantity(product.id);
@@ -35,89 +35,81 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails
   return (
     <div
       onClick={handleDetails}
-      className="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md hover:border-slate-300 transition-all flex flex-col justify-between cursor-pointer focus-within:ring-2 focus-within:ring-amber-500"
+      className="bg-white border border-slate-200 rounded p-3 sm:p-3.5 flex flex-col justify-between hover:border-slate-400 transition-colors cursor-pointer group"
     >
-      {/* Product Image Area */}
-      <div className="relative aspect-[4/3] bg-slate-100 overflow-hidden">
-        <img
-          src={product.image}
-          alt={title}
-          loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
-
-        {/* Category Pill */}
-        <span className="absolute top-2.5 left-2.5 bg-gem-navy/90 text-amber-300 text-xs px-2.5 py-1 rounded font-semibold shadow-sm backdrop-blur-sm">
-          {categoryName}
-        </span>
-
-        {/* GeM Seller Indicator Tag */}
-        <div className="absolute top-2.5 right-2.5 bg-white/95 text-slate-800 text-[11px] px-2 py-0.5 rounded shadow-sm flex items-center gap-1 font-semibold border border-slate-200">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-          <span>GeM</span>
+      <div>
+        {/* Fixed 1:1 Aspect Ratio Cropped Photo on White Square Tile */}
+        <div className="relative">
+          <ProductImage
+            src={product.image}
+            alt={title}
+            aspectRatio="square"
+            className="group-hover:opacity-95 transition-opacity"
+          />
+          {inCart && (
+            <span className="absolute top-2 right-2 bg-[#0B2545] text-white text-[10px] font-semibold px-2 py-0.5 rounded flex items-center gap-1">
+              <Check className="w-3 h-3" />
+              <span>{isMarathi ? 'कार्टमध्ये' : 'In Cart'} ({qty})</span>
+            </span>
+          )}
         </div>
 
-        {/* In Cart Indicator Ribbon */}
-        {inCart && (
-          <div className="absolute bottom-2 left-2 bg-emerald-600 text-white text-xs px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1 shadow">
-            <Check className="w-3 h-3" /> {t.inCart} ({qty})
-          </div>
-        )}
+        {/* Category Label */}
+        <div className="mt-2.5 text-[11px] font-medium text-slate-500 uppercase tracking-wide">
+          {categoryName}
+        </div>
+
+        {/* Product Name (Strictly 2 lines max) */}
+        <h3
+          className="mt-1 text-sm sm:text-base font-semibold text-[#0B2545] group-hover:text-amber-700 transition-colors line-clamp-2 h-10 sm:h-12 leading-snug"
+          title={title}
+        >
+          {title}
+        </h3>
+
+        {/* One-Line Description */}
+        <p className="mt-1 text-xs text-slate-500 line-clamp-1">
+          {shortDesc}
+        </p>
       </div>
 
-      {/* Product Content Details */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
-        <div>
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
-            <span>{product.modelCode || 'GeM Catalog Item'}</span>
-            {product.makeInIndia && (
-              <span className="text-emerald-700 font-semibold">Make In India 🇮🇳</span>
-            )}
-          </div>
-
-          <h3 className="font-bold text-base sm:text-lg text-slate-900 group-hover:text-gem-navyLight transition-colors line-clamp-2 mb-1.5">
-            {title}
-          </h3>
-
-          <p className="text-xs sm:text-sm text-slate-600 line-clamp-2 mb-3">
-            {shortDesc}
-          </p>
+      {/* Bottom Area: Price & Action Buttons */}
+      <div className="mt-3 pt-2.5 border-t border-slate-100">
+        {/* Contact for price */}
+        <div className="text-xs sm:text-sm font-medium text-slate-700 mb-2.5">
+          {isMarathi ? 'दर चौकशीवर उपलब्ध' : 'Contact for price'}
         </div>
 
-        {/* Bottom Section: Price & Action Buttons */}
-        <div>
-          {/* Institutional Price Status Tag */}
-          <div className="mb-3.5 pt-2 border-t border-slate-100 flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">
-              {isMarathi ? 'शासकीय खरेदी दर:' : 'Procurement Rate:'}
-            </span>
-            <span className="text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-md">
-              {priceLabel}
-            </span>
-          </div>
+        {/* Buttons: "Get Quote" button + small "Add to Enquiry" */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDetails();
+            }}
+            className="flex-1 bg-[#0B2545] hover:bg-[#133E87] text-white text-xs sm:text-sm font-medium py-2 px-3 rounded text-center transition-colors truncate"
+          >
+            {isMarathi ? 'कोटेशन मिळवा' : 'Get Quote'}
+          </button>
 
-          {/* Action Buttons */}
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleDetails}
-              className="tap-target flex-1 border border-slate-300 hover:border-slate-400 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold rounded-lg flex items-center justify-center gap-1 transition-colors py-2.5 px-2"
-              title={t.viewDetails}
-            >
-              <Eye className="w-4 h-4 text-slate-600 shrink-0" />
-              <span className="truncate">{t.viewDetails}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleAdd}
-              className="tap-target flex-[1.4] bg-gem-navy hover:bg-gem-navyLight text-white text-xs sm:text-sm font-bold rounded-lg flex items-center justify-center gap-1.5 transition-colors shadow-sm py-2.5 px-3 min-w-0"
-              title={t.addToCart}
-            >
-              <Plus className="w-4 h-4 text-amber-400 shrink-0" />
-              <span className="whitespace-nowrap">{t.addToCart}</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleAdd}
+            title={isMarathi ? 'चौकशीत जोडा' : 'Add to Enquiry'}
+            className={`border py-2 px-2.5 rounded flex items-center justify-center transition-colors shrink-0 ${
+              inCart
+                ? 'border-emerald-600 bg-emerald-50 text-emerald-800'
+                : 'border-slate-300 hover:border-[#0B2545] bg-slate-50 text-slate-700 hover:text-[#0B2545]'
+            }`}
+          >
+            {inCart ? (
+              <Check className="w-4 h-4 text-emerald-700" />
+            ) : (
+              <ShoppingBag className="w-4 h-4 text-slate-700" />
+            )}
+            <span className="sr-only">{isMarathi ? 'चौकशीत जोडा' : 'Add to Enquiry'}</span>
+          </button>
         </div>
       </div>
     </div>

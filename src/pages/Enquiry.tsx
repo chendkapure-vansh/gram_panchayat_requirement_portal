@@ -5,31 +5,22 @@ import { useEnquiry } from '../context/EnquiryContext';
 import { EnquiryFormData, SavedEnquiry } from '../types';
 import { validateEnquiryForm } from '../utils/validation';
 import {
-  FileText,
   CheckCircle2,
-  Building2,
-  User,
-  Phone,
-  MapPin,
-  MessageCircle,
-  ShoppingBag,
-  ArrowRight,
+  MessageSquare,
   RotateCcw,
-  ShieldCheck,
   AlertCircle,
 } from 'lucide-react';
 
 interface EnquiryPageProps {
   onNavigateHome: () => void;
-  onNavigateProducts: () => void;
+  onNavigateProducts?: () => void;
 }
 
 export const EnquiryPage: React.FC<EnquiryPageProps> = ({
   onNavigateHome,
-  onNavigateProducts,
 }) => {
   const { t, isMarathi } = useLanguage();
-  const { detailedItems, cartCount, clearCart } = useCart();
+  const { detailedItems, clearCart } = useCart();
   const { submitEnquiry, getWhatsAppEnquiryUrl } = useEnquiry();
 
   const [formData, setFormData] = useState<EnquiryFormData>({
@@ -110,80 +101,102 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
     setFormErrors({});
   };
 
+  // Step 3: Done Screen
   if (submittedEnquiry) {
     const whatsappUrl = getWhatsAppEnquiryUrl(submittedEnquiry);
 
     return (
-      <div className="max-w-3xl mx-auto py-4 sm:py-8">
-        <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-          <div className="bg-emerald-700 text-white p-6 sm:p-8 text-center relative">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
-              <CheckCircle2 className="w-10 h-10 text-emerald-600" />
+      <div className="py-2 space-y-6 max-w-3xl mx-auto">
+        {/* Step Header */}
+        <div className="bg-white border border-slate-200 rounded p-3 sm:p-4">
+          <div className="flex items-center justify-center gap-2 sm:gap-6 text-xs sm:text-sm font-semibold">
+            <div className="flex items-center gap-1.5 text-slate-400">
+              <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 text-[11px] flex items-center justify-center font-bold">
+                1
+              </span>
+              <span>{isMarathi ? '१. चौकशी कार्ट' : '1. Cart'}</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold mb-1">
-              {t.enquirySuccessTitle}
-            </h2>
-            <p className="text-emerald-100 text-xs sm:text-sm max-w-lg mx-auto">
+            <span className="text-slate-300">·······</span>
+            <div className="flex items-center gap-1.5 text-slate-400">
+              <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 text-[11px] flex items-center justify-center font-bold">
+                2
+              </span>
+              <span>{isMarathi ? '२. संस्था तपशील' : '2. Your Details'}</span>
+            </div>
+            <span className="text-slate-300">·······</span>
+            <div className="flex items-center gap-1.5 text-[#0B2545]">
+              <span className="w-5 h-5 rounded-full bg-[#0B2545] text-white text-[11px] flex items-center justify-center font-bold">
+                ✓
+              </span>
+              <span>{isMarathi ? '३. पूर्ण' : '3. Done'}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Success Card */}
+        <div className="bg-white border border-slate-200 rounded overflow-hidden">
+          <div className="bg-[#0B2545] text-white p-6 text-center space-y-2">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto text-[#0B2545]">
+              <CheckCircle2 className="w-7 h-7 text-emerald-600" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold">{t.enquirySuccessTitle}</h2>
+            <p className="text-xs sm:text-sm text-slate-200 max-w-md mx-auto">
               {t.enquirySuccessSubtitle}
             </p>
-            <div className="mt-3 inline-block bg-emerald-800/80 px-3 py-1 rounded text-xs text-emerald-200 font-mono">
-              {isMarathi ? 'नोंदणी क्र:' : 'Ref ID:'} <strong>{submittedEnquiry.id}</strong> • {new Date(submittedEnquiry.createdAt).toLocaleDateString(isMarathi ? 'mr-IN' : 'en-IN')}
+            <div className="text-xs text-amber-300 font-mono pt-1">
+              {isMarathi ? 'मागणी नोंद क्र:' : 'Reference ID:'} <strong>{submittedEnquiry.id}</strong>
             </div>
           </div>
 
-          <div className="p-6 sm:p-8 space-y-6">
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
-              <h3 className="font-bold text-slate-900 text-sm sm:text-base border-b border-slate-200 pb-2 flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-gem-navy" />
-                <span>{isMarathi ? 'संस्था व संपर्क तपशील' : 'Institution & Contact Details'}</span>
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-700">
+          <div className="p-5 sm:p-6 space-y-5">
+            {/* Institution Summary */}
+            <div className="bg-slate-50 border border-slate-200 rounded p-4 text-xs sm:text-sm space-y-2">
+              <div className="font-bold text-[#0B2545] border-b border-slate-200 pb-1">
+                {isMarathi ? 'नोंदवलेली संस्था माहिती' : 'Institution Summary'}
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700">
                 <div>
-                  <span className="text-slate-500 block">{isMarathi ? 'संस्था / ग्रामपंचायत:' : 'Institution / Gram Panchayat:'}</span>
-                  <strong className="text-slate-900">{submittedEnquiry.institutionName}</strong> ({submittedEnquiry.institutionType})
+                  <span className="text-slate-500 block">{t.institutionName}:</span>
+                  <strong>{submittedEnquiry.institutionName}</strong> ({submittedEnquiry.institutionType})
                 </div>
                 <div>
-                  <span className="text-slate-500 block">{isMarathi ? 'संपर्क व्यक्ती:' : 'Contact Person:'}</span>
-                  <strong className="text-slate-900">{submittedEnquiry.contactPerson}</strong>
-                  {submittedEnquiry.designation && ` (${submittedEnquiry.designation})`}
+                  <span className="text-slate-500 block">{t.contactPerson}:</span>
+                  <strong>{submittedEnquiry.contactPerson}</strong> {submittedEnquiry.designation && `(${submittedEnquiry.designation})`}
                 </div>
                 <div>
-                  <span className="text-slate-500 block">{isMarathi ? 'मोबाईल क्रमांक:' : 'Mobile Number:'}</span>
-                  <strong className="text-slate-900">{submittedEnquiry.mobile}</strong>
+                  <span className="text-slate-500 block">{t.mobileNumber}:</span>
+                  <strong className="font-mono">{submittedEnquiry.mobile}</strong>
                 </div>
                 <div>
                   <span className="text-slate-500 block">{isMarathi ? 'पत्ता:' : 'Address:'}</span>
-                  <strong className="text-slate-900">
-                    {submittedEnquiry.village}, {isMarathi ? `ता. ${submittedEnquiry.taluka}, जि. ${submittedEnquiry.district}` : `Tal. ${submittedEnquiry.taluka}, Dist. ${submittedEnquiry.district}`}
-                  </strong>
+                  <strong>{submittedEnquiry.village}, {submittedEnquiry.taluka}, {submittedEnquiry.district}</strong>
                 </div>
               </div>
             </div>
 
+            {/* Requested Items Table */}
             <div>
-              <h3 className="font-bold text-slate-900 text-sm sm:text-base mb-3 flex items-center gap-2">
-                <ShoppingBag className="w-4 h-4 text-gem-navy" />
-                <span>{isMarathi ? 'मागणी केलेली उत्पादने' : 'Requested Quotation Items'}</span>
-              </h3>
-              <div className="border border-slate-200 rounded-xl overflow-hidden">
-                <table className="w-full text-left text-xs sm:text-sm border-collapse">
-                  <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+              <div className="font-bold text-sm text-slate-900 mb-2">
+                {isMarathi ? 'कोटेशनसाठी निवडलेली उत्पादने' : 'Requested Quotation Items'}
+              </div>
+              <div className="border border-slate-200 rounded overflow-hidden">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
                     <tr>
-                      <th className="py-2.5 px-4">{isMarathi ? 'अ.क्र.' : 'Sr.'}</th>
-                      <th className="py-2.5 px-4">{isMarathi ? 'उत्पादनाचे नाव' : 'Product Name'}</th>
-                      <th className="py-2.5 px-4 text-right">{isMarathi ? 'मागणी संख्या' : 'Quantity'}</th>
+                      <th className="py-2 px-3">#</th>
+                      <th className="py-2 px-3">{isMarathi ? 'उत्पादन' : 'Product'}</th>
+                      <th className="py-2 px-3 text-right">{isMarathi ? 'संख्या' : 'Quantity'}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
-                    {submittedEnquiry.items.map((item, index) => (
-                      <tr key={index} className="hover:bg-slate-50">
-                        <td className="py-2.5 px-4 text-slate-500 font-mono">{index + 1}</td>
-                        <td className="py-2.5 px-4 font-semibold text-slate-900">
-                          {isMarathi ? item.productName : (item.productNameEn || item.productName)}
-                          <span className="text-xs text-slate-500 block font-normal">{item.categoryName}</span>
+                    {submittedEnquiry.items.map((item, idx) => (
+                      <tr key={idx}>
+                        <td className="py-2 px-3 text-slate-400">{idx + 1}</td>
+                        <td className="py-2 px-3 font-medium text-slate-900">
+                          {isMarathi ? item.productName : item.productNameEn || item.productName}
                         </td>
-                        <td className="py-2.5 px-4 text-right font-bold text-gem-navy">
-                          {item.quantity} {isMarathi ? 'नग' : 'units'}
+                        <td className="py-2 px-3 text-right font-bold text-[#0B2545]">
+                          {item.quantity}
                         </td>
                       </tr>
                     ))}
@@ -192,41 +205,34 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               </div>
             </div>
 
-            <div className="pt-2 flex flex-col sm:flex-row gap-3">
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="tap-target flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 shadow-lg transition-colors text-sm sm:text-base"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded flex items-center justify-center gap-2 text-xs sm:text-sm transition-colors"
               >
-                <MessageCircle className="w-5 h-5" />
+                <MessageSquare className="w-4 h-4" />
                 <span>{t.whatsappQuote}</span>
               </a>
 
               <button
+                type="button"
                 onClick={handleReset}
-                className="tap-target px-5 py-3.5 border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-xl font-semibold text-sm flex items-center justify-center gap-1.5"
+                className="border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-2.5 px-4 rounded text-xs sm:text-sm flex items-center justify-center gap-1.5"
               >
                 <RotateCcw className="w-4 h-4" />
                 <span>{t.newEnquiry}</span>
               </button>
 
               <button
+                type="button"
                 onClick={onNavigateHome}
-                className="tap-target px-5 py-3.5 bg-gem-navy hover:bg-gem-navyLight text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-1.5"
+                className="bg-[#0B2545] hover:bg-[#133E87] text-white font-medium py-2.5 px-4 rounded text-xs sm:text-sm"
               >
-                <span>{t.home}</span>
+                {t.home}
               </button>
-            </div>
-
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 flex items-start gap-2">
-              <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-              <span>
-                <strong>{isMarathi ? 'स्थानिक जतन नोंद (Demo):' : 'Local Demo Confirmation:'}</strong>{' '}
-                {isMarathi
-                  ? 'ही खरेदी मागणी आपल्या ब्राऊझरमध्ये स्थानिक पातळीवर सुरक्षित जतन केली आहे. अधिकृत कोटेशन लवकरच पुरवले जाईल.'
-                  : 'This purchase enquiry is saved locally in your browser storage. An official quotation will be generated.'}
-              </span>
             </div>
           </div>
         </div>
@@ -234,96 +240,119 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
     );
   }
 
+  // Step 2: Form Screen
   return (
-    <div className="max-w-4xl mx-auto py-4">
-      <div className="mb-6">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+    <div className="py-2 space-y-6 max-w-4xl mx-auto">
+      {/* Step Header */}
+      <div className="bg-white border border-slate-200 rounded p-3 sm:p-4">
+        <div className="flex items-center justify-center gap-2 sm:gap-6 text-xs sm:text-sm font-semibold">
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 text-[11px] flex items-center justify-center font-bold">
+              1
+            </span>
+            <span>{isMarathi ? '१. चौकशी कार्ट' : '1. Cart'}</span>
+          </div>
+          <span className="text-slate-300">·······</span>
+          <div className="flex items-center gap-1.5 text-[#0B2545]">
+            <span className="w-5 h-5 rounded-full bg-[#0B2545] text-white text-[11px] flex items-center justify-center font-bold">
+              2
+            </span>
+            <span>{isMarathi ? '२. संस्था तपशील' : '2. Your Details'}</span>
+          </div>
+          <span className="text-slate-300">·······</span>
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 text-[11px] flex items-center justify-center font-bold">
+              3
+            </span>
+            <span>{isMarathi ? '३. पूर्ण' : '3. Done'}</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#0B2545]">
           {t.enquiryFormTitle}
         </h1>
-        <p className="text-slate-600 text-xs sm:text-sm mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
           {t.enquiryFormSubtitle}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Form Column */}
+        <div className="lg:col-span-8 bg-white border border-slate-200 rounded p-4 sm:p-6">
           {formErrors.items && (
-            <div className="mb-6 p-3.5 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs sm:text-sm flex items-center gap-2">
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded text-xs text-red-700 flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{formErrors.items}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4 text-xs sm:text-sm">
+            {/* Institution Name */}
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
-                {t.institutionName} <span className="text-red-500">*</span>
+              <label className="block font-semibold text-slate-800 mb-1">
+                {t.institutionName} <span className="text-red-600">*</span>
               </label>
-              <div className="relative">
-                <Building2 className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" />
-                <input
-                  type="text"
-                  name="institutionName"
-                  value={formData.institutionName}
-                  onChange={handleInputChange}
-                  placeholder={isMarathi ? 'उदा. ग्रामपंचायत कार्यालय, लोणार' : 'e.g. Gram Panchayat Office, Lonar'}
-                  className={`w-full pl-10 pr-4 py-2.5 text-sm sm:text-base border rounded-xl outline-none transition-all ${
-                    formErrors.institutionName
-                      ? 'border-red-400 bg-red-50/30'
-                      : 'border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
-                  }`}
-                />
-              </div>
+              <input
+                type="text"
+                name="institutionName"
+                value={formData.institutionName}
+                onChange={handleInputChange}
+                placeholder={isMarathi ? 'उदा. ग्रामपंचायत कार्यालय लोणार' : 'e.g. Gram Panchayat Lonar'}
+                className={`w-full px-3 py-2 border rounded outline-none transition-colors ${
+                  formErrors.institutionName ? 'border-red-500 bg-red-50/30' : 'border-slate-300 focus:border-[#0B2545]'
+                }`}
+              />
               {formErrors.institutionName && (
-                <p className="text-xs text-red-600 mt-1 font-medium">{formErrors.institutionName}</p>
+                <span className="text-[11px] text-red-600 mt-0.5 block">{formErrors.institutionName}</span>
               )}
             </div>
 
-            <div>
-              <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
-                {t.institutionType}
-              </label>
-              <select
-                name="institutionType"
-                value={formData.institutionType}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2.5 text-sm sm:text-base border border-slate-300 rounded-xl outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 bg-white"
-              >
-                {institutionTypes.map((item) => (
-                  <option key={item.value} value={item.value}>
-                    {item.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
+            {/* Institution Type & Contact Person */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
-                  {t.contactPerson} <span className="text-red-500">*</span>
+                <label className="block font-semibold text-slate-800 mb-1">
+                  {t.institutionType}
                 </label>
-                <div className="relative">
-                  <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" />
-                  <input
-                    type="text"
-                    name="contactPerson"
-                    value={formData.contactPerson}
-                    onChange={handleInputChange}
-                    placeholder={isMarathi ? 'उदा. सचिन गायकवाड' : 'e.g. Ramesh Patil'}
-                    className={`w-full pl-10 pr-4 py-2.5 text-sm sm:text-base border rounded-xl outline-none transition-all ${
-                      formErrors.contactPerson
-                        ? 'border-red-400 bg-red-50/30'
-                        : 'border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
-                    }`}
-                  />
-                </div>
-                {formErrors.contactPerson && (
-                  <p className="text-xs text-red-600 mt-1 font-medium">{formErrors.contactPerson}</p>
-                )}
+                <select
+                  name="institutionType"
+                  value={formData.institutionType}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-slate-300 rounded outline-none bg-white focus:border-[#0B2545]"
+                >
+                  {institutionTypes.map((it) => (
+                    <option key={it.value} value={it.value}>
+                      {it.label}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
-                <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
+                <label className="block font-semibold text-slate-800 mb-1">
+                  {t.contactPerson} <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="contactPerson"
+                  value={formData.contactPerson}
+                  onChange={handleInputChange}
+                  placeholder={isMarathi ? 'उदा. श्री. रमेश पाटील' : 'e.g. Ramesh Patil'}
+                  className={`w-full px-3 py-2 border rounded outline-none ${
+                    formErrors.contactPerson ? 'border-red-500 bg-red-50/30' : 'border-slate-300 focus:border-[#0B2545]'
+                  }`}
+                />
+                {formErrors.contactPerson && (
+                  <span className="text-[11px] text-red-600 mt-0.5 block">{formErrors.contactPerson}</span>
+                )}
+              </div>
+            </div>
+
+            {/* Designation & Mobile */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block font-semibold text-slate-800 mb-1">
                   {t.designation}
                 </label>
                 <input
@@ -332,177 +361,129 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
                   value={formData.designation}
                   onChange={handleInputChange}
                   placeholder={isMarathi ? 'उदा. सरपंच / ग्रामसेवक' : 'e.g. Sarpanch / Gramsevak'}
-                  className="w-full px-4 py-2.5 text-sm sm:text-base border border-slate-300 rounded-xl outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20"
+                  className="w-full px-3 py-2 border border-slate-300 rounded outline-none focus:border-[#0B2545]"
                 />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
-                {t.mobileNumber} <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" />
+              <div>
+                <label className="block font-semibold text-slate-800 mb-1">
+                  {t.mobileNumber} <span className="text-red-600">*</span>
+                </label>
                 <input
                   type="tel"
                   name="mobile"
                   maxLength={10}
                   value={formData.mobile}
                   onChange={handleInputChange}
-                  placeholder={isMarathi ? '९८XXXXXXXX / १०-अंकी नंबर' : '98XXXXXXXX / 10-digit number'}
-                  className={`w-full pl-10 pr-4 py-2.5 text-sm sm:text-base border rounded-xl outline-none font-mono transition-all ${
-                    formErrors.mobile
-                      ? 'border-red-400 bg-red-50/30'
-                      : 'border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                  placeholder="98XXXXXXXX"
+                  className={`w-full px-3 py-2 border rounded outline-none font-mono ${
+                    formErrors.mobile ? 'border-red-500 bg-red-50/30' : 'border-slate-300 focus:border-[#0B2545]'
+                  }`}
+                />
+                {formErrors.mobile && (
+                  <span className="text-[11px] text-red-600 mt-0.5 block">{formErrors.mobile}</span>
+                )}
+              </div>
+            </div>
+
+            {/* Village, Taluka, District */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label className="block font-semibold text-slate-800 mb-1">
+                  {t.village} <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="village"
+                  value={formData.village}
+                  onChange={handleInputChange}
+                  placeholder={isMarathi ? 'गाव / शहर' : 'Village / Town'}
+                  className={`w-full px-3 py-2 border rounded outline-none ${
+                    formErrors.village ? 'border-red-500 bg-red-50/30' : 'border-slate-300 focus:border-[#0B2545]'
                   }`}
                 />
               </div>
-              {formErrors.mobile ? (
-                <p className="text-xs text-red-600 mt-1 font-medium">{formErrors.mobile}</p>
-              ) : (
-                <p className="text-[11px] text-slate-500 mt-1">
-                  {isMarathi ? 'कोटेशन व संपर्क करण्यासाठी अचूक १० अंकी नंबर आवश्यक आहे.' : 'A valid 10-digit mobile number is required for official quotation.'}
-                </p>
-              )}
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label className="block text-xs font-bold text-slate-800 mb-1">
-                  {t.village} <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3 pointer-events-none" />
-                  <input
-                    type="text"
-                    name="village"
-                    value={formData.village}
-                    onChange={handleInputChange}
-                    placeholder={isMarathi ? 'गाव / शहर' : 'Village / Town'}
-                    className={`w-full pl-9 pr-3 py-2 text-xs sm:text-sm border rounded-lg outline-none ${
-                      formErrors.village ? 'border-red-400' : 'border-slate-300'
-                    }`}
-                  />
-                </div>
-              </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-800 mb-1">
-                  {t.taluka} <span className="text-red-500">*</span>
+                <label className="block font-semibold text-slate-800 mb-1">
+                  {t.taluka} <span className="text-red-600">*</span>
                 </label>
                 <input
                   type="text"
                   name="taluka"
                   value={formData.taluka}
                   onChange={handleInputChange}
-                  placeholder={isMarathi ? 'तालुका' : 'Taluka'}
-                  className={`w-full px-3 py-2 text-xs sm:text-sm border rounded-lg outline-none ${
-                    formErrors.taluka ? 'border-red-400' : 'border-slate-300'
+                  placeholder={isMarathi ? 'उदा. लोणार' : 'e.g. Lonar'}
+                  className={`w-full px-3 py-2 border rounded outline-none ${
+                    formErrors.taluka ? 'border-red-500 bg-red-50/30' : 'border-slate-300 focus:border-[#0B2545]'
                   }`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-800 mb-1">
-                  {t.district} <span className="text-red-500">*</span>
+                <label className="block font-semibold text-slate-800 mb-1">
+                  {t.district}
                 </label>
                 <input
                   type="text"
                   name="district"
                   value={formData.district}
                   onChange={handleInputChange}
-                  placeholder={isMarathi ? 'जिल्हा' : 'District'}
-                  className={`w-full px-3 py-2 text-xs sm:text-sm border rounded-lg outline-none ${
-                    formErrors.district ? 'border-red-400' : 'border-slate-300'
-                  }`}
+                  className="w-full px-3 py-2 border border-slate-300 rounded outline-none focus:border-[#0B2545]"
                 />
               </div>
             </div>
 
+            {/* Notes */}
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-slate-800 mb-1.5">
+              <label className="block font-semibold text-slate-800 mb-1">
                 {t.notes}
               </label>
               <textarea
                 name="notes"
-                rows={3}
+                rows={2}
                 value={formData.notes}
                 onChange={handleInputChange}
-                placeholder={isMarathi ? 'उदा. साहित्य पोहोचवण्याची अंतिम तारीख, विशेष साईझ किंवा इतर आवश्यकता...' : 'e.g. Delivery timeline, special sizes, specifications...'}
-                className="w-full px-4 py-2.5 text-sm border border-slate-300 rounded-xl outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 resize-none"
+                placeholder={isMarathi ? 'काही विशेष सूचना किंवा आवश्यकता असल्यास येथे लिहा...' : 'Special notes or requirements...'}
+                className="w-full px-3 py-2 border border-slate-300 rounded outline-none focus:border-[#0B2545]"
               />
             </div>
 
             <div className="pt-2">
               <button
                 type="submit"
-                className="tap-target w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 shadow-lg transition-colors text-sm sm:text-base"
+                className="w-full bg-[#0B2545] hover:bg-[#133E87] text-white font-semibold py-3 px-4 rounded transition-colors text-sm"
               >
-                <FileText className="w-5 h-5" />
-                <span>{t.submitEnquiry} ({cartCount} {isMarathi ? 'नग' : 'items'})</span>
+                {t.submitEnquiry}
               </button>
             </div>
           </form>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-4">
-          <div className="flex items-center justify-between border-b pb-3">
-            <h3 className="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
-              <ShoppingBag className="w-4 h-4 text-amber-600" />
-              <span>{isMarathi ? 'निवडलेले साहित्य' : 'Selected Products'}</span>
-            </h3>
-            <span className="text-xs bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full">
-              {cartCount} {isMarathi ? 'नग' : 'items'}
-            </span>
+        {/* Right Summary Sidebar */}
+        <div className="lg:col-span-4 bg-white border border-slate-200 rounded p-4 space-y-4">
+          <div className="font-bold text-sm text-[#0B2545] border-b border-slate-200 pb-2">
+            {isMarathi ? 'निवडलेली उत्पादने' : 'Selected Products'} ({detailedItems.length})
           </div>
 
-          {detailedItems.length === 0 ? (
-            <div className="text-center py-8 text-slate-500 text-xs">
-              <p className="mb-3">{isMarathi ? 'सध्या कार्टमध्ये कोणतीही वस्तू नाही.' : 'No items currently in enquiry cart.'}</p>
-              <button
-                onClick={onNavigateProducts}
-                className="text-gem-navyLight font-bold underline tap-target"
-              >
-                {t.exploreCatalogue}
-              </button>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              <ul className="divide-y divide-slate-100 max-h-60 overflow-y-auto">
-                {detailedItems.map(({ product, quantity }) => (
-                  <li key={product.id} className="py-2 flex items-center justify-between text-xs">
-                    <div className="pr-2">
-                      <span className="font-semibold text-slate-800 block line-clamp-1">
-                        {isMarathi ? product.title : product.titleEn}
-                      </span>
-                      <span className="text-[11px] text-slate-500">{product.modelCode}</span>
-                    </div>
-                    <span className="font-bold text-gem-navy shrink-0">{quantity} {isMarathi ? 'नग' : 'units'}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="pt-2 border-t text-[11px] text-slate-600 space-y-1">
-                <p>{isMarathi ? '• सर्व वस्तूंचे अधिकृत शासकीय कोटेशन तयार केले जाईल.' : '• Official government quotation will be prepared.'}</p>
-                <p>{isMarathi ? '• GeM पोर्टलद्वारे किंवा शासकीय नियमांनुसार खरेदी प्रक्रिया होईल.' : '• Purchase proceeds through GeM or government guidelines.'}</p>
+          <div className="space-y-2 max-h-72 overflow-y-auto divide-y divide-slate-100 text-xs">
+            {detailedItems.map(({ product, quantity }) => (
+              <div key={product.id} className="pt-2 first:pt-0 flex items-center justify-between gap-2">
+                <span className="text-slate-800 font-medium truncate">
+                  {isMarathi ? product.title : product.titleEn}
+                </span>
+                <span className="font-bold text-[#0B2545] shrink-0">
+                  {quantity} {isMarathi ? 'नग' : 'qty'}
+                </span>
               </div>
+            ))}
+          </div>
 
-              <button
-                onClick={onNavigateProducts}
-                className="w-full text-xs text-gem-navy font-bold hover:underline flex items-center justify-center gap-1 pt-1 tap-target"
-              >
-                <span>{isMarathi ? 'आणखी उत्पादने निवडा' : 'Select More Products'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+          <div className="pt-2 border-t border-slate-200 text-xs text-slate-500">
+            <div className="font-medium text-slate-700">
+              {t.gemBadge}
             </div>
-          )}
-
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-1">
-            <div className="font-bold text-slate-900">{t.sellerName}</div>
-            <div className="text-slate-600 text-[11px]">{t.sellerAddress}</div>
-            <div className="text-emerald-700 font-bold text-[11px]">
-              {isMarathi ? 'मोबाईल:' : 'Mobile:'} 7059587711 / 9371301001
-            </div>
+            <div className="mt-1">लोणार, जि. बुलढाणा</div>
           </div>
         </div>
       </div>

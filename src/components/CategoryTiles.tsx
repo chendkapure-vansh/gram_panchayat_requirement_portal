@@ -1,39 +1,15 @@
 import React from 'react';
 import { Category } from '../types';
+import { PRODUCTS } from '../data/products';
 import { useLanguage } from '../context/LanguageContext';
-import {
-  Trash2,
-  Lightbulb,
-  ShieldCheck,
-  Monitor,
-  Droplets,
-  Armchair,
-  Activity,
-  Landmark,
-  Zap,
-  Package,
-  LucideIcon,
-  ChevronRight,
-} from 'lucide-react';
+import { ProductImage } from './ProductImage';
+import { ChevronRight } from 'lucide-react';
 
 interface CategoryTilesProps {
   categories: Category[];
   selectedCategorySlug?: string | null;
   onSelectCategory: (slug: string) => void;
 }
-
-const ICON_MAP: Record<string, LucideIcon> = {
-  Trash2,
-  Lightbulb,
-  ShieldCheck,
-  Monitor,
-  Droplets,
-  Armchair,
-  Activity,
-  Landmark,
-  Zap,
-  Package,
-};
 
 export const CategoryTiles: React.FC<CategoryTilesProps> = ({
   categories,
@@ -43,51 +19,43 @@ export const CategoryTiles: React.FC<CategoryTilesProps> = ({
   const { isMarathi } = useLanguage();
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
       {categories.map((cat) => {
-        const IconComponent = ICON_MAP[cat.iconName] || Package;
         const isSelected = selectedCategorySlug === cat.slug;
         const name = isMarathi ? cat.name : cat.nameEn;
 
         return (
           <button
             key={cat.id}
+            type="button"
             onClick={() => onSelectCategory(cat.slug)}
-            className={`tap-target text-left p-4 rounded-xl border transition-all flex flex-col justify-between group ${
+            className={`text-left bg-white border rounded p-2.5 transition-colors group flex flex-col justify-between ${
               isSelected
-                ? 'bg-gem-navy text-white border-amber-400 shadow-md ring-2 ring-amber-400/40'
-                : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200 hover:border-slate-300 shadow-sm'
+                ? 'border-[#0B2545] ring-1 ring-[#0B2545]'
+                : 'border-slate-200 hover:border-slate-400'
             }`}
           >
             <div>
-              <div
-                className={`w-11 h-11 rounded-lg flex items-center justify-center mb-3 transition-colors ${
-                  isSelected
-                    ? 'bg-amber-500 text-slate-950 shadow'
-                    : 'bg-slate-100 group-hover:bg-amber-50 text-gem-navy group-hover:text-amber-600'
-                }`}
-              >
-                <IconComponent className="w-5 h-5" />
+              {/* Category Image: fixed 1:1 square tile */}
+              <div className="w-full aspect-square bg-slate-50 rounded overflow-hidden border border-slate-100 mb-2">
+                <ProductImage
+                  src={cat.image || ''}
+                  alt={name}
+                  aspectRatio="square"
+                  className="group-hover:scale-[1.02] transition-transform duration-200"
+                />
               </div>
 
-              <h4 className="font-bold text-sm sm:text-base leading-snug mb-1">
+              {/* Title */}
+              <h3 className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-[#0B2545] line-clamp-1">
                 {name}
-              </h4>
+              </h3>
             </div>
 
-            <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100/40 text-xs">
-              <span
-                className={`font-semibold ${
-                  isSelected ? 'text-amber-300' : 'text-slate-500'
-                }`}
-              >
-                {cat.itemCount} {isMarathi ? 'वस्तू' : 'Items'}
-              </span>
-              <ChevronRight
-                className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${
-                  isSelected ? 'text-amber-300' : 'text-slate-400'
-                }`}
-              />
+            {/* Item Count & Action */}
+            <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+              <span>{PRODUCTS.filter((p) => p.category === cat.slug).length} {isMarathi ? 'साहित्य' : 'Items'}</span>
+              <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
             </div>
           </button>
         );

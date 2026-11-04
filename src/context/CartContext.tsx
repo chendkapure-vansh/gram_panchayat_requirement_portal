@@ -120,8 +120,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [cart]);
 
   const cartCount = useMemo(() => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
-  }, [cart]);
+    return detailedItems.reduce((total, item) => total + item.quantity, 0);
+  }, [detailedItems]);
 
   const value = useMemo(
     () => ({

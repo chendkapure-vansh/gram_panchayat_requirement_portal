@@ -1,103 +1,155 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { ShieldCheck, Truck, Clock, Award, ArrowRight, FileText } from 'lucide-react';
+import { Search, ShieldCheck, ArrowRight, FileText, Phone, Award } from 'lucide-react';
+import { ProductImage } from './ProductImage';
 
 interface HeroProps {
   onExplore: () => void;
   onRequestQuote: () => void;
+  onSearch?: (query: string) => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote }) => {
+export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote, onSearch }) => {
   const { isMarathi, t } = useLanguage();
+  const [heroSearch, setHeroSearch] = useState('');
 
-  const trustPoints = [
-    {
-      icon: Award,
-      title: isMarathi ? 'GeM नोंदणीकृत' : 'GeM Registered',
-      subtitle: isMarathi ? 'अधिकृत शासकीय पुरवठादार' : 'Authorized Public Seller',
-    },
-    {
-      icon: ShieldCheck,
-      title: isMarathi ? 'दर्जेदार उत्पादने' : 'Certified Quality',
-      subtitle: isMarathi ? 'मानक गुणवत्तेची खात्री' : 'Institutional Standards',
-    },
-    {
-      icon: Clock,
-      title: isMarathi ? 'वेळेत पुरवठा' : 'Timely Delivery',
-      subtitle: isMarathi ? 'गावपातळीवर थेट सेवा' : 'Direct Village Logistics',
-    },
-    {
-      icon: Truck,
-      title: isMarathi ? 'स्पर्धात्मक दर' : 'Competitive Rates',
-      subtitle: isMarathi ? 'पारदर्शक शासकीय कोटेशन' : 'Transparent Govt Quotations',
-    },
-  ];
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onSearch && heroSearch.trim()) {
+      onSearch(heroSearch.trim());
+    } else {
+      onExplore();
+    }
+  };
 
   return (
-    <div className="bg-gradient-to-b from-gem-navy to-slate-900 text-white relative overflow-hidden rounded-2xl shadow-lg border border-slate-800 mb-8 sm:mb-12">
-      {/* Subtle background decoration */}
-      <div className="absolute inset-0 bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
+    <div className="space-y-4">
+      {/* 1. Official Enterprise & Person Branding Header Banner */}
+      <div className="bg-white border border-slate-200 rounded overflow-hidden shadow-sm">
+        <img
+          src="/images/products/hero-section.png"
+          alt="जाणता राजा एंटरप्राइजेस - GeM नोंदणीकृत अधिकृत विक्रेता (Jaanta Raja Enterprises)"
+          className="w-full h-auto object-contain block mx-auto bg-white max-h-52 sm:max-h-64"
+        />
+      </div>
 
-      <div className="relative px-6 py-10 sm:py-16 sm:px-12 max-w-5xl">
-        {/* GeM Seller Badge */}
-        <div className="inline-flex items-center gap-2 bg-amber-500/15 border border-amber-500/40 text-amber-300 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold mb-6 shadow-sm">
-          <ShieldCheck className="w-4 h-4 text-amber-400" />
-          <span>{isMarathi ? 'GeM नोंदणीकृत विक्रेता • शासकीय खरेदीसाठी विश्वासू भागीदार' : 'GeM Registered Seller • Trusted Institutional Partner'}</span>
-        </div>
-
-        {/* Main Headline */}
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight mb-4">
-          {isMarathi
-            ? 'ग्रामपंचायत व शासकीय संस्थांच्या गरजांसाठी दर्जेदार उत्पादने'
-            : 'Quality Equipment & Supplies for Gram Panchayats & Public Institutions'}
-        </h1>
-
-        {/* Subtitle */}
-        <p className="text-slate-300 text-base sm:text-xl font-normal leading-relaxed max-w-3xl mb-8">
-          {isMarathi
-            ? 'स्वच्छता, पथदिवे, पाणीपुरवठा RO, संगणक, सुरक्षा कॅमेरे, आणि ओपन जिम साहित्याची अधिकृत खरेदी व तात्काळ कोटेशन मिळवा.'
-            : 'Explore public procurement solutions for sanitation, street lighting, RO water plants, IT, CCTV, and village infrastructure.'}
-        </p>
-
-        {/* Primary Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
-          <button
-            onClick={onExplore}
-            className="tap-target bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-6 py-3.5 rounded-xl flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all text-sm sm:text-base group"
-          >
-            <span>{isMarathi ? 'सर्व उत्पादने पहा' : 'Explore Products'}</span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </button>
-
-          <button
-            onClick={onRequestQuote}
-            className="tap-target bg-slate-800/90 hover:bg-slate-800 text-white font-semibold px-6 py-3.5 rounded-xl border border-slate-700 flex items-center justify-center gap-2 transition-colors text-sm sm:text-base"
-          >
-            <FileText className="w-4 h-4 text-amber-400" />
-            <span>{t.requestQuote}</span>
-          </button>
-        </div>
-
-        {/* Trust Points Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 pt-8 border-t border-slate-800/80">
-          {trustPoints.map((point, index) => {
-            const Icon = point.icon;
-            return (
-              <div key={index} className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center shrink-0 border border-slate-700 text-amber-400">
-                  <Icon className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="text-xs sm:text-sm font-bold text-white leading-tight">
-                    {point.title}
-                  </div>
-                  <div className="text-[11px] text-slate-400 hidden sm:block">
-                    {point.subtitle}
-                  </div>
-                </div>
+      {/* 2. E-Commerce Hero Procurement Strip */}
+      <div className="bg-white border border-slate-200 rounded p-5 sm:p-7">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+          {/* Left Text & Search */}
+          <div className="lg:col-span-7 space-y-4">
+            {/* Seller & Personal Branding Pills */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 text-xs text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded font-medium">
+                <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0" />
+                <span>{t.gemBadge}</span>
               </div>
-            );
-          })}
+              <div className="inline-flex items-center gap-1.5 text-xs text-[#0B2545] bg-blue-50 border border-blue-200 px-2.5 py-1 rounded font-semibold">
+                <Award className="w-3.5 h-3.5 text-[#0B2545] shrink-0" />
+                <span>{isMarathi ? 'प्रो. प्रा. सचिन गायकवाड (लोणार)' : 'Prop. Prof. Sachin Gaikwad (Lonar)'}</span>
+              </div>
+            </div>
+
+            {/* Heading */}
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0B2545] tracking-tight leading-tight">
+              {isMarathi
+                ? 'ग्रामपंचायत व शासकीय संस्था खरेदी कॅटलॉग'
+                : 'Gram Panchayat & Institutional Procurement Catalogue'}
+            </h1>
+
+            {/* Plain, specific copy from catalogue */}
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              {isMarathi
+                ? 'व्यावसायिक RO वॉटर प्लांट, वॉटर कुलर, सोलर उत्पादने, ओपन जिम व खेळ साहित्य, सूचना व दिशादर्शक फलक, मॅनहोल कव्हर, सायलेंट जनरेटर व संस्थात्मक साहित्य.'
+                : 'Commercial RO water plants, water coolers, solar equipment, open gym & playground equipment, official notice boards, manhole covers, silent generators and institutional supplies.'}
+            </p>
+
+            {/* Hero Search */}
+            <form onSubmit={handleSearch} className="flex items-center border border-slate-300 rounded overflow-hidden max-w-lg focus-within:border-[#0B2545]">
+              <input
+                type="text"
+                value={heroSearch}
+                onChange={(e) => setHeroSearch(e.target.value)}
+                placeholder={t.searchPlaceholder}
+                className="flex-1 px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none"
+              />
+              <button
+                type="submit"
+                className="bg-[#0B2545] hover:bg-[#133E87] text-white px-4 py-2.5 text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors"
+              >
+                <Search className="w-4 h-4" />
+                <span className="hidden sm:inline">{isMarathi ? 'शोधा' : 'Search'}</span>
+              </button>
+            </form>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+              <button
+                type="button"
+                onClick={onExplore}
+                className="bg-[#0B2545] hover:bg-[#133E87] text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded transition-colors flex items-center gap-1.5"
+              >
+                <span>{isMarathi ? 'सर्व उत्पादने पहा' : 'Browse Catalogue'}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={onRequestQuote}
+                className="bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold px-4 py-2.5 rounded transition-colors flex items-center gap-1.5"
+              >
+                <FileText className="w-4 h-4 text-amber-600" />
+                <span>{isMarathi ? 'कोटेशन मागणी' : 'Request Quote'}</span>
+              </button>
+
+              <a
+                href="tel:7059587711"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#0B2545] border border-slate-200 px-3 py-2.5 rounded bg-slate-50 hover:bg-slate-100 transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5 text-amber-600" />
+                <span>7059587711</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Right Real Photo Preview on 1:1 Square Tile */}
+          <div className="lg:col-span-5 flex items-center justify-center">
+            <div className="w-full max-w-sm">
+              <ProductImage
+                src="/images/products/ro-plan.png"
+                alt="Commercial RO Plant"
+                aspectRatio="square"
+                className="border-slate-300 shadow-none bg-white p-2"
+              />
+              <div className="text-[11px] text-slate-500 mt-2 text-center font-medium">
+                {isMarathi ? 'व्यावसायिक RO प्लांट व पाणीपुरवठा साहित्य (५००/१००० LPH)' : 'Commercial RO Plants & Village Water Supply Systems'}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Verified Facts Stats Strip */}
+      <div className="bg-white border border-slate-200 rounded p-4 grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 text-center">
+        <div className="py-2 sm:py-0 sm:px-4">
+          <div className="text-xl sm:text-2xl font-bold text-[#0B2545]">४</div>
+          <div className="text-xs text-slate-500 font-medium">
+            {isMarathi ? 'कॅटलॉग वर्गवारी विभाग' : 'Core Product Categories'}
+          </div>
+        </div>
+
+        <div className="py-2 sm:py-0 sm:px-4">
+          <div className="text-xl sm:text-2xl font-bold text-[#0B2545]">२३</div>
+          <div className="text-xs text-slate-500 font-medium">
+            {isMarathi ? 'खरे ब्रोशर उत्पादने' : 'Verified Catalogue Products'}
+          </div>
+        </div>
+
+        <div className="py-2 sm:py-0 sm:px-4">
+          <div className="text-xl sm:text-2xl font-bold text-[#0B2545]">GeM</div>
+          <div className="text-xs text-slate-500 font-medium">
+            {isMarathi ? 'नोंदणीकृत अधिकृत विक्रेता (लोणार)' : 'Registered Seller (Lonar, Buldhana)'}
+          </div>
         </div>
       </div>
     </div>

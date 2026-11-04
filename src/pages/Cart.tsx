@@ -1,15 +1,18 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
+import { ProductImage } from '../components/ProductImage';
 import {
   ShoppingBag,
   Minus,
   Plus,
   Trash2,
-  FileCheck,
+  ArrowRight,
   ArrowLeft,
-  Info,
   ShieldCheck,
+  Truck,
+  FileCheck,
+  Headphones,
 } from 'lucide-react';
 
 interface CartPageProps {
@@ -30,159 +33,242 @@ export const CartPage: React.FC<CartPageProps> = ({
     clearCart,
   } = useCart();
 
-  if (detailedItems.length === 0) {
-    return (
-      <div className="max-w-2xl mx-auto py-12 px-4 text-center">
-        <div className="bg-white rounded-2xl border border-slate-200 p-8 sm:p-12 shadow-sm">
-          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
-            <ShoppingBag className="w-10 h-10" />
+  const totalDistinctItems = detailedItems.length;
+
+  return (
+    <div className="py-2 space-y-6">
+      {/* 1. Steps Header (Image 5 Reference: Cart > Your Details > Done) */}
+      <div className="bg-white border border-slate-200 rounded p-3 sm:p-4">
+        <div className="flex items-center justify-center gap-2 sm:gap-6 text-xs sm:text-sm font-semibold">
+          <div className="flex items-center gap-1.5 text-[#0B2545]">
+            <span className="w-5 h-5 rounded-full bg-[#0B2545] text-white text-[11px] flex items-center justify-center font-bold">
+              1
+            </span>
+            <span>{isMarathi ? '१. चौकशी कार्ट' : '1. Cart'}</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
-            {t.emptyCartTitle}
-          </h2>
-          <p className="text-slate-600 text-sm max-w-md mx-auto mb-6">
+
+          <span className="text-slate-300">·······</span>
+
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 text-[11px] flex items-center justify-center font-bold">
+              2
+            </span>
+            <span>{isMarathi ? '२. संस्था तपशील' : '2. Your Details'}</span>
+          </div>
+
+          <span className="text-slate-300">·······</span>
+
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-600 text-[11px] flex items-center justify-center font-bold">
+              3
+            </span>
+            <span>{isMarathi ? '३. पूर्ण' : '3. Done'}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Cart Content */}
+      {totalDistinctItems === 0 ? (
+        <div className="bg-white border border-slate-200 rounded p-10 text-center space-y-4 max-w-xl mx-auto">
+          <ShoppingBag className="w-12 h-12 text-slate-300 mx-auto" />
+          <h2 className="text-lg font-bold text-slate-900">{t.emptyCartTitle}</h2>
+          <p className="text-xs sm:text-sm text-slate-500">
             {t.emptyCartMessage}
           </p>
           <button
+            type="button"
             onClick={onContinueBrowsing}
-            className="tap-target bg-gem-navy hover:bg-gem-navyLight text-white font-bold px-7 py-3 rounded-xl text-sm transition-colors shadow-md"
+            className="bg-[#0B2545] hover:bg-[#133E87] text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded transition-colors"
           >
             {t.exploreCatalogue}
           </button>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="max-w-4xl mx-auto py-4">
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 flex items-center gap-2">
-            <ShoppingBag className="w-7 h-7 text-amber-600" />
-            <span>{t.cart}</span>
-            <span className="text-sm font-bold bg-amber-100 text-amber-900 px-3 py-1 rounded-full">
-              {cartCount} {isMarathi ? 'एकूण नग' : 'total quantity'}
-            </span>
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            {isMarathi ? 'ग्रामपंचायत खरेदी चौकशीसाठी निवडलेल्या वस्तू' : 'Selected items for institutional procurement enquiry'}
-          </p>
-        </div>
-
-        <button
-          onClick={clearCart}
-          className="self-start sm:self-auto text-xs text-red-600 hover:text-red-700 font-semibold flex items-center gap-1 tap-target"
-        >
-          <Trash2 className="w-4 h-4" />
-          <span>{isMarathi ? 'संपूर्ण कार्ट रिकामे करा' : 'Clear Entire Cart'}</span>
-        </button>
-      </div>
-
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-8 space-y-6">
-        {/* Line Items List */}
-        <div className="divide-y divide-slate-100">
-          {detailedItems.map(({ product, quantity }) => (
-            <div
-              key={product.id}
-              className="py-4 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-            >
-              <div className="flex items-center gap-4">
-                <img
-                  src={product.image}
-                  alt={isMarathi ? product.title : product.titleEn}
-                  className="w-20 h-20 object-cover rounded-xl border border-slate-200 shadow-sm shrink-0"
-                />
-                <div>
-                  <h3 className="font-bold text-slate-900 text-sm sm:text-base leading-snug">
-                    {isMarathi ? product.title : product.titleEn}
-                  </h3>
-                  <div className="text-xs text-slate-500 mt-0.5">
-                    <span>{isMarathi ? product.categoryName : product.categoryNameEn}</span>
-                    {product.modelCode && <span> • {isMarathi ? 'कोड:' : 'Code:'} {product.modelCode}</span>}
-                  </div>
-                  <span className="inline-block mt-1 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 rounded">
-                    {isMarathi ? product.priceLabel : product.priceLabelEn}
-                  </span>
-                </div>
-              </div>
-
-              {/* Quantity Controls & Remove */}
-              <div className="flex items-center gap-4 self-end sm:self-center">
-                <div className="flex items-center border border-slate-300 rounded-xl overflow-hidden bg-slate-50 shadow-inner">
-                  <button
-                    onClick={() => updateQuantity(product.id, quantity - 1)}
-                    disabled={quantity <= 1}
-                    className="p-2.5 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:cursor-not-allowed tap-target flex items-center justify-center transition-colors"
-                    aria-label="Decrease quantity"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="px-4 py-1 text-sm font-bold text-slate-900 min-w-[3rem] text-center">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => updateQuantity(product.id, quantity + 1)}
-                    className="p-2.5 hover:bg-slate-200 text-slate-700 tap-target flex items-center justify-center transition-colors"
-                    aria-label="Increase quantity"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-
-                <button
-                  onClick={() => removeFromCart(product.id)}
-                  className="p-2 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors tap-target"
-                  title="Remove item"
-                  aria-label="Remove item"
-                >
-                  <Trash2 className="w-5 h-5" />
-                </button>
-              </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Left Column: Cart Items List */}
+          <div className="lg:col-span-8 space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+              <h1 className="text-lg sm:text-xl font-bold text-[#0B2545]">
+                {t.cart} ({totalDistinctItems} {isMarathi ? 'साहित्य प्रकार' : 'items'})
+              </h1>
+              <button
+                type="button"
+                onClick={clearCart}
+                className="text-xs text-red-600 hover:text-red-700 font-medium flex items-center gap-1"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>{isMarathi ? 'सर्व काढा' : 'Clear All'}</span>
+              </button>
             </div>
-          ))}
-        </div>
 
-        {/* Pricing Transparency Banner (Per Brief Rule: No fabricated total) */}
-        <div className="bg-amber-50/80 border border-amber-200/80 rounded-xl p-4 sm:p-5 text-xs sm:text-sm text-amber-950 flex items-start gap-3">
-          <Info className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-          <div className="space-y-1">
-            <p className="font-bold">
-              {isMarathi ? 'शासकीय खरेदी दर व कोटेशन पद्धत:' : 'Institutional Pricing Note:'}
-            </p>
-            <p className="text-amber-900 leading-relaxed">
-              {t.priceNote} {isMarathi ? 'अंतिम दर मागणी संख्या, वाहतूक अंतर आणि शासकीय निकषांनुसार निश्चित करून अधिकृत कोटेशन दिले जाते.' : 'Final rates are determined based on quantities, logistics, and institutional criteria upon formal quotation.'}
-            </p>
+            {/* Product Rows */}
+            <div className="space-y-3">
+              {detailedItems.map(({ product, quantity }) => {
+                const itemTitle = isMarathi ? product.title : product.titleEn;
+                const catName = isMarathi ? product.categoryName : product.categoryNameEn;
+
+                return (
+                  <div
+                    key={product.id}
+                    className="bg-white border border-slate-200 rounded p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4"
+                  >
+                    {/* Thumbnail + Title */}
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0">
+                        <ProductImage
+                          src={product.image}
+                          alt={itemTitle}
+                          aspectRatio="square"
+                        />
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[11px] font-medium text-slate-500 uppercase tracking-wide">
+                          {catName}
+                        </span>
+                        <h3 className="font-semibold text-xs sm:text-sm text-slate-900 line-clamp-2">
+                          {itemTitle}
+                        </h3>
+                        <div className="text-xs text-slate-600 font-medium mt-1">
+                          {isMarathi ? 'दर चौकशीवर उपलब्ध' : 'Contact for price'}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Quantity Stepper + Remove */}
+                    <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+                      {/* Quantity Stepper */}
+                      <div className="flex items-center border border-slate-300 rounded overflow-hidden bg-white">
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(product.id, quantity - 1)}
+                          className="px-2.5 py-1 text-slate-600 hover:bg-slate-100 transition-colors"
+                          aria-label="Decrease"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="w-8 text-center text-xs font-bold text-slate-900">
+                          {quantity}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(product.id, quantity + 1)}
+                          className="px-2.5 py-1 text-slate-600 hover:bg-slate-100 transition-colors"
+                          aria-label="Increase"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+
+                      {/* Remove Button */}
+                      <button
+                        type="button"
+                        onClick={() => removeFromCart(product.id)}
+                        className="text-slate-400 hover:text-red-600 p-1.5 rounded transition-colors text-xs flex items-center gap-1"
+                        title={isMarathi ? 'काढा' : 'Remove item'}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        <span className="sm:hidden">{isMarathi ? 'काढा' : 'Remove'}</span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Continue Browsing Button */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={onContinueBrowsing}
+                className="text-xs sm:text-sm font-semibold text-[#0B2545] hover:text-amber-700 flex items-center gap-1.5"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>{isMarathi ? 'कॅटलॉग पाहणे चालू ठेवा (Continue browsing)' : 'Continue browsing'}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column: Order / Enquiry Summary Panel */}
+          <div className="lg:col-span-4 space-y-4">
+            <div className="bg-white border border-slate-200 rounded p-4 sm:p-5 space-y-4">
+              <h2 className="font-bold text-base text-[#0B2545] border-b border-slate-200 pb-2">
+                {isMarathi ? 'मागणी तपशील (Enquiry Summary)' : 'Enquiry Summary'}
+              </h2>
+
+              <div className="space-y-2 text-xs sm:text-sm text-slate-600">
+                <div className="flex justify-between">
+                  <span>{isMarathi ? 'साहित्य प्रकार:' : 'Distinct Items:'}</span>
+                  <span className="font-bold text-slate-900">{totalDistinctItems}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>{isMarathi ? 'एकूण संख्या (नग):' : 'Total Quantity:'}</span>
+                  <span className="font-bold text-slate-900">{cartCount}</span>
+                </div>
+                <div className="flex justify-between pt-2 border-t border-slate-100">
+                  <span>{isMarathi ? 'किंमत मॉडेल:' : 'Pricing Model:'}</span>
+                  <span className="font-semibold text-slate-900">{isMarathi ? 'दर चौकशीवर उपलब्ध' : 'Contact for price'}</span>
+                </div>
+              </div>
+
+              {/* Verified Seller Box */}
+              <div className="p-3 bg-slate-50 border border-slate-200 rounded text-xs space-y-1 text-slate-600">
+                <div className="font-bold text-[#0B2545]">{t.sellerName}</div>
+                <div>{t.sellerProprietor}</div>
+                <div>{t.sellerAddress}</div>
+                <div className="text-[11px] text-slate-500 pt-1">
+                  {t.gemBadge}
+                </div>
+              </div>
+
+              {/* Primary Action Button: Proceed to Your Details */}
+              <button
+                type="button"
+                onClick={onProceedToEnquiry}
+                className="w-full bg-[#0B2545] hover:bg-[#133E87] text-white text-xs sm:text-sm font-semibold py-3 px-4 rounded transition-colors flex items-center justify-center gap-2"
+              >
+                <span>{isMarathi ? 'संस्था माहिती भरा (Proceed to Your Details)' : 'Proceed to Your Details'}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 4. Bottom Trust Feature Bar (Canadian Market layout - Verified Facts Only) */}
+      <div className="bg-white border border-slate-200 rounded p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs text-slate-600">
+        <div className="flex items-center gap-3">
+          <Truck className="w-5 h-5 text-[#0B2545] shrink-0" />
+          <div>
+            <div className="font-bold text-slate-900">{isMarathi ? 'थेट गावपातळीवर पुरवठा' : 'Direct Village Delivery'}</div>
+            <div className="text-slate-500 text-[11px]">{isMarathi ? 'ग्रामपंचायत कार्यालयापर्यंत वाहतूक' : 'Direct transport to village offices'}</div>
           </div>
         </div>
 
-        {/* Cart Action Buttons */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-slate-200">
-          <button
-            onClick={onContinueBrowsing}
-            className="w-full sm:w-auto px-5 py-3 text-sm font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors tap-target flex items-center justify-center gap-2"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>{isMarathi ? 'आणखी उत्पादने जोडा' : 'Continue Browsing'}</span>
-          </button>
-
-          <button
-            onClick={onProceedToEnquiry}
-            className="tap-target w-full sm:w-auto bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-8 rounded-xl flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all text-sm sm:text-base"
-          >
-            <FileCheck className="w-5 h-5" />
-            <span>{t.proceedToEnquiry}</span>
-          </button>
+        <div className="flex items-center gap-3">
+          <FileCheck className="w-5 h-5 text-[#0B2545] shrink-0" />
+          <div>
+            <div className="font-bold text-slate-900">{isMarathi ? 'पारदर्शक कोटेशन' : 'Transparent Quotations'}</div>
+            <div className="text-slate-500 text-[11px]">{isMarathi ? 'संस्थात्मक खरेदी नियमांनुसार' : 'As per institutional norms'}</div>
+          </div>
         </div>
-      </div>
 
-      {/* Trust Reminder */}
-      <div className="mt-6 text-center text-xs text-slate-500 flex items-center justify-center gap-1.5">
-        <ShieldCheck className="w-4 h-4 text-emerald-600" />
-        <span>{isMarathi ? 'जाणता राजा एंटरप्राइजेस • GeM अधिकृत विक्रेता • लोणार (बुलढाणा)' : 'Jaanta Raja Enterprises • GeM Authorised Seller • Lonar (Buldhana)'}</span>
+        <div className="flex items-center gap-3">
+          <ShieldCheck className="w-5 h-5 text-amber-600 shrink-0" />
+          <div>
+            <div className="font-bold text-slate-900">{isMarathi ? 'GeM नोंदणीकृत विक्रेता' : 'GeM Registered Seller'}</div>
+            <div className="text-slate-500 text-[11px]">{isMarathi ? 'व्यवसाय-प्रदान माहिती' : 'Business-provided info'}</div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Headphones className="w-5 h-5 text-[#0B2545] shrink-0" />
+          <div>
+            <div className="font-bold text-slate-900">{isMarathi ? 'स्थानिक संपर्क व मदत' : 'Local Assistance'}</div>
+            <div className="text-slate-500 text-[11px]">{isMarathi ? 'लोणार, जि. बुलढाणा' : 'Lonar, Dist. Buldhana'}</div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
-

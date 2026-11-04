@@ -4,13 +4,10 @@ import { CATEGORIES } from '../data/categories';
 import { PRODUCTS } from '../data/products';
 import { useLanguage } from '../context/LanguageContext';
 import { ProductCard } from '../components/ProductCard';
-import { SearchBar } from '../components/SearchBar';
 import {
-  Filter,
-  ShoppingBag,
   SlidersHorizontal,
   X,
-  Check,
+  Package,
 } from 'lucide-react';
 
 interface ProductsPageProps {
@@ -30,6 +27,19 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
   const [sortBy, setSortBy] = useState<'featured' | 'name-asc' | 'name-desc'>('featured');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
+  // Sync props when category or search changes from header
+  React.useEffect(() => {
+    if (initialCategorySlug !== undefined) {
+      setSelectedCategory(initialCategorySlug);
+    }
+  }, [initialCategorySlug]);
+
+  React.useEffect(() => {
+    if (initialSearchQuery !== undefined) {
+      setSearchQuery(initialSearchQuery);
+    }
+  }, [initialSearchQuery]);
+
   // Filter and sort products
   const filteredProducts = useMemo(() => {
     let result = [...PRODUCTS];
@@ -45,8 +55,8 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
       result = result.filter((p) => {
         const titleMatch = p.title.toLowerCase().includes(q) || p.titleEn.toLowerCase().includes(q);
         const catMatch = p.categoryName.toLowerCase().includes(q) || p.categoryNameEn.toLowerCase().includes(q);
-        const codeMatch = p.modelCode?.toLowerCase().includes(q);
-        return titleMatch || catMatch || Boolean(codeMatch);
+        const descMatch = p.shortDescription.toLowerCase().includes(q) || p.shortDescriptionEn.toLowerCase().includes(q);
+        return titleMatch || catMatch || descMatch;
       });
     }
 
@@ -69,196 +79,187 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
     setSortBy('featured');
   };
 
+  const handleCategoryToggle = (slug: string) => {
+    if (selectedCategory === slug) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(slug);
+    }
+  };
+
   return (
-    <div className="py-4 space-y-6">
-      {/* Top Header & Search Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
-            {t.allProducts}
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            {isMarathi ? 'ग्रामपंचायत व शासकीय कामांसाठी प्रमाणित उत्पादने' : 'Institutional catalog for Gram Panchayat & public tenders'}
-          </p>
+    <div className="py-2 space-y-4">
+      {/* Top Controls: Mobile filter trigger + Result count + Sort dropdown */}
+      <div className="bg-white border border-slate-200 rounded p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          {/* Mobile Filter Sheet Trigger */}
+          <button
+            type="button"
+            onClick={() => setMobileFilterOpen(true)}
+            className="lg:hidden flex items-center gap-2 px-3 py-2 border border-slate-300 rounded text-xs sm:text-sm font-semibold text-slate-800 bg-slate-50"
+          >
+            <SlidersHorizontal className="w-4 h-4 text-[#0B2545]" />
+            <span>{isMarathi ? 'फिल्टर्स' : 'Filters'}</span>
+            {selectedCategory && (
+              <span className="w-2 h-2 rounded-full bg-amber-600" />
+            )}
+          </button>
+
+          {/* Result Count */}
+          <div className="text-xs sm:text-sm text-slate-600">
+            {isMarathi ? (
+              <span>
+                एकूण <strong className="text-slate-900">{filteredProducts.length}</strong> उत्पादने उपलब्ध
+              </span>
+            ) : (
+              <span>
+                Showing <strong className="text-slate-900">{filteredProducts.length}</strong> items
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* Search Input */}
-        <div className="w-full md:w-96">
-          <SearchBar
-            value={searchQuery}
-            onChange={setSearchQuery}
-            onClear={() => setSearchQuery('')}
-          />
+        {/* Sort Dropdown */}
+        <div className="flex items-center gap-2 self-end sm:self-auto">
+          <label htmlFor="sort-select" className="text-xs text-slate-500 font-medium whitespace-nowrap">
+            {isMarathi ? 'क्रमवारी:' : 'Sort by:'}
+          </label>
+          <select
+            id="sort-select"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as 'featured' | 'name-asc' | 'name-desc')}
+            className="text-xs sm:text-sm border border-slate-300 rounded px-2.5 py-1.5 bg-white text-slate-800 outline-none"
+          >
+            <option value="featured">{isMarathi ? 'महत्त्वाची उत्पादने' : 'Featured'}</option>
+            <option value="name-asc">{isMarathi ? 'नाव (अ ते ज्ञ)' : 'Name (A to Z)'}</option>
+            <option value="name-desc">{isMarathi ? 'नाव (ज्ञ ते अ)' : 'Name (Z to A)'}</option>
+          </select>
         </div>
       </div>
 
-      {/* Main Grid: Sidebar Filters + Products List */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
-        {/* Mobile Filter Toggle Button */}
-        <div className="lg:hidden flex items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-slate-200">
-          <button
-            onClick={() => setMobileFilterOpen(true)}
-            className="flex items-center gap-2 text-sm font-bold text-gem-navy tap-target"
-          >
-            <SlidersHorizontal className="w-4 h-4 text-amber-600" />
-            <span>{t.filterByCategory} ({selectedCategory ? (isMarathi ? '१ निवडले' : '1 Selected') : (isMarathi ? 'सर्व' : 'All')})</span>
-          </button>
+      {/* Active Filter Chips */}
+      {(selectedCategory || searchQuery) && (
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          <span className="text-slate-500">{isMarathi ? 'सक्रिय फिल्टर:' : 'Active filters:'}</span>
           {selectedCategory && (
-            <button
-              onClick={clearAllFilters}
-              className="text-xs text-amber-700 font-bold underline"
-            >
-              {t.clearFilters}
-            </button>
-          )}
-        </div>
-
-        {/* Desktop Sidebar / Filter Drawer */}
-        <aside
-          className={`lg:block fixed lg:static inset-0 z-50 lg:z-auto bg-slate-900/60 lg:bg-transparent ${
-            mobileFilterOpen ? 'flex' : 'hidden'
-          }`}
-        >
-          <div className="w-5/6 max-w-sm lg:w-full bg-white h-full lg:h-auto overflow-y-auto lg:overflow-visible p-5 lg:p-6 rounded-r-2xl lg:rounded-2xl border border-slate-200 shadow-xl lg:shadow-sm space-y-6">
-            <div className="flex items-center justify-between border-b pb-3">
-              <h2 className="font-extrabold text-slate-900 text-base sm:text-lg flex items-center gap-2">
-                <Filter className="w-4 h-4 text-gem-navy" />
-                <span>{t.filterByCategory}</span>
-              </h2>
-              <div className="flex items-center gap-2">
-                {selectedCategory && (
-                  <button
-                    onClick={clearAllFilters}
-                    className="text-xs text-amber-700 font-bold hover:underline"
-                  >
-                    {t.clearFilters}
-                  </button>
-                )}
-                <button
-                  onClick={() => setMobileFilterOpen(false)}
-                  className="lg:hidden p-1 text-slate-400 hover:text-slate-700"
-                  aria-label="Close filters"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-
-            {/* Category Options */}
-            <div className="space-y-1">
+            <span className="inline-flex items-center gap-1.5 bg-slate-100 border border-slate-300 text-slate-800 px-2.5 py-1 rounded text-xs font-medium">
+              {CATEGORIES.find((c) => c.slug === selectedCategory)?.[isMarathi ? 'name' : 'nameEn']}
               <button
-                onClick={() => {
-                  setSelectedCategory(null);
-                  setMobileFilterOpen(false);
-                }}
-                className={`w-full text-left px-3 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-colors ${
-                  selectedCategory === null
-                    ? 'bg-gem-navy text-white shadow-sm'
-                    : 'text-slate-700 hover:bg-slate-100'
-                }`}
+                type="button"
+                onClick={() => setSelectedCategory(null)}
+                className="hover:text-amber-700"
+                aria-label="Remove category filter"
               >
-                <span>{isMarathi ? 'सर्व वर्गवारी' : 'All Categories'}</span>
-                {selectedCategory === null && <Check className="w-4 h-4 text-amber-400" />}
+                <X className="w-3.5 h-3.5" />
               </button>
-
-              {CATEGORIES.map((cat) => {
-                const isSelected = selectedCategory === cat.slug;
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => {
-                      setSelectedCategory(cat.slug);
-                      setMobileFilterOpen(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-between transition-colors ${
-                      isSelected
-                        ? 'bg-gem-navy text-white shadow-sm font-bold'
-                        : 'text-slate-700 hover:bg-slate-100'
-                    }`}
-                  >
-                    <span className="line-clamp-1">{isMarathi ? cat.name : cat.nameEn}</span>
-                    <span
-                      className={`text-xs px-2 py-0.5 rounded-full ${
-                        isSelected ? 'bg-amber-400 text-slate-950 font-bold' : 'bg-slate-100 text-slate-500'
-                      }`}
-                    >
-                      {cat.itemCount}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Sort Options */}
-              <div className="pt-4 border-t border-slate-200">
-                <label className="block text-xs font-bold text-slate-700 mb-2">
-                  {isMarathi ? 'क्रमवारी लावा:' : 'Sort Products:'}
-                </label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as 'featured' | 'name-asc' | 'name-desc')}
-                  className="w-full px-3 py-2 text-xs sm:text-sm border border-slate-300 rounded-lg outline-none bg-white font-medium"
-                >
-                  <option value="featured">{isMarathi ? 'महत्त्वाची उत्पादने' : 'Featured Items'}</option>
-                  <option value="name-asc">{isMarathi ? 'नाव (अ ते ज्ञ)' : 'Name (A to Z)'}</option>
-                  <option value="name-desc">{isMarathi ? 'नाव (ज्ञ ते अ)' : 'Name (Z to A)'}</option>
-                </select>
-              </div>
-          </div>
-        </aside>
-
-        {/* Products Grid (3 Columns) */}
-        <div className="lg:col-span-3 space-y-4">
-          {/* Active Filter Indicators */}
-          {(selectedCategory || searchQuery) && (
-            <div className="flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-slate-500 font-semibold">{isMarathi ? 'फिल्टर:' : 'Filters:'}</span>
-              {selectedCategory && (
-                <span className="inline-flex items-center gap-1 bg-gem-navy text-white px-2.5 py-1 rounded-lg font-medium">
-                  {CATEGORIES.find((c) => c.slug === selectedCategory)?.[isMarathi ? 'name' : 'nameEn']}
-                  <button onClick={() => setSelectedCategory(null)} className="hover:text-amber-300">
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </span>
-              )}
-              {searchQuery && (
-                <span className="inline-flex items-center gap-1 bg-slate-200 text-slate-800 px-2.5 py-1 rounded-lg font-medium">
-                  "{searchQuery}"
-                  <button onClick={() => setSearchQuery('')} className="hover:text-red-600">
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </span>
-              )}
+            </span>
+          )}
+          {searchQuery && (
+            <span className="inline-flex items-center gap-1.5 bg-slate-100 border border-slate-300 text-slate-800 px-2.5 py-1 rounded text-xs font-medium">
+              "{searchQuery}"
               <button
-                onClick={clearAllFilters}
-                className="text-amber-700 hover:text-amber-800 font-bold ml-1 underline"
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="hover:text-amber-700"
+                aria-label="Remove search query"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={clearAllFilters}
+            className="text-amber-700 hover:underline font-semibold ml-1 text-xs"
+          >
+            {t.clearFilters}
+          </button>
+        </div>
+      )}
+
+      {/* Main Content Layout: Left Filter Panel (Desktop) + 4-Column Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 items-start">
+        {/* Left Filter Panel (Desktop) */}
+        <aside className="hidden lg:block bg-white border border-slate-200 rounded p-4 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+            <h2 className="font-bold text-sm text-[#0B2545] uppercase tracking-wide">
+              {t.filterByCategory}
+            </h2>
+            {selectedCategory && (
+              <button
+                type="button"
+                onClick={() => setSelectedCategory(null)}
+                className="text-xs text-amber-700 hover:underline font-medium"
               >
                 {t.clearFilters}
               </button>
-            </div>
-          )}
-
-          <div className="text-xs text-slate-500 font-medium">
-            {isMarathi ? `एकूण ${filteredProducts.length} उत्पादने उपलब्ध` : `Total ${filteredProducts.length} products available`}
+            )}
           </div>
 
-          {/* Products Cards */}
+          {/* Category Checkboxes with Counts */}
+          <div className="space-y-1.5 text-xs sm:text-sm">
+            <label className="flex items-center justify-between p-1.5 rounded hover:bg-slate-50 cursor-pointer">
+              <div className="flex items-center gap-2.5">
+                <input
+                  type="checkbox"
+                  checked={selectedCategory === null}
+                  onChange={() => setSelectedCategory(null)}
+                  className="rounded border-slate-300 text-[#0B2545] focus:ring-0 w-4 h-4 cursor-pointer"
+                />
+                <span className={selectedCategory === null ? 'font-bold text-[#0B2545]' : 'text-slate-700'}>
+                  {isMarathi ? 'सर्व वर्गवारी' : 'All Categories'}
+                </span>
+              </div>
+              <span className="text-xs text-slate-400">({PRODUCTS.length})</span>
+            </label>
+
+            {CATEGORIES.map((cat) => {
+              const isChecked = selectedCategory === cat.slug;
+              const count = PRODUCTS.filter((p) => p.category === cat.slug).length;
+              return (
+                <label
+                  key={cat.id}
+                  className="flex items-center justify-between p-1.5 rounded hover:bg-slate-50 cursor-pointer"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => handleCategoryToggle(cat.slug)}
+                      className="rounded border-slate-300 text-[#0B2545] focus:ring-0 w-4 h-4 cursor-pointer shrink-0"
+                    />
+                    <span className={`truncate ${isChecked ? 'font-bold text-[#0B2545]' : 'text-slate-700'}`}>
+                      {isMarathi ? cat.name : cat.nameEn}
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-400 shrink-0">({count})</span>
+                </label>
+              );
+            })}
+          </div>
+        </aside>
+
+        {/* 4-Column Product Grid (2 on Mobile) */}
+        <div className="lg:col-span-3">
           {filteredProducts.length === 0 ? (
-            <div className="text-center py-16 bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
-              <ShoppingBag className="w-14 h-14 text-slate-300 mx-auto mb-3" />
-              <h3 className="text-lg font-bold text-slate-800 mb-1">{t.noProductsFound}</h3>
-              <p className="text-xs sm:text-sm text-slate-500 mb-6 max-w-md mx-auto">
-                {isMarathi ? 'कृपया इतर शब्द शोधून पहा किंवा वर्गवारी फिल्टर काढून टाका.' : 'Please try a different search query or clear your category filters.'}
+            <div className="bg-white border border-slate-200 rounded p-12 text-center space-y-3">
+              <Package className="w-12 h-12 text-slate-300 mx-auto" />
+              <h3 className="font-bold text-base text-slate-800">{t.noProductsFound}</h3>
+              <p className="text-xs sm:text-sm text-slate-500 max-w-sm mx-auto">
+                {isMarathi
+                  ? 'कृपया इतर शब्द शोधून पहा किंवा वर्गवारी फिल्टर काढून टाका.'
+                  : 'Please try searching with another keyword or clear current filters.'}
               </p>
               <button
+                type="button"
                 onClick={clearAllFilters}
-                className="tap-target bg-gem-navy hover:bg-gem-navyLight text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow"
+                className="bg-[#0B2545] text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded transition-colors"
               >
                 {t.clearFilters}
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
               {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
@@ -270,7 +271,84 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
           )}
         </div>
       </div>
+
+      {/* Mobile Filter Bottom Sheet (Image 2 Mobile requirement) */}
+      {mobileFilterOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-slate-900/60"
+            onClick={() => setMobileFilterOpen(false)}
+          />
+
+          {/* Bottom Sheet Drawer */}
+          <div className="relative bg-white rounded-t-lg max-h-[80vh] overflow-y-auto p-4 border-t border-slate-300 z-10 space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h3 className="font-bold text-base text-slate-900">
+                {t.filterByCategory}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setMobileFilterOpen(false)}
+                className="p-1 text-slate-500 hover:text-slate-800"
+                aria-label="Close filters"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-2 max-h-60 overflow-y-auto">
+              <label className="flex items-center justify-between py-2 border-b border-slate-100">
+                <div className="flex items-center gap-2.5">
+                  <input
+                    type="checkbox"
+                    checked={selectedCategory === null}
+                    onChange={() => setSelectedCategory(null)}
+                    className="w-4 h-4 text-[#0B2545] rounded"
+                  />
+                  <span className="text-sm font-medium">{isMarathi ? 'सर्व वर्गवारी' : 'All Categories'}</span>
+                </div>
+                <span className="text-xs text-slate-400">({PRODUCTS.length})</span>
+              </label>
+
+              {CATEGORIES.map((cat) => {
+                const count = PRODUCTS.filter((p) => p.category === cat.slug).length;
+                return (
+                  <label key={cat.id} className="flex items-center justify-between py-2 border-b border-slate-100">
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="checkbox"
+                        checked={selectedCategory === cat.slug}
+                        onChange={() => handleCategoryToggle(cat.slug)}
+                        className="w-4 h-4 text-[#0B2545] rounded"
+                      />
+                      <span className="text-sm">{isMarathi ? cat.name : cat.nameEn}</span>
+                    </div>
+                    <span className="text-xs text-slate-400">({count})</span>
+                  </label>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center gap-2 pt-2">
+              <button
+                type="button"
+                onClick={clearAllFilters}
+                className="flex-1 py-2.5 text-xs font-semibold text-slate-700 border border-slate-300 rounded"
+              >
+                {t.clearFilters}
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileFilterOpen(false)}
+                className="flex-1 py-2.5 text-xs font-semibold text-white bg-[#0B2545] rounded"
+              >
+                {isMarathi ? 'फिल्टर लागू करा' : 'Apply Filters'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
-

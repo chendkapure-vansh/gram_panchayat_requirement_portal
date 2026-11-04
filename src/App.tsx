@@ -4,10 +4,10 @@ import { CartProvider, useCart } from './context/CartContext';
 import { EnquiryProvider } from './context/EnquiryContext';
 import { Header, ActivePage } from './components/Header';
 import { Footer } from './components/Footer';
-import { ProductDetailsModal } from './components/ProductDetailsModal';
 import { Toast } from './components/Toast';
 import { HomePage } from './pages/Home';
 import { ProductsPage } from './pages/Products';
+import { ProductDetailsPage } from './pages/ProductDetails';
 import { CartPage } from './pages/Cart';
 import { EnquiryPage } from './pages/Enquiry';
 import { AboutPage } from './pages/About';
@@ -15,29 +15,33 @@ import { ContactPage } from './pages/Contact';
 import { Product } from './types';
 
 const PortalApp: React.FC = () => {
-  const { feedbackMessage, clearFeedback, addToCart } = useCart();
+  const { feedbackMessage, clearFeedback } = useCart();
 
   const [currentPage, setCurrentPage] = useState<ActivePage>('home');
   const [selectedCategorySlug, setSelectedCategorySlug] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedProductForModal, setSelectedProductForModal] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const handleSelectCategoryFromHome = (slug: string) => {
-    setSelectedCategorySlug(slug);
+  const handleSelectCategory = (slug: string) => {
+    setSelectedCategorySlug(slug || null);
+    setSearchQuery('');
     setCurrentPage('products');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSearchFromHome = (query: string) => {
+  const handleSearch = (query: string, catSlug?: string | null) => {
     setSearchQuery(query);
+    if (catSlug !== undefined) {
+      setSelectedCategorySlug(catSlug);
+    }
     setCurrentPage('products');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleQuickQuote = (product: Product, quantity: number) => {
-    addToCart(product.id, quantity);
-    setSelectedProductForModal(null);
-    setCurrentPage('cart');
+  const handleSelectProduct = (product: Product) => {
+    setSelectedProduct(product);
+    setCurrentPage('details');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const navigateTo = (page: ActivePage) => {
@@ -46,27 +50,46 @@ const PortalApp: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans antialiased selection:bg-amber-200 selection:text-slate-950">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans antialiased selection:bg-amber-100 selection:text-slate-900">
       <Toast message={feedbackMessage} onClose={clearFeedback} />
 
-      <Header currentPage={currentPage} onNavigate={navigateTo} />
+      <Header
+        currentPage={currentPage}
+        onNavigate={navigateTo}
+        onSearch={handleSearch}
+        onSelectCategory={handleSelectCategory}
+        activeCategorySlug={selectedCategorySlug}
+      />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-4 sm:py-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-3 sm:py-5">
         {currentPage === 'home' && (
           <HomePage
-            onSelectProduct={setSelectedProductForModal}
-            onExploreAll={() => navigateTo('products')}
-            onSelectCategory={handleSelectCategoryFromHome}
+            onSelectProduct={handleSelectProduct}
+            onExploreAll={() => {
+              setSelectedCategorySlug(null);
+              navigateTo('products');
+            }}
+            onSelectCategory={handleSelectCategory}
             onRequestQuote={() => navigateTo('cart')}
-            onSearch={handleSearchFromHome}
+            onSearch={(query) => handleSearch(query)}
           />
         )}
 
         {currentPage === 'products' && (
           <ProductsPage
-            onSelectProduct={setSelectedProductForModal}
+            onSelectProduct={handleSelectProduct}
             initialCategorySlug={selectedCategorySlug}
             initialSearchQuery={searchQuery}
+          />
+        )}
+
+        {currentPage === 'details' && selectedProduct && (
+          <ProductDetailsPage
+            product={selectedProduct}
+            onNavigateHome={() => navigateTo('home')}
+            onNavigateCategory={handleSelectCategory}
+            onSelectProduct={handleSelectProduct}
+            onProceedToCart={() => navigateTo('cart')}
           />
         )}
 
@@ -98,18 +121,11 @@ const PortalApp: React.FC = () => {
         )}
       </main>
 
-      <ProductDetailsModal
-        product={selectedProductForModal}
-        onClose={() => setSelectedProductForModal(null)}
-        onRequestQuoteNow={handleQuickQuote}
-        onSelectProduct={setSelectedProductForModal}
-      />
-
-      {/* Institutional Footer */}
       <Footer
         onNavigate={navigateTo}
         onSelectCategory={(slug) => {
           setSelectedCategorySlug(slug);
+          setSearchQuery('');
           navigateTo('products');
         }}
       />

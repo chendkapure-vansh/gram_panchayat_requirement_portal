@@ -7,7 +7,6 @@ interface SpecificationsTableProps {
   modelCode?: string;
   warranty?: string;
   warrantyEn?: string;
-  makeInIndia?: boolean;
 }
 
 export const SpecificationsTable: React.FC<SpecificationsTableProps> = ({
@@ -15,7 +14,6 @@ export const SpecificationsTable: React.FC<SpecificationsTableProps> = ({
   modelCode,
   warranty,
   warrantyEn,
-  makeInIndia = true,
 }) => {
   const { isMarathi, t } = useLanguage();
 
@@ -27,8 +25,10 @@ export const SpecificationsTable: React.FC<SpecificationsTableProps> = ({
     );
   }
 
+  const warrantyDisplay = isMarathi ? warranty : (warrantyEn || warranty);
+
   return (
-    <div className="overflow-hidden border border-slate-200 rounded-lg shadow-sm bg-white">
+    <div className="overflow-hidden border border-slate-200 rounded shadow-none bg-white">
       <div className="bg-slate-100/80 px-4 py-2.5 border-b border-slate-200 font-bold text-slate-800 text-sm flex items-center justify-between">
         <span>{t.specifications}</span>
         {modelCode && (
@@ -40,17 +40,7 @@ export const SpecificationsTable: React.FC<SpecificationsTableProps> = ({
 
       <table className="w-full text-left text-xs sm:text-sm border-collapse">
         <tbody>
-          {/* Make in India status row */}
-          <tr className="border-b border-slate-100 bg-emerald-50/40">
-            <td className="py-2.5 px-4 font-semibold text-slate-700 w-1/3 sm:w-2/5">
-              {isMarathi ? 'उत्पादन स्त्रोत' : 'Country of Origin'}
-            </td>
-            <td className="py-2.5 px-4 text-emerald-800 font-bold">
-              {makeInIndia ? (isMarathi ? 'भारत (मेक इन इंडिया 🇮🇳)' : 'India (Make in India 🇮🇳)') : 'आयातित (Imported)'}
-            </td>
-          </tr>
-
-          {/* Dynamic Brochure specifications */}
+          {/* Dynamic specifications */}
           {specifications.map((spec, index) => {
             const label = isMarathi ? spec.label : (spec.labelEn || spec.label);
             const value = isMarathi ? spec.value : (spec.valueEn || spec.value);
@@ -59,26 +49,27 @@ export const SpecificationsTable: React.FC<SpecificationsTableProps> = ({
             return (
               <tr
                 key={index}
-                className={`border-b border-slate-100 last:border-0 ${isEven ? 'bg-white' : 'bg-slate-50/70'}`}
+                className={`border-b border-slate-100 last:border-b-0 ${
+                  isEven ? 'bg-white' : 'bg-slate-50/60'
+                }`}
               >
-                <td className="py-2.5 px-4 font-medium text-slate-600">
+                <td className="py-2.5 px-4 font-semibold text-slate-600 w-1/3 sm:w-2/5 border-r border-slate-100">
                   {label}
                 </td>
-                <td className="py-2.5 px-4 font-semibold text-slate-900">
+                <td className="py-2.5 px-4 text-slate-900 font-medium">
                   {value}
                 </td>
               </tr>
             );
           })}
 
-          {/* Warranty row */}
-          {(warranty || warrantyEn) && (
-            <tr className="border-t border-slate-200 bg-amber-50/30">
-              <td className="py-2.5 px-4 font-semibold text-slate-700">
+          {warrantyDisplay && (
+            <tr className="bg-amber-50/50 border-t border-slate-200">
+              <td className="py-2.5 px-4 font-semibold text-amber-900 border-r border-slate-100">
                 {t.warranty}
               </td>
-              <td className="py-2.5 px-4 font-bold text-amber-900">
-                {isMarathi ? (warranty || warrantyEn) : (warrantyEn || warranty)}
+              <td className="py-2.5 px-4 text-amber-950 font-medium">
+                {warrantyDisplay}
               </td>
             </tr>
           )}

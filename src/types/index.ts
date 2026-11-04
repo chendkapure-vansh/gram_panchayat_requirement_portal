@@ -39,6 +39,7 @@ export interface Category {
   descriptionEn: string;
   iconName: string;
   itemCount: number;
+  image?: string;
 }
 
 export interface CartItem {

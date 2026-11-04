@@ -2,206 +2,327 @@ import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
 import {
-  ShieldCheck,
+  Search,
   Phone,
   ShoppingBag,
   Globe,
   Menu,
   X,
-  FileText,
+  ShieldCheck,
+  ChevronDown,
 } from 'lucide-react';
 
 export type ActivePage = 'home' | 'products' | 'details' | 'cart' | 'enquiry' | 'about' | 'contact';
 
+export const PRIMARY_STRIP_CATEGORIES = [
+  { slug: 'water-systems', labelEn: 'Water Systems', labelMr: 'पाणीपुरवठा साहित्य' },
+  { slug: 'playground-gym', labelEn: 'Playground & Gym', labelMr: 'खेळ व ओपन जिम' },
+  { slug: 'civic-infrastructure', labelEn: 'Civic Products', labelMr: 'ग्रामपंचायत सुविधा' },
+  { slug: 'power-solar-safety', labelEn: 'Power & Solar', labelMr: 'पॉवर, सोलर व सुरक्षा' },
+];
+
 interface HeaderProps {
   currentPage: ActivePage;
   onNavigate: (page: ActivePage) => void;
+  onSearch?: (query: string, categorySlug?: string | null) => void;
+  onSelectCategory?: (slug: string) => void;
+  activeCategorySlug?: string | null;
 }
 
-export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
-  const { t, language, setLanguage, toggleLanguage, isMarathi } = useLanguage();
+export const Header: React.FC<HeaderProps> = ({
+  currentPage,
+  onNavigate,
+  onSearch,
+  onSelectCategory,
+  activeCategorySlug,
+}) => {
+  const { t, language, setLanguage, isMarathi } = useLanguage();
   const { cartCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [selectedCatFilter, setSelectedCatFilter] = useState<string>('all');
+  const [searchInput, setSearchInput] = useState<string>('');
 
   const handleNav = (page: ActivePage) => {
     onNavigate(page);
     setMobileMenuOpen(false);
   };
 
-  const navLinks: { id: ActivePage; label: string }[] = [
-    { id: 'home', label: t.home },
-    { id: 'products', label: t.allProducts },
-    { id: 'about', label: t.about },
-    { id: 'contact', label: t.contact },
-  ];
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onSearch) {
+      onSearch(searchInput.trim(), selectedCatFilter === 'all' ? null : selectedCatFilter);
+    }
+  };
+
+  const handleStripCategoryClick = (slug: string) => {
+    if (onSelectCategory) {
+      onSelectCategory(slug);
+    }
+  };
 
   return (
-    <header className="sticky top-0 z-40 bg-white shadow-sm border-b border-slate-200">
-      {/* Top GeM-Style Institutional Bar */}
-      <div className="bg-gem-navyDark text-slate-200 text-xs py-1.5 px-4 border-b border-slate-800">
+    <header className="sticky top-0 z-40 bg-white border-b border-slate-200">
+      {/* 1. Top Verified Information Bar */}
+      <div className="bg-[#0B2545] text-slate-200 text-xs py-1.5 px-4">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-          <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
-            <span className="inline-flex items-center gap-1 bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-semibold text-[11px]">
-              <ShieldCheck className="w-3.5 h-3.5 text-amber-400" /> {t.gemBadge}
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1 text-slate-200 font-normal text-[11px] sm:text-xs">
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+              <span>{t.gemBadge}</span>
             </span>
             <span className="hidden md:inline text-slate-500">|</span>
-            <span className="text-slate-300 font-medium text-xs">{t.supplierTag}</span>
+            <span className="hidden md:inline text-slate-300 text-[11px]">
+              {isMarathi ? 'लोणार, जि. बुलढाणा (४४३३०२)' : 'Lonar, Dist. Buldhana (443302)'}
+            </span>
           </div>
 
-          <div className="flex items-center gap-3 text-xs">
+          <div className="flex items-center gap-4 text-xs">
+            {/* Phone numbers */}
+            <div className="flex items-center gap-2 font-mono">
+              <Phone className="w-3 h-3 text-slate-400" />
+              <a href="tel:7059587711" className="hover:text-white transition-colors">
+                7059587711
+              </a>
+              <span className="text-slate-500">/</span>
+              <a href="tel:9371301001" className="hover:text-white transition-colors">
+                9371301001
+              </a>
+            </div>
+
             {/* Language Switcher */}
-            <div className="inline-flex items-center gap-1.5 bg-slate-800/90 border border-slate-700 rounded-lg p-1 text-xs">
-              <Globe className="w-3.5 h-3.5 text-amber-400 ml-1 mr-0.5 shrink-0" />
+            <div className="inline-flex items-center gap-1 border border-slate-700 rounded px-1 py-0.5 bg-slate-900/60">
+              <Globe className="w-3 h-3 text-amber-500 ml-0.5" />
               <button
+                type="button"
                 onClick={() => setLanguage('mr')}
-                className={`px-3 py-1 rounded-md transition-all font-bold ${
-                  language === 'mr'
-                    ? 'bg-amber-500 text-slate-950 shadow-sm'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                className={`px-1.5 py-0.5 rounded text-[11px] font-semibold transition-colors ${
+                  language === 'mr' ? 'bg-amber-600 text-white' : 'text-slate-300 hover:text-white'
                 }`}
               >
                 मराठी
               </button>
               <button
+                type="button"
                 onClick={() => setLanguage('en')}
-                className={`px-3 py-1 rounded-md transition-all font-bold ${
-                  language === 'en'
-                    ? 'bg-amber-500 text-slate-950 shadow-sm'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                className={`px-1.5 py-0.5 rounded text-[11px] font-semibold transition-colors ${
+                  language === 'en' ? 'bg-amber-600 text-white' : 'text-slate-300 hover:text-white'
                 }`}
               >
                 English
               </button>
             </div>
-
-            {/* Click to Call Links */}
-            <div className="hidden sm:flex items-center gap-2 font-mono">
-              <a href="tel:7059587711" className="flex items-center gap-1 text-slate-300 hover:text-white transition-colors">
-                <Phone className="w-3.5 h-3.5 text-emerald-400" />
-                <span>7059587711</span>
-              </a>
-              <span className="text-slate-600">/</span>
-              <a href="tel:9371301001" className="text-slate-300 hover:text-white transition-colors">
-                9371301001
-              </a>
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Main Brand & Nav Bar */}
-      <div className="bg-gem-navy text-white">
-        <div className="max-w-7xl mx-auto px-4 py-3 sm:py-3.5 flex items-center justify-between">
-          {/* Logo & Brand Identity */}
-          <button
-            onClick={() => handleNav('home')}
-            className="flex items-center gap-3 text-left tap-target group"
-          >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-amber-500 text-slate-950 font-black text-xl flex items-center justify-center shadow group-hover:bg-amber-400 transition-colors">
-              R
+      {/* 2. Main E-Commerce Header Bar */}
+      <div className="max-w-7xl mx-auto px-4 py-2.5 sm:py-3 flex items-center justify-between gap-3 sm:gap-6">
+        {/* Wordmark Left */}
+        <button
+          onClick={() => handleNav('home')}
+          className="text-left shrink-0 group focus:outline-none"
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded bg-[#0B2545] text-white font-bold text-lg flex items-center justify-center border border-slate-300">
+              JR
             </div>
             <div>
-              <div className="text-base sm:text-xl font-bold tracking-tight text-white leading-tight">
+              <div className="text-base sm:text-lg font-bold text-[#0B2545] leading-tight group-hover:text-amber-700 transition-colors">
                 {t.siteTitle}
               </div>
-              <div className="text-[11px] sm:text-xs text-amber-300/90 font-medium">
-                {t.tagline} • {isMarathi ? 'लोणार (बुलढाणा)' : 'Lonar (Buldhana)'}
+              <div className="text-[11px] sm:text-xs text-slate-500 font-medium">
+                {isMarathi ? 'ग्रामपंचायत व संस्था खरेदी' : 'Gram Panchayat Procurement'}
               </div>
             </div>
+          </div>
+        </button>
+
+        {/* Wide Search Bar with Category Dropdown in Middle */}
+        <form
+          onSubmit={handleSearchSubmit}
+          className="hidden md:flex flex-1 max-w-2xl items-center border border-slate-300 rounded focus-within:border-[#0B2545] bg-white overflow-hidden shadow-none"
+        >
+          <div className="relative shrink-0">
+            <select
+              value={selectedCatFilter}
+              onChange={(e) => setSelectedCatFilter(e.target.value)}
+              className="appearance-none bg-slate-50 text-slate-700 text-xs sm:text-sm pl-3 pr-7 py-2.5 font-medium border-r border-slate-200 outline-none cursor-pointer hover:bg-slate-100"
+              aria-label="Filter by category"
+            >
+              <option value="all">{isMarathi ? 'सर्व वर्गवारी' : 'All Categories'}</option>
+              {PRIMARY_STRIP_CATEGORIES.map((c) => (
+                <option key={c.slug} value={c.slug}>
+                  {isMarathi ? c.labelMr : c.labelEn}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
+
+          <input
+            type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder={t.searchPlaceholder}
+            className="flex-1 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none min-w-0"
+          />
+
+          <button
+            type="submit"
+            className="bg-[#0B2545] hover:bg-[#133E87] text-white px-4 py-2.5 flex items-center justify-center transition-colors"
+            aria-label="Search"
+          >
+            <Search className="w-4 h-4" />
+          </button>
+        </form>
+
+        {/* Right Section: Enquiry Cart & Mobile Menu */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Enquiry Cart Button */}
+          <button
+            onClick={() => handleNav('cart')}
+            className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded border transition-colors text-xs sm:text-sm font-semibold ${
+              currentPage === 'cart'
+                ? 'bg-slate-100 border-[#0B2545] text-[#0B2545]'
+                : 'bg-white border-slate-300 hover:border-slate-400 text-slate-800'
+            }`}
+          >
+            <ShoppingBag className="w-4 h-4 text-[#0B2545]" />
+            <span className="hidden sm:inline">{t.cart}</span>
+            <span className="bg-amber-600 text-white px-1.5 py-0.5 rounded text-xs font-bold leading-none">
+              {cartCount}
+            </span>
           </button>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const isActive = currentPage === link.id;
-              return (
-                <button
-                  key={link.id}
-                  onClick={() => handleNav(link.id)}
-                  className={`tap-target px-3.5 py-2 rounded-lg text-sm font-semibold transition-all ${
-                    isActive
-                      ? 'bg-amber-500 text-slate-950 shadow-sm'
-                      : 'text-slate-200 hover:text-white hover:bg-slate-800'
-                  }`}
-                >
-                  {link.label}
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Right Action Icons: Cart & Mobile Menu Toggle */}
-          <div className="flex items-center gap-2">
-            {/* Quick Quote / Enquiry link */}
-            <button
-              onClick={() => handleNav('enquiry')}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-amber-300 hover:text-white border border-amber-500/40 hover:border-amber-400 rounded-lg tap-target transition-colors"
-            >
-              <FileText className="w-4 h-4 text-amber-400" />
-              <span>{t.requestQuote}</span>
-            </button>
-
-            {/* Cart Counter Button */}
-            <button
-              onClick={() => handleNav('cart')}
-              className={`tap-target flex items-center gap-2 px-3 py-2 rounded-lg border font-bold transition-all shadow-sm ${
-                currentPage === 'cart'
-                  ? 'bg-amber-500 text-slate-950 border-amber-400'
-                  : 'bg-slate-800 text-white border-slate-700 hover:bg-slate-700'
-              }`}
-            >
-              <ShoppingBag className="w-4 h-4 text-amber-400" />
-              <span className="hidden sm:inline text-xs sm:text-sm">{t.cart}</span>
-              <span className="bg-amber-400 text-slate-950 px-2 py-0.5 rounded-full text-xs font-black">
-                {cartCount}
-              </span>
-            </button>
-
-            {/* Mobile Hamburger Toggle */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-slate-200 hover:text-white rounded-lg hover:bg-slate-800 tap-target flex items-center justify-center"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+          {/* Mobile Search & Menu Toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 text-slate-700 hover:text-slate-900 border border-slate-200 rounded flex items-center justify-center"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Search Row (visible on small screens) */}
+      <div className="md:hidden px-4 pb-2.5 pt-1 border-t border-slate-100">
+        <form onSubmit={handleSearchSubmit} className="flex items-center border border-slate-300 rounded overflow-hidden">
+          <input
+            type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder={t.searchPlaceholder}
+            className="flex-1 px-3 py-2 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none"
+          />
+          <button
+            type="submit"
+            className="bg-[#0B2545] text-white px-3.5 py-2 flex items-center justify-center"
+            aria-label="Search"
+          >
+            <Search className="w-4 h-4" />
+          </button>
+        </form>
+      </div>
+
+      {/* 3. Category Strip Below (All Pages) */}
+      <nav className="bg-slate-50 border-t border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 flex items-center overflow-x-auto scrollbar-none py-2 gap-1 sm:gap-2 text-xs sm:text-sm">
+          <button
+            onClick={() => {
+              if (onSelectCategory) onSelectCategory('');
+              handleNav('products');
+            }}
+            className={`px-3 py-1 rounded text-xs font-semibold whitespace-nowrap transition-colors ${
+              currentPage === 'products' && !activeCategorySlug
+                ? 'bg-[#0B2545] text-white'
+                : 'text-slate-700 hover:text-[#0B2545] hover:bg-slate-100'
+            }`}
+          >
+            {isMarathi ? 'सर्व उत्पादने' : 'All Products'}
+          </button>
+
+          <span className="text-slate-300">|</span>
+
+          {PRIMARY_STRIP_CATEGORIES.map((cat) => {
+            const isActive = activeCategorySlug === cat.slug;
+            return (
+              <button
+                key={cat.slug}
+                onClick={() => {
+                  handleStripCategoryClick(cat.slug);
+                  handleNav('products');
+                }}
+                className={`px-2.5 py-1 rounded text-xs font-medium whitespace-nowrap transition-colors ${
+                  isActive
+                    ? 'bg-[#0B2545] text-white font-semibold'
+                    : 'text-slate-700 hover:text-[#0B2545] hover:bg-slate-100'
+                }`}
+              >
+                {isMarathi ? cat.labelMr : cat.labelEn}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-gem-navyDark text-white border-t border-slate-800 px-4 py-4 space-y-2 animate-fade-in shadow-xl">
-          {navLinks.map((link) => (
+        <div className="md:hidden bg-white border-b border-slate-200 px-4 py-3 space-y-2 text-sm">
+          <div className="grid grid-cols-2 gap-2 pb-3 border-b border-slate-200">
             <button
-              key={link.id}
-              onClick={() => handleNav(link.id)}
-              className={`w-full text-left px-4 py-3 rounded-lg font-bold text-sm tap-target flex items-center justify-between ${
-                currentPage === link.id
-                  ? 'bg-amber-500 text-slate-950'
-                  : 'text-slate-200 hover:bg-slate-800'
+              onClick={() => handleNav('home')}
+              className={`p-2 rounded text-left font-medium border ${
+                currentPage === 'home' ? 'bg-slate-100 border-[#0B2545] text-[#0B2545]' : 'border-slate-200 text-slate-700'
               }`}
             >
-              <span>{link.label}</span>
+              {t.home}
             </button>
-          ))}
-
-          <button
-            onClick={() => handleNav('enquiry')}
-            className="w-full text-left px-4 py-3 rounded-lg font-bold text-sm text-amber-300 hover:bg-slate-800 tap-target border border-amber-500/30 flex items-center gap-2"
-          >
-            <FileText className="w-4 h-4" />
-            <span>{t.enquiryFormTitle}</span>
-          </button>
-
-          <div className="pt-3 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
-            <span>{isMarathi ? 'फोन:' : 'Phone:'} 7059587711 / 9371301001</span>
             <button
-              onClick={toggleLanguage}
-              className="text-amber-300 font-bold underline"
+              onClick={() => handleNav('products')}
+              className={`p-2 rounded text-left font-medium border ${
+                currentPage === 'products' ? 'bg-slate-100 border-[#0B2545] text-[#0B2545]' : 'border-slate-200 text-slate-700'
+              }`}
             >
-              {language === 'mr' ? 'Switch to English' : 'मराठीत पहा'}
+              {t.allProducts}
             </button>
+            <button
+              onClick={() => handleNav('cart')}
+              className={`p-2 rounded text-left font-medium border ${
+                currentPage === 'cart' ? 'bg-slate-100 border-[#0B2545] text-[#0B2545]' : 'border-slate-200 text-slate-700'
+              }`}
+            >
+              {t.cart} ({cartCount})
+            </button>
+            <button
+              onClick={() => handleNav('enquiry')}
+              className={`p-2 rounded text-left font-medium border ${
+                currentPage === 'enquiry' ? 'bg-slate-100 border-[#0B2545] text-[#0B2545]' : 'border-slate-200 text-slate-700'
+              }`}
+            >
+              {isMarathi ? 'कोटेशन अर्ज' : 'Enquiry Form'}
+            </button>
+            <button
+              onClick={() => handleNav('about')}
+              className={`p-2 rounded text-left font-medium border ${
+                currentPage === 'about' ? 'bg-slate-100 border-[#0B2545] text-[#0B2545]' : 'border-slate-200 text-slate-700'
+              }`}
+            >
+              {t.about}
+            </button>
+            <button
+              onClick={() => handleNav('contact')}
+              className={`p-2 rounded text-left font-medium border ${
+                currentPage === 'contact' ? 'bg-slate-100 border-[#0B2545] text-[#0B2545]' : 'border-slate-200 text-slate-700'
+              }`}
+            >
+              {t.contact}
+            </button>
+          </div>
+
+          <div className="pt-1 text-xs text-slate-500">
+            <div>{isMarathi ? 'संपर्क: ७०५९५८७७११ / ९३७१३०१००१' : 'Contact: 7059587711 / 9371301001'}</div>
+            <div>{isMarathi ? 'लोणार, जि. बुलढाणा' : 'Lonar, Dist. Buldhana'}</div>
           </div>
         </div>
       )}
