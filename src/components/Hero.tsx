@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { Search, ShieldCheck, ArrowRight, FileText, Phone, Award } from 'lucide-react';
-import { ProductImage } from './ProductImage';
 
 interface HeroProps {
   onExplore: () => void;
@@ -112,18 +111,19 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onRequestQuote, onSearch 
             </div>
           </div>
 
-          {/* Right Real Photo Preview on 1:1 Square Tile */}
-          <div className="lg:col-span-5 flex items-center justify-center">
-            <div className="w-full max-w-sm">
-              <ProductImage
-                src="/images/products/ro-plan.png"
-                alt="Commercial RO Plant"
-                aspectRatio="square"
-                className="border-slate-300 shadow-none bg-white p-2"
+          {/* Right: Institutional Services & Catalogue Overview (8 Sectors) */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center">
+            <div className="w-full bg-white border border-slate-200 rounded p-1 shadow-sm hover:border-slate-300 transition-colors">
+              <img
+                src="/images/products/services-overview.jpg"
+                alt="जाणता राजा एंटरप्राइजेस - प्रमुख सेवा व उत्पादने"
+                className="w-full h-auto object-contain rounded block"
               />
-              <div className="text-[11px] text-slate-500 mt-2 text-center font-medium">
-                {isMarathi ? 'व्यावसायिक RO प्लांट व पाणीपुरवठा साहित्य (५००/१००० LPH)' : 'Commercial RO Plants & Village Water Supply Systems'}
-              </div>
+            </div>
+            <div className="text-[11px] text-slate-500 mt-2 text-center font-medium">
+              {isMarathi
+                ? 'शासकीय व निमशासकीय संस्थांसाठी प्रमुख खरेदी पुरवठा'
+                : 'Core Institutional Procurement Sectors for Local Bodies'}
             </div>
           </div>
         </div>
